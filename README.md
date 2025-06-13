@@ -93,15 +93,15 @@
 
    Git returns some information about the newly created commit, in particular the id of the commit (`660ae42`) followed by the commit message. Then some information about the files involved  in the commit
 
-   > [!TIP]
-   >
-   > In case you didn't give the commit message with `-m "My first git commit"` git would have opened your default editor to add one.
-   >
-   > The default editor can be configured using the command:
-   >
-   > $ git config --global core.editor "vim"
-   >
-   > NB: The editor must be a valid command in your computer
+  > [!TIP]
+  >
+  > In case you didn't give the commit message with `-m "My first git commit"` git would have opened your default editor to add one.
+  >
+  > The default editor can be configured using the command:
+  >
+  > $ git config --global core.editor "vim"
+  >
+  > NB: The editor must be a valid command on your computer
 
 1. Let's check again the status of the files
 
@@ -206,13 +206,13 @@
 
    git returns the list of commits. We see the first commit and the last one and we can see that the HEAD is changed
 
-   > [!TIP]
-   >
-   > In case, after a commit, we notice some error in the commit message we can use the `--amend` option to change the last commit message.
-   > 
-   > (e.g., `git commit --amend -m "correct message"`)
-   >
-   > **NB: only the last commit can be amended**
+  > [!TIP]
+  >
+  > In case, after a commit, we notice some error in the commit message we can use the `--amend` option to change the last commit message.
+  > 
+  > (e.g., `git commit --amend -m "correct message"`)
+  >
+  > **NB: only the last commit can be amended**
    
    
 ## Branching
@@ -239,19 +239,19 @@ In this section we will start to use branches so we can diverge from the main li
 
    Now the list contains the new `develop` branch, but we are still in the `main` branch as indicated by the `*` before the name.
 
-   > [!TIP]
-   >
-   > When your repository contains several branches, it may be really (really!) helpful to always have a glimpse of the current branch 
-   > 
-   > In bash, you can set the PS1 variable in your .bashrc file to include the current git branch in your command prompt 
-   >
-   > An example is:
-   >
-   > `PS1='$(__git_ps1 " (%s)")\ $ '`
-   > 
-   > that results in
-   >
-   > (main) $
+  > [!TIP]
+  >
+  > When your repository contains several branches, it may be really (really!) helpful to always have a glimpse of the current branch 
+  > 
+  > In bash, you can set the PS1 variable in your .bashrc file to include the current git branch in your command prompt 
+  >
+  > An example is:
+  >
+  > `PS1='$(__git_ps1 " (%s)")\ $ '`
+  > 
+  > that results in
+  >
+  > (main) $
 
 1. We can now move to `develop` branch:
    
@@ -891,7 +891,7 @@ You can name your repository as you want. For the tutorial we will use the name 
     1 file changed, 3 insertions(+), 2 deletions(-)
    ```
 
-   > [!TIP]
-   >
-   > git provides a shortcut for `fetch` + `merge` which is `git pull`
-   > We could obtain the same result with `git pull origin develop`
+  > [!TIP]
+  >
+  > git provides a shortcut for `fetch` + `merge` which is `git pull`
+  > We could obtain the same result with `git pull origin develop`
