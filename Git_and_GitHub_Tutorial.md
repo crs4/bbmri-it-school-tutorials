@@ -94,6 +94,7 @@
    Git returns some information about the newly created commit, in particular the id of the commit (`660ae42`) followed by the commit message. Then some information about the files involved  in the commit
 
    > [!TIP]
+   > 
    > In case you didn't give the commit message with `-m "My first git commit"` git would have opened your default editor to add one.
    >
    > The default editor can be configured using the command:
@@ -206,6 +207,7 @@
    git returns the list of commits. We see the first commit and the last one and we can see that the HEAD is changed
 
    > [!TIP]
+   >
    > In case, after a commit, we notice some error in the commit message we can use the `--amend` option to change the last commit message.
    > 
    > (e.g., `git commit --amend -m "correct message"`)
@@ -238,6 +240,7 @@ In this section we will start to use branches so we can diverge from the main li
    Now the list contains the new `develop` branch, but we are still in the `main` branch as indicated by the `*` before the name.
 
    > [!TIP]
+   >
    > When your repository contains several branches, it may be really (really!) helpful to always have a glimpse of the current branch 
    > 
    > In bash, you can set the PS1 variable in your .bashrc file to include the current git branch in your command prompt 
