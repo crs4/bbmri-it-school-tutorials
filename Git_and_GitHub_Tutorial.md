@@ -93,17 +93,14 @@
 
    Git returns some information about the newly created commit, in particular the id of the commit (`660ae42`) followed by the commit message. Then some information about the files involved  in the commit
 
-   ```Hint
-   HINT!
-
-   In case you didn't give the commit message with `-m "My first git commit"` git would have opened your default editor to add one.
-
-   The default editor can be configured using the command:
-
-   $ git config --global core.editor "vim"
-
-   *NB: The editor must be a valid command in your computer*
-   ```
+   > [!TIP]
+   > In case you didn't give the commit message with `-m "My first git commit"` git would have opened your default editor to add one.
+   >
+   > The default editor can be configured using the command:
+   >
+   > $ git config --global core.editor "vim"
+   >
+   > NB: The editor must be a valid command in your computer
 
 1. Let's check again the status of the files
 
@@ -208,15 +205,12 @@
 
    git returns the list of commits. We see the first commit and the last one and we can see that the HEAD is changed
 
-   ```Hint
-   HINT!
-   
-   In case, after a commit, we notice some error in the commit message we can use the `--amend` option to change the last commit message.
-
-   (e.g., git commit --amend -m "correct message")
-   git 
-
-   **NB: only the last commit can be amended**
+   > [!TIP]
+   > In case, after a commit, we notice some error in the commit message we can use the `--amend` option to change the last commit message.
+   > 
+   > (e.g., `git commit --amend -m "correct message"`)
+   >
+   > **NB: only the last commit can be amended**
    ```
    
 ## Branching
@@ -243,20 +237,18 @@ In this section we will start to use branches so we can diverge from the main li
 
    Now the list contains the new `develop` branch, but we are still in the `main` branch as indicated by the `*` before the name.
 
-   ```Hint
-   HINT!
-
-   When your repository contains several branches, it may be really (really!) helpful to always have a glimpse of the current branch 
-
-   In bash, you can set the PS1 variable in your .bashrc file to include the current git branch in your command prompt 
-   
-   An example is:
-   
-   `PS1='$(__git_ps1 " (%s)")\ $ '`
-    
-    that results in
-
-    (main) $
+   > [!TIP]
+   > When your repository contains several branches, it may be really (really!) helpful to always have a glimpse of the current branch 
+   > 
+   > In bash, you can set the PS1 variable in your .bashrc file to include the current git branch in your command prompt 
+   >
+   > An example is:
+   >
+   > `PS1='$(__git_ps1 " (%s)")\ $ '`
+   > 
+   > that results in
+   >
+   > (main) $
    ```
 
 1. We can now move to `develop` branch:
@@ -284,10 +276,9 @@ In this section we will start to use branches so we can diverge from the main li
    create mode 100644 src/script.py
    ```
 
-   ```Hint
-   HINT!
-
-   Git doesn't allow the addition of a new empty directory (i.e., we couldn't directly add the src directory, it would have resulted in no effect). There may be situations when we want to have an empty directory. In this cases we can add a `.keepme` file into the directory to keep it
+  > [!TIP]
+  >
+  > Git doesn't allow the addition of a new empty directory (i.e., we couldn't directly add the src directory, it would have resulted in no effect). There may be situations when we want to have an empty directory. In this cases we can add a `.keepme` file into the directory to keep it
   ```
 
 1. Let's check the updated history
@@ -796,6 +787,11 @@ You can name your repository as you want. For the tutorial we will use the name 
 
    Git log shows that `main` and the `origin/main` (the version of main in the remote) are aligned
 
-1. As previously 
+1. Let's create the script as previously 
+
+   ```bash
+   (main) $ git add src/script.py
+   (main) $ git commit -m "feat: "
+   ```
 
 
