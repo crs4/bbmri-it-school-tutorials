@@ -839,6 +839,29 @@ You can name your repository as you want. For the tutorial we will use the name 
    nothing to commit, working tree clean
    ```
 
-   Notice that the status gives us hints about the status of the local copy of `develop` with respect to the `origin` one
+   Notice that the status gives us hints about the status of the local copy of `develop` with respect to the `origin`
 
-1.  
+   Now you can push to the `origin/develop`
+
+   ```bash
+   (develop) $ git push origin develop
+   ```
+
+1. Next step is getting changes from remote branch to our local version repository.
+
+   Go to your repository page on GitHub and go to `develop`
+  
+   ![switch_to_develop](switch_to_develop.png)
+
+   Navigate to the `src/script.py` file.
+
+   Click on the edit icon 
+
+   ![edit_this_file](edit_this_file.png)
+
+   write some changes and commit them
+
+   ![commit_changes](commit_changes.png)
+
+   
+
