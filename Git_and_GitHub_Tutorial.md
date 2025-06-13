@@ -807,17 +807,21 @@ You can name your repository as you want. For the tutorial we will use the name 
    * [new branch]      develop    -> origin/develop
    ```
 
-   We have a new local copy of the develop branch 
+   It created a copy of the remote branch called `origin/develop` that will get the changes from the remote repository each time we will fetch them.
 
-   Let's move to that branch to work on it
+   To start working on `develop` we need to move to the local branch
 
    ```bash
    (main) $ git switch develop
    branch 'develop' set up to track 'origin/develop'.
    Switched to a new branch 'develop'
    ```
+
+   Notice the info `branch 'develop' set up to track 'origin/develop'.`
+
+   Git is telling us that the branch `develop` is linked to the branch `origin/develop`
    
-1. We can now edit the `src/script.py`, commit the changes and check the status
+1. Let's start adding some changes. We can edit the `src/script.py`, commit the changes and check the status
 
    ```python
    def say_hello(recipient):
@@ -839,9 +843,9 @@ You can name your repository as you want. For the tutorial we will use the name 
    nothing to commit, working tree clean
    ```
 
-   Notice that the status gives us hints about the status of the local copy of `develop` with respect to the `origin`
+   Notice that the `status` gives us hints about the status of the local copy of `develop` with respect to the `origin`
 
-   Now you can push to the `origin/develop`
+   Now you can push to `origin/develop`
 
    ```bash
    (develop) $ git push origin develop
@@ -863,5 +867,31 @@ You can name your repository as you want. For the tutorial we will use the name 
 
    ![commit_changes](commit_changes.png)
 
-   
+1. Our local copy is now behind the remote. We need to fetch the changes that will be applied to `origin/develop`
 
+   ```bash
+   (develop) $ git fetch origin develop
+   remote: Enumerating objects: 7, done.
+   remote: Counting objects: 100% (7/7), done.
+   remote: Compressing objects: 100% (3/3), done.
+   remote: Total 4 (delta 0), reused 0 (delta 0), pack-reused 0 (from 0)
+   Unpacking objects: 100% (4/4), 1.09 KiB | 1.09 MiB/s, done.
+   From github.com:svituz/bbmri-it-training
+    * branch            develop    -> FETCH_HEAD
+      f461f60..7adb0e6  develop    -> origin/develop
+   ```
+   
+   And finally, apply them with merge
+
+   ```bash
+   (develop) $ git merge origin/develop
+   Updating f461f60..7adb0e6
+    Fast-forward
+    src/script.py | 5 +++--
+    1 file changed, 3 insertions(+), 2 deletions(-)
+   ```
+
+   > [!TIP]
+   >
+   > git provides a shortcut for `fetch` + `merge` which is `git pull`
+   > We could obtain the same result with `git pull origin develop`
