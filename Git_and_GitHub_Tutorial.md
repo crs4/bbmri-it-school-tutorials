@@ -211,7 +211,7 @@
    > (e.g., `git commit --amend -m "correct message"`)
    >
    > **NB: only the last commit can be amended**
-   ```
+   
    
 ## Branching
 
@@ -249,7 +249,6 @@ In this section we will start to use branches so we can diverge from the main li
    > that results in
    >
    > (main) $
-   ```
 
 1. We can now move to `develop` branch:
    
@@ -279,8 +278,7 @@ In this section we will start to use branches so we can diverge from the main li
   > [!TIP]
   >
   > Git doesn't allow the addition of a new empty directory (i.e., we couldn't directly add the src directory, it would have resulted in no effect). There may be situations when we want to have an empty directory. In this cases we can add a `.keepme` file into the directory to keep it
-  ```
-
+  
 1. Let's check the updated history
    
    ```bash
@@ -302,7 +300,7 @@ In this section we will start to use branches so we can diverge from the main li
    Date:   Thu Jun 12 14:16:55 2025 +0200
 
        Add README.me
-   ```
+  ```
 
    Now the log shows that the HEAD is in the develop branch where we have one commit while the `main` is one commit behind
 
