@@ -867,6 +867,9 @@ You can name your repository as you want. For the tutorial we will use the name 
 
    ![commit_changes](commit_changes.png)
 
+  > [!TIP] 
+  > On GitHub you can open an online Visual Studio Code editor of your repository by pressing `.` (dot) on your keyboard.
+
 1. Our local copy is now behind the remote. We need to fetch the changes that will be applied to `origin/develop`
 
    ```bash
