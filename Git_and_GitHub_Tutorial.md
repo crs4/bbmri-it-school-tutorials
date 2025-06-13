@@ -94,7 +94,7 @@
    Git returns some information about the newly created commit, in particular the id of the commit (`660ae42`) followed by the commit message. Then some information about the files involved  in the commit
 
    > [!TIP]
-   > 
+   >
    > In case you didn't give the commit message with `-m "My first git commit"` git would have opened your default editor to add one.
    >
    > The default editor can be configured using the command:
@@ -788,11 +788,57 @@ You can name your repository as you want. For the tutorial we will use the name 
 
    Git log shows that `main` and the `origin/main` (the version of main in the remote) are aligned
 
-1. Let's create the script as previously 
+1. Let's create the script as previously, commit and push
 
    ```bash
    (main) $ git add src/script.py
-   (main) $ git commit -m "feat: "
+   (main) $ git commit -m "feat: add script"
+   (main) $ git push origin main
+   ```
+1. The next step is to fetch remotely created branches. 
+   
+   Go to your repository page on Github and create the develop branch following the [official tutorial](https://docs.github.com/en/get-started/start-your-journey/hello-world#creating-a-branch)
+
+   Now launch the command to fetch branches
+
+   ```bash
+   (main) $ git fetch
+   From github.com:svituz/bbmri-it-training
+   * [new branch]      develop    -> origin/develop
    ```
 
+   We have a new local copy of the develop branch 
 
+   Let's move to that branch to work on it
+
+   ```bash
+   (main) $ git switch develop
+   branch 'develop' set up to track 'origin/develop'.
+   Switched to a new branch 'develop'
+   ```
+   
+1. We can now edit the `src/script.py`, commit the changes and check the status
+
+   ```python
+   def say_hello(recipient):
+      print(f"Hello remote {recipient}. I'm learning Git!")
+      print(f"It's awesome")
+
+   say_hello("biobankers!")
+   say_hello("BBMRI IT!")
+   ```
+
+   ```bash
+   (develop) $ git add src/script.py
+   (develop) $ git commit -m "feat: add remote to greetings"
+   (develop) $ git status
+   On branch develop
+   Your branch is ahead of 'origin/develop' by 1 commit.
+      (use "git push" to publish your local commits)
+
+   nothing to commit, working tree clean
+   ```
+
+   Notice that the status gives us hints about the status of the local copy of `develop` with respect to the `origin` one
+
+1.  
