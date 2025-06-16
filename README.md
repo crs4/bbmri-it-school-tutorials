@@ -305,7 +305,7 @@ In this section we will start to use branches so we can diverge from the main li
    Date:   Thu Jun 12 14:16:55 2025 +0200
 
        Add README.me
-  ```
+   ```
 
    Now the log shows that the HEAD is in the develop branch where we have one commit while the `main` is one commit behind
 
@@ -319,7 +319,7 @@ In this section we will start to use branches so we can diverge from the main li
 
    And now perform the commit as you know at this point! :)
 
-   ```
+   ```bash
    (develop) $ git add src/script.py
    (develop) $ git commit -m "feat: say hello to world"
    ```
