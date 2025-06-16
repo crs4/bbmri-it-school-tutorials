@@ -1,5 +1,7 @@
 # Git Tutorial
 
+This hands-on tutorial will help you get familiar with Git
+
 ## First steps
 
 1. Install Git on your computer
@@ -43,7 +45,7 @@
 1. Create a file
 
    ```bash
-   $ touch README.md
+   $ echo . > README.md
    ```
 
 1. Check the status 
@@ -270,7 +272,7 @@ In this section we will start to use branches so we can diverge from the main li
 
    ```bash
    (develop) $ mkdir src/
-   (develop) $ touch src/script.py
+   (develop) $ echo . > src/script.py
    (develop) $ git add src/script.py
    (develop) $ git commit -m "feat: add the hello world script"
    [develop f3de86b] feat: add the hello world script
