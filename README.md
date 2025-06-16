@@ -2,6 +2,8 @@
 
 This hands-on tutorial will help you get familiar with Git
 
+**NB: The tutorial can be run on all operating systems, but if you're on Windows or MacOS and prefer using an Ubuntu machine you can [install it following this tutorial](https://ubuntu.com/tutorials/how-to-run-ubuntu-desktop-on-a-virtual-machine-using-virtualbox#1-overview)**
+
 ## First steps
 
 1. Install Git on your computer
@@ -743,7 +745,7 @@ You can name your repository as you want. For the tutorial we will use the name 
 1. Clone your newly created repository locally and enter the directory
 
    ```bash
-   $ git clone https://github.com/svituz/bbmri-it-training
+   $ git clone https://github.com/<your_username>/bbmri-it-training
    Cloning into 'bbmri-it-training'...
    $ cd bbmri-it-training
    (main) $
@@ -755,8 +757,8 @@ You can name your repository as you want. For the tutorial we will use the name 
 
    ```bash
    (main) $ git remote -v
-   origin  git@github.com:svituz/bbmri-it-training.git (fetch)
-   origin  git@github.com:svituz/bbmri-it-training.git (push)
+   origin  git@github.com:<your_username>/bbmri-it-training.git (fetch)
+   origin  git@github.com:<your_username>/bbmri-it-training.git (push)
    ```
    
 1. Let's create a README.md, write a simple documentation and commit it.
@@ -773,7 +775,7 @@ You can name your repository as you want. For the tutorial we will use the name 
    Counting objects: 100% (3/3), done.
    Writing objects: 100% (3/3), 268 bytes | 268.00 KiB/s, done.
    Total 3 (delta 0), reused 0 (delta 0), pack-reused 0 (from 0)
-   To github.com:svituz/bbmri-it-training.git
+   To github.com:<your_username>/bbmri-it-training.git
    * [new branch]      main -> main
    ```
 
@@ -805,7 +807,7 @@ You can name your repository as you want. For the tutorial we will use the name 
 
    ```bash
    (main) $ git fetch
-   From github.com:svituz/bbmri-it-training
+   From github.com:<your_username>/bbmri-it-training
    * [new branch]      develop    -> origin/develop
    ```
 
@@ -881,7 +883,7 @@ You can name your repository as you want. For the tutorial we will use the name 
    remote: Compressing objects: 100% (3/3), done.
    remote: Total 4 (delta 0), reused 0 (delta 0), pack-reused 0 (from 0)
    Unpacking objects: 100% (4/4), 1.09 KiB | 1.09 MiB/s, done.
-   From github.com:svituz/bbmri-it-training
+   From github.com:<your_username>/bbmri-it-training
     * branch            develop    -> FETCH_HEAD
       f461f60..7adb0e6  develop    -> origin/develop
    ```
