@@ -765,7 +765,7 @@ You can name your repository as you want. For the tutorial we will use the name 
 
    ```bash
    (main) $ git add README.md
-   (main) $ git commit -m "doc: first documentation"
+   (main) $ git commit -m "doc: initialize documentation"
    ```
 1. We have created a new commit in our local repository. The remote `origin` repository is not updated though. To send our commits to the remote repository we use the `push` command
 
