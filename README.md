@@ -2,8 +2,6 @@
 
 This hands-on tutorial will help you get familiar with Git
 
-**NB: The tutorial can be run on all operating systems, but if you're on Windows or MacOS and prefer using an Ubuntu machine you can [install it following this tutorial](https://ubuntu.com/tutorials/how-to-run-ubuntu-desktop-on-a-virtual-machine-using-virtualbox#1-overview)**
-
 ## First steps
 
 1. Install Git on your computer
