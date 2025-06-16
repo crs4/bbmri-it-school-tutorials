@@ -350,21 +350,21 @@ In this section we will start to use branches so we can diverge from the main li
 
 1. Wait! In the last line we said hello to no one. We don't want to create a commit with this error. Let's unstage the file
 
-  ```bash
-  (develop) $ git restore --staged src/script.py
-  (develop) $ git status
-  On branch develop
-  Changes not staged for commit:
-    (use "git add <file>..." to update what will be committed)
-    (use "git restore <file>..." to discard changes in working directory)
-          modified:   src/script.py
+   ```bash
+   (develop) $ git restore --staged src/script.py
+   (develop) $ git status
+   On branch develop
+   Changes not staged for commit:
+     (use "git add <file>..." to update what will be committed)
+     (use "git restore <file>..." to discard changes in working directory)
+           modified:   src/script.py
 
-  no changes added to commit (use "git add" and/or "git commit -a")
-  ```
+   no changes added to commit (use "git add" and/or "git commit -a")
+   ```
 
-  We unstaged the file so we don't have anything to commit.
+   We unstaged the file so we don't have anything to commit.
 
-  **NB: Notice that unstaging the file doesn't remove the changes to it. To discard the changes we should `git restore` the file after  unstaging it**
+   **NB: Notice that unstaging the file doesn't remove the changes to it. To discard the changes we should `git restore` the file after  unstaging it**
 
 1. After removing the line, commit the changes
 
