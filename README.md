@@ -368,10 +368,10 @@ In this section we will start to use branches so we can diverge from the main li
 
 1. After removing the line, commit the changes
 
-  ```bash
-  (develop) $ git add src/script.py
-  (develop) $ git commit -m "feat: add say_hello function to say hello to lot of people"
-  ```
+   ```bash
+   (develop) $ git add src/script.py
+   (develop) $ git commit -m "feat: add say_hello function to say hello to lot of people"
+   ```
 
 1. We have made quiet some changes now. Let's check the log and see the history them
 
