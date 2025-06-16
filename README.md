@@ -686,7 +686,7 @@ In this section we will start to use branches so we can diverge from the main li
    (develop) $
    ```
 
-  **NB: Git doesn't take responsiblity of the content of the conflicting files. It's up to you. In other words, if you don't change the conflicting files and perfom `git add` without removing the conflict, git accept it. No worries, though you can always perform another commit to solve the situation**
+   **NB: Git doesn't take responsiblity of the content of the conflicting files. It's up to you. In other words, if you don't change the conflicting files and perfom `git add` without removing the conflict, git accept it. No worries, though you can always perform another commit to solve the situation**
 
 1. Let's check the history now
 
