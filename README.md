@@ -4,4 +4,5 @@ This is repository contains a collection of tutorials for the BBMRI IT Data Team
 
 Here is a list of tutorials
 
-- [Git Tutorial](./tutorial-git/Git_Tutorial.md)
+- [Git](./tutorial-git/Git_Tutorial.md)
+- [Data Management][./tutorial-data-management/]
