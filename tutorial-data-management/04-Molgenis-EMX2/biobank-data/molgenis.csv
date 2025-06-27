@@ -1,0 +1,12 @@
+tableName,tableExtends,columnName,label,columnType,key,required,isReadonly,description,refSchema,refTable,refBack,refLabel,defaultValue,validation,message,computed,semantics
+Donor,,,,,,,Donors of the Biobank,,,,,,,,,,,
+Donor,,id,Identifier,int,1,,Identifier of the donor,,,,,,,,,,,
+Donor,,name,Name,string,,,Name of the donor,,,,,,,,,,,
+Donor,,surname,Surname,string,,,Surname of the donor,,,,,,,,,,,
+Donor,,sex,Sex,string,,,Sex of the donor,,,,,,,,,,,
+Donor,,date_of_birth,Date of birth,date,,,Date of birth of the donor,,,,,,,,,,,
+Donor,,place_of_birth,Place of birth,string,,,Place of birth of the donor,,,,,,,,,,,
+Sample,,,,,,,,,,,,,,,,,,
+Sample,,id,Identifier,int,1,,,Identifier of the sample
+Sample,,type,Type,string,,,,Type of sample
+Sample,,donor,Donor,ref,,,,The donor that the sample belongs to,,Donor,

@@ -15,7 +15,7 @@ We will talk about OMOP in future lessons, for now we will use it as a database 
 
 OMOP can be loaded using different DBMS. For this tutorial we will adopt [PostgreSQL](https://www.postgresql.org/) run using docker. 
 
-## Steps
+### Steps
 
 1. Clone the repository with the tutorials 
 
@@ -59,5 +59,44 @@ $ git clone https://github.com/crs4/bbmri-it-school-tutorials.git
    ![OMOP Schema][./images/01-omop-schema.png]
 
 
+## NoSQL Databases
+
+**NB: should we add a tutorial for this?**
+
+## SQLAlchemy and alembic
+
+**TBD: add a tutorial that creates the Biobank DB using SQLAlchemy and creates migration with Alambic**
+### Steps
+
+1. create the project
+
+2. Add two models Donor and Samples
+
+3. Create a script insert, query, update and delete
+
+4. Alambic
+   - Create baseline
+   - Change something in the DB (e.g., add column)
+   - Create a revision and edit it manually
+   - Add another column
+   - Create automatic revision
+
+## Molgenis
+
+**TBD: add a tutorial to create the same DB**
+
+### Steps
+
+1. Rub molgenis with the provided compose
+
+2. Create the usal DB with donor and sample
+
+3. Import data
+
+4. Navigate the UI
+
+5. Create a report using SQL
+
+6. Create a script with [PyClient](https://molgenis.github.io/molgenis-emx2/#/molgenis/use_usingpyclient)
 
 
