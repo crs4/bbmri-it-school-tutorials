@@ -10,6 +10,8 @@ services:
       interval: 5s
       timeout: 60s
       retries: 5
+    ports:
+      - "5432:5432"
     volumes:
       - db-data:/var/lib/postgresql/data
       - ./omop.sql:/docker-entrypoint-initdb.d/omop.sql

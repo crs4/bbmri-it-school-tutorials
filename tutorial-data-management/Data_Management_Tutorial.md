@@ -38,7 +38,8 @@ $ git clone https://github.com/crs4/bbmri-it-school-tutorials.git
 
    The `postgres` service in the compose file mounts the omop.sql file in the initdb directory, so the OMOP schema will be automatically loaded.
 
-   **NB: the schema is quite big (2.4GB so it will take some time to load)**
+   **NB: the schema is quite big (2.4GB) so it will take some time to load).**
+   **To check when PostgreSQL is ready, use `docker-compose logs -f postgres` and wait the message "PostgreSQL init process complete; ready for start up."**
 
 4. Access to pgAdmin web interface using a browser at the URL http://localhost:8888 and login using the credentials user: `admin@bbmri-school.it` pwd: `password`
 
