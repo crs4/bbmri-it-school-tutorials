@@ -5,7 +5,7 @@ engine = create_engine(DATABASE_URL, echo=True)
 
 schema_name = "sql_alchemy_test"
 
-create_schema_sql = f"CREATE SCHEMA  {schema_name}"
+create_schema_sql = f"CREATE SCHEMA {schema_name}"
 
 with engine.connect() as connection:
     connection.execute(text(create_schema_sql))

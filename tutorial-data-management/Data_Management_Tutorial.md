@@ -218,10 +218,10 @@ We'll create a simple database based on this diagram:
 erDiagram
     PARTICIPANTS {
         string participant_id PK
-        string name
-        date birth_date
+        string first_name
+        string last_name
+        date date_of_birth
         string gender
-        string contact_info
     }
 
     SAMPLES {
@@ -245,42 +245,65 @@ erDiagram
 
 We will use as DBMS the same PostgreSQL instance used for the [01-Relation-databases tutorial](#relational-databases)
 
+### Database Creation
+
 1. First of all we need to create the directory and the [virtual environment](https://docs.python.org/3/library/venv.html) where we install the dependencies needed
 
-```bash
-$ mkdir biobank_manager # Create the new directory
-$ cd biobank_manager  # Enter the directory
-$ python -m venv venv  # Create the virtual environment
-$ source venv/bin/activate  # Activate the virtual environment (from now on the python commands will use the one in the venv)
-```
+   ```bash
+   $ mkdir biobank_manager # Create the new directory
+   $ cd biobank_manager  # Enter the directory
+   $ python -m venv venv  # Create the virtual environment
+   $ source venv/bin/activate  # Activate the virtual environment (from now on the python commands will use the one in the venv)
+   ```
 
 1. Now we can install the dependencies
 
-```bash
-pip install sqlalchemy alembic
-```
+   ```bash
+   pip install sqlalchemy alembic psycopg2
+   ```
 
 1. Create the following directories and files
 
-```
-biobank_manager/
-  biobank_manager/ 
-    __init__.py
-    conf.py
-    database/
-      __init__.py
-      models.py    
-```
+   ```
+   biobank_manager/    # main directory
+     biobank_manager/  # main python module
+       __init__.py  
+       conf.py         # file with configurations
+       database/       # directory with the database definition
+         __init__.py
+         models.py     # file with the SQLAlchemy models
+   ```
+
+1. In the `conf.py` add DATABASE_URL variable using the following template. Set the values for user, password and db_name
+
+   ```python
+   "postgresql+psycopg2://{user}:{password}@localhost:5432/{db_name}"
+   ```
 
 1. In the `models.py` create three models based on the the ER Diagram
    
    > [TIP]
-   > Remember to create the Base class first
+   > Remember to create the Base class first. Use `biobank_manager` as schema name
    >
 
-5. 
+1. In the `__main__.py` file add the instructions to:
+   - create the SQLAlchemy `engine` for the `DATABASE_URL` db
+   - create the schema `DATABASE_SCHEMA_NAME`
+   - create all the tables
 
-3. Create a script insert, query, update and delete
+1. Run the module 
+
+   ```bash
+   $ python -m biobank_manager
+   ```
+
+   This will run the database initialization
+
+1. Check the database in pgAdmin4. If everything is correct you should see the schema `biobank_manager` in the `bbmri-it-school` database with the 3 tables
+
+### Insert, query, update, delete
+
+1. Create a script insert, query, update and delete
 
 4. Alembic
    - Create baseline
