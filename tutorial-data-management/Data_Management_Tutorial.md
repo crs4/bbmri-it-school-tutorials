@@ -85,7 +85,7 @@ GROUP BY person_id
 ORDER BY observation_count desc
 
 ```
-   What is this query doing? 
+What is this query doing? 
 
 8. Try to write the queries that answer to these business questions: 
    - Count the number of persons per gender;
@@ -93,15 +93,17 @@ ORDER BY observation_count desc
      carries the diagnosis information
 
 9. Drop one of the indexes on the `omop_cdm.concept_ancestor` table:
-   ```sql
-   drop index idx_concept_ancestor_id_1
-    ```
-    Now execute this query: 
-   ```sql
+
+  ```sql
+  drop index idx_concept_ancestor_id_1
+  ```
+
+  Now execute this query: 
    
-   ```sql
+  ```sql
    select * from omop_cdm.concept_ancestor where ancestor_concept_id = 45635110
-    ```
+   ```
+
    How long does it take to execute?
    Now, recreate the index: 
     ```sql
@@ -124,19 +126,22 @@ ORDER BY observation_count desc
 12. Create a trigger that logs every time a new record is inserted in the `omop_cdm.observation` table. The trigger should insert a record in the `omop_cdm.log` table with the action "insert" and the current timestamp.
 
 13. Add a new row in the observation table: 
+    
     ```sql
-  insert into omop_cdm.observation(observation_id,person_id,observation_concept_id,observation_date,
+     insert into omop_cdm.observation(observation_id,person_id,observation_concept_id,observation_date,
 								 observation_datetime,observation_type_concept_id,value_as_number,
 								 value_as_string,value_as_concept_id,qualifier_concept_id,
 								 unit_concept_id,provider_id,visit_occurrence_id,visit_detail_id,
 								 observation_source_value,observation_source_concept_id,unit_source_value,
 								 qualifier_source_value,value_source_value,observation_event_id,
 								 obs_event_field_concept_id)
-values('8100','28','40766239','2025-07-01',null,'38000280',null,null,'0',0,0,49,1755,1001755,93027-1,37020580,null,null,null,null,null
-)
-14. Check the log table to see if the new record has been logged.
-15. Check the view to see if the count for the person '40766239' has been updated.
+     values('8100','28','40766239','2025-07-01',null,'38000280',null,null,'0',0,0,49,1755,1001755,93027-1,37020580,null,null,null,null,null
+    )
+    ```
 
+14. Check the log table to see if the new record has been logged.
+
+15. Check the view to see if the count for the person '40766239' has been updated.
 
 ## NoSQL Databases
 
@@ -151,7 +156,7 @@ We will run a simple mongoDB instance in a container using docker, inspect the d
 
 Then, once that the build is completed, run the container:
 
-```bash
+   ```bash
    docker compose build
    ```
 2. Enter to the the container, using the command:
@@ -170,17 +175,22 @@ Then, once that the build is completed, run the container:
    use biobankDB
    ```
 4. List the collections in the database. There should be five collections: biobanks, diseases, patients, samples, sampletypes
-```bash
+
+   ```bash
    show collections
    ```
 5. List the documents in the biobanks collection:
-```bash
+
+   ```bash
    db.biobanks.find().pretty()
    ```
+
 6. Filter the biobanks by name, e.g., to find the biobank with name "Biobanca di Ricerca Napoli":
-```bash
+   
+   ```bash
    db.biobanks.find({name: "Biobanca di Ricerca Napoli"}).pretty()
    ```
+   
 7. Execute one of the queries examples in the queries_examples  directory(simply copy the overall code in the shell). For each query, try to understand what it is trying to do in detail, according to the operators that it is using.
 
 8. Try to modify the "sample per year" query by adding also the sample type in the aggregation.
@@ -243,14 +253,11 @@ pip install sqlalchemy alembic
 biobank_manager/
   biobank_manager/ 
     __init__.py
-    conf/
+    conf.py
     database/
       __init__.py
-      models.py
-    
+      models.py    
 ```
-
-1.
 
 1. In the `models.py` create three models based on the the ER Diagram
    
