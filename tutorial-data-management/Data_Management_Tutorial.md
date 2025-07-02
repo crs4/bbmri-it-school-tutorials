@@ -48,7 +48,7 @@ $ git clone https://github.com/crs4/bbmri-it-school-tutorials.git
    * Click on "Add New Server"
    * In the "General" tab, set the name bbmri-it-school-omop
    * In the "Connection" tab set the following parameters
-     * Host Name/Address: postgres (Question: Why not localhost???)
+     * Host Name/Address: postgres (**Question: Why can't we use localhost???**)
      * Port 5432
      * Maintanance database: bbmri-it-school
      * Username: postgres
@@ -187,16 +187,82 @@ Then, once that the build is completed, run the container:
   
 ## SQLAlchemy and alembic
 
-**TBD: add a tutorial that creates the Biobank DB using SQLAlchemy and creates migration with Alambic**
-### Steps
+In this part we will practice the creation of a database programmatically using SQL Alchemy and versioning of the database with Alembic.
 
-1. create the project
+We'll create a simple database based on this diagram:
 
-2. Add two models Donor and Samples
+```mermaid
+erDiagram
+    PARTICIPANTS {
+        string participant_id PK
+        string name
+        date birth_date
+        string gender
+        string contact_info
+    }
+
+    SAMPLES {
+        string sample_id PK
+        date collection_date
+        string sample_type
+        string participant_id FK
+    }
+
+    DIAGNOSIS {
+        string diagnosis_id PK
+        string condition
+        date diagnosis_date
+        string severity
+        string participant_id FK
+    }
+
+    PARTICIPANTS ||--o{ SAMPLES : ""
+    PARTICIPANTS ||--o{ DIAGNOSIS : ""
+```
+
+We will use as DBMS the same PostgreSQL instance used for the [01-Relation-databases tutorial](#relational-databases)
+
+1. First of all we need to create the directory and the [virtual environment](https://docs.python.org/3/library/venv.html) where we install the dependencies needed
+
+```bash
+$ mkdir biobank_manager # Create the new directory
+$ cd biobank_manager  # Enter the directory
+$ python -m venv venv  # Create the virtual environment
+$ source venv/bin/activate  # Activate the virtual environment (from now on the python commands will use the one in the venv)
+```
+
+1. Now we can install the dependencies
+
+```bash
+pip install sqlalchemy alembic
+```
+
+1. Create the following directories and files
+
+```
+biobank_manager/
+  biobank_manager/ 
+    __init__.py
+    conf/
+    database/
+      __init__.py
+      models.py
+    
+```
+
+1.
+
+1. In the `models.py` create three models based on the the ER Diagram
+   
+   > [TIP]
+   > Remember to create the Base class first
+   >
+
+5. 
 
 3. Create a script insert, query, update and delete
 
-4. Alambic
+4. Alembic
    - Create baseline
    - Change something in the DB (e.g., add column)
    - Create a revision and edit it manually
