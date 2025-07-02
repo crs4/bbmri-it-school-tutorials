@@ -1,0 +1,19 @@
+version: '3.8'
+
+services:
+  mongodb:
+    build:
+      context: ./
+    ports:
+      - "27017:27017"
+    volumes:
+      - ./data:/data/db
+    environment:
+
+      MONGO_INITDB_DATABASE: biobankDB
+    networks:
+      - biobank_network
+
+networks:
+  biobank_network:
+    driver: bridge
