@@ -1,12 +1,20 @@
 tableName,tableExtends,columnName,label,columnType,key,required,isReadonly,description,refSchema,refTable,refBack,refLabel,defaultValue,validation,message,computed,semantics
-Donor,,,,,,,Donors of the Biobank,,,,,,,,,,,
-Donor,,id,Identifier,int,1,,Identifier of the donor,,,,,,,,,,,
-Donor,,name,Name,string,,,Name of the donor,,,,,,,,,,,
-Donor,,surname,Surname,string,,,Surname of the donor,,,,,,,,,,,
-Donor,,sex,Sex,string,,,Sex of the donor,,,,,,,,,,,
-Donor,,date_of_birth,Date of birth,date,,,Date of birth of the donor,,,,,,,,,,,
-Donor,,place_of_birth,Place of birth,string,,,Place of birth of the donor,,,,,,,,,,,
-Sample,,,,,,,,,,,,,,,,,,
-Sample,,id,Identifier,int,1,,,Identifier of the sample
-Sample,,type,Type,string,,,,Type of sample
-Sample,,donor,Donor,ref,,,,The donor that the sample belongs to,,Donor,
+Participants,,,,,,,Participants of the study,,,,,,,,,,,
+Participants,,participant_id,Identifier,int,1,,Identifier of the participant,,,,,,,,,,,
+Participants,,last_name,Last Name,string,,,Last Name of the participant,,,,,,,,,,,
+Participants,,first_name,First Name,string,,,First Name of the participant,,,,,,,,,,,
+Participants,,date_of_birth,Date of birth,date,,,Date of birth of the participant,,,,,,,,,,,
+
+Participants,,gender,Gender,string,,,Gender of the participant,,,,,,,,,,,
+
+Samples,,id,Identifier,int,1,,,Identifier of the sample
+Samples,,collection_date,Collection date,date,,,Date of collection of the sample,,,,,,,,,,,
+Samples,,sample_type,Sample Type,string,,,,Type of the sample
+
+Diagnosis,,id,Identifier,int,1,,,Identifier of the diagnosis
+Diagnosis,,condition,Condition,string,,,,Condition
+Diagnosis,,diagnosis_date,Diagnosis date,date,,,Date of diagnosis,,,,,,,,,,,
+Diagnosis,,severity,Severity,string,,,,Severity
+
+Samples,,participant,Participant,ref,,,,The participant that the sample belongs to,,Participants,
+Diagnosis,,participant,Participant,ref,,,,The participant that the diagnosis belongs to,,Participants,
