@@ -1,0 +1,16 @@
+id,condition,diagnosis_date,severity,participant
+1,Hypertension,2021-02-11,moderate,1
+2,Type 2 Diabetes,2020-07-23,severe,2
+3,Asthma,2022-03-15,mild,3
+4,Depression,2021-11-01,moderate,4
+5,Osteoarthritis,2023-04-09,severe,5
+6,Anxiety,2020-10-18,mild,6
+7,Chronic Kidney Disease,2022-06-30,severe,7
+8,Migraine,2023-02-20,moderate,8
+9,Obesity,2021-08-12,moderate,9
+10,Coronary Artery Disease,2020-12-27,severe,10
+11,Eczema,2022-01-07,mild,11
+12,Psoriasis,2023-05-17,mild,12
+13,GERD,2021-09-05,moderate,13
+14,Allergic Rhinitis,2020-05-14,mild,14
+15,Chronic Fatigue Syndrome,2022-10-22,severe,15
