@@ -303,7 +303,25 @@ We will use as DBMS the same PostgreSQL instance used for the [01-Relation-datab
 
 ### Insert, query, update, delete
 
-1. Create a script insert, query, update and delete
+1. First of all we will populate the database adding some data
+   
+   Add to the `__main__.py` file a part that creates:
+
+   - 100 participants 
+   - for each participant a random number of samples between 1 and 10
+   - for each participant a diagnosis
+
+   > ![TIP]
+   > To create random name surname you can use [names-generator](https://pypi.org/project/names-generator/) package
+   >
+
+   > ![TIP]
+   > For the sample type use the following list
+   > "DNA", "RNA", "BLOOD", "URINE", "FECES", "BUFFY COAT"
+   > 
+
+
+### Database versioning
 
 4. Alembic
    - Create baseline
