@@ -282,7 +282,7 @@ We will use as DBMS the same PostgreSQL instance used for the [01-Relation-datab
 
 1. In the `models.py` create three models based on the the ER Diagram
    
-  > ![TIP]
+  > [!TIP]
   > Remember to create the Base class first. Use `biobank_manager` as schema name
   >
 
@@ -311,11 +311,11 @@ We will use as DBMS the same PostgreSQL instance used for the [01-Relation-datab
    - for each participant a random number of samples between 1 and 10
    - for each participant a diagnosis
 
-  > ![TIP]
+  > [!TIP]
   > To create random name surname you can use [names-generator](https://pypi.org/project/names-generator/) package
   >
 
-  > ![TIP]
+  > [!TIP]
   > For the sample type use the following list
   > "DNA", "RNA", "BLOOD", "URINE", "FECES", "BUFFY COAT"
   > 
