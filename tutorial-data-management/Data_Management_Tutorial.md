@@ -58,12 +58,133 @@ $ git clone https://github.com/crs4/bbmri-it-school-tutorials.git
    You should be connected to the database loaded before. The tree on the left should look like this:
 
    ![OMOP Schema][./images/01-omop-schema.png]
+6. This OMOP schema has only the terminology tables loaded; now we can proceed to load the data in the 
+   CDM tables. There is a series of .csv files in the `tutorial-data-management/01-Relational-databases/omop_data`
+   directory that contains the data to be loaded in the CDM tables. Create a python script that reads the 
+   .csv files and loads the data in the corresponding tables. Notice that due to foreign key constraints you will have to follow this order;
+   Hint: you can use the csv and psycopg libraries. 
+
+     - `person`
+     - `provider`
+     - `visit_occurrence`
+     - `visit_detail`
+     - `observation`
+     - `condition_occurrence`
+     - `device_exposure`
+     - `drug_exposure`
+     - `death`
+
+7. Once the data is loaded, open a pgadmin query tab (query tool button ) in a way to start making some queries anc creation of object in the OMOP DB, via pure SQL.
+   First, let's run this aggregation query: 
+```sql
+SELECT
+  person_id,
+  COUNT(*) AS observation_count
+FROM omop_cdm.observation
+GROUP BY person_id
+ORDER BY observation_count desc
+
+```
+   What is this query doing? 
+
+8. Try to write the queries that answer to these business questions: 
+   - Count the number of persons per gender;
+   - Get all the persons that were diagnosed of a specific diagnosis type (chooose one) each year. Remember that the Condition table is the one that 
+     carries the diagnosis information
+
+9. Drop one of the indexes on the `omop_cdm.concept_ancestor` table:
+   ```sql
+   drop index idx_concept_ancestor_id_1
+    ```
+    Now execute this query: 
+   ```sql
+   
+   ```sql
+   select * from omop_cdm.concept_ancestor where ancestor_concept_id = 45635110
+    ```
+   How long does it take to execute?
+   Now, recreate the index: 
+    ```sql
+    create index idx_concept_ancestor_id_1 on omop_cdm.concept_ancestor(ancestor_concept_id);
+     ```
+   This will take a long time. Now, re-execute the previous query. How long does it take now?
+
+10. Create a view namd `v_person_observation` that contains the person_id and the observation_count for each person. 
+    Use the query you wrote in step 7 as a base.
+    In this view, mark the count for the person '40766239'.
+
+11. Add this log table:
+      ```sql
+        CREATE TABLE omop_cdm.log (
+            id SERIAL PRIMARY KEY,
+            action VARCHAR(255) NOT NULL,
+            timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        );
+        ```
+12. Create a trigger that logs every time a new record is inserted in the `omop_cdm.observation` table. The trigger should insert a record in the `omop_cdm.log` table with the action "insert" and the current timestamp.
+
+13. Add a new row in the observation table: 
+    ```sql
+  insert into omop_cdm.observation(observation_id,person_id,observation_concept_id,observation_date,
+								 observation_datetime,observation_type_concept_id,value_as_number,
+								 value_as_string,value_as_concept_id,qualifier_concept_id,
+								 unit_concept_id,provider_id,visit_occurrence_id,visit_detail_id,
+								 observation_source_value,observation_source_concept_id,unit_source_value,
+								 qualifier_source_value,value_source_value,observation_event_id,
+								 obs_event_field_concept_id)
+values('8100','28','40766239','2025-07-01',null,'38000280',null,null,'0',0,0,49,1755,1001755,93027-1,37020580,null,null,null,null,null
+)
+14. Check the log table to see if the new record has been logged.
+15. Check the view to see if the count for the person '40766239' has been updated.
 
 
 ## NoSQL Databases
 
-**NB: should we add a tutorial for this?**
+In this section we will perform some operations on a NoSQL database that uses the [MongoDB](https://www.mongodb.com/) engine.
+We will run a simple mongoDB instance in a container using docker, inspect the data and perform some simple queries using the mongo shell.
+### Steps
+1. In a shell, go inside the `tutorial-data-management/02-NoSQL-databases/mongodb` directory and deploy and run the container:
 
+```bash
+   docker compose build
+   ```
+
+Then, once that the build is completed, run the container:
+
+```bash
+   docker compose build
+   ```
+2. Enter to the the container, using the command:
+
+```bash
+   docker-compose  exec -it mongodb bash
+   ```
+2. Enter to the mongo shell, using the command:
+
+```bash
+   mongosh
+   ```
+3. Once inside the shell, chabge the database to use ours:
+
+```bash
+   use biobankDB
+   ```
+4. List the collections in the database. There should be five collections: biobanks, diseases, patients, samples, sampletypes
+```bash
+   show collections
+   ```
+5. List the documents in the biobanks collection:
+```bash
+   db.biobanks.find().pretty()
+   ```
+6. Filter the biobanks by name, e.g., to find the biobank with name "Biobanca di Ricerca Napoli":
+```bash
+   db.biobanks.find({name: "Biobanca di Ricerca Napoli"}).pretty()
+   ```
+7. Execute one of the queries examples in the queries_examples  directory(simply copy the overall code in the shell). For each query, try to understand what it is trying to do in detail, according to the operators that it is using.
+
+8. Try to modify the "sample per year" query by adding also the sample type in the aggregation.
+  
 ## SQLAlchemy and alembic
 
 **TBD: add a tutorial that creates the Biobank DB using SQLAlchemy and creates migration with Alambic**
