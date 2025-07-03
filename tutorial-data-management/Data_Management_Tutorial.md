@@ -717,9 +717,9 @@ We will create a very simple script that uses the [Molgenis PyClient](https://mo
      for s in samples:
        sample_type_count[s['sample_type']] += 1   
  
-    with open(outfile, "w") as f:
-      for t, c in sample_type_count.items():
-        f.write(f"There are {c} samples of type: {t}")             
+   with open(outfile, "w") as f:
+     for t, c in sample_type_count.items():
+       f.write(f"There are {c} samples of type: {t}")             
    ```
   
    Some point to notice:
