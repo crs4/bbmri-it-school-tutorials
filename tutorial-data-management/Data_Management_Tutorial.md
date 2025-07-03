@@ -368,8 +368,6 @@ If you have doubts, you can use the [SQLAlchemy](https://docs.sqlalchemy.org/en/
   > You can create the session as a ContextManager (i.e., `with Session as session`) and pass it to the functions
   >
 
-1. 
-
 ### Database versioning
 
 In this section we will update the database schema and create migrations with Alembic.
@@ -510,15 +508,15 @@ In this section we will update the database schema and create migrations with Al
         op.alter_column('participants', 'place_of_birth', nullable=False, schema='biobank_manager')
     ```
    
-   > [!WARNING]
-   > Of course, choosing a random city is not something you want to in real world, here we're doing this for the sake of training
-   >
+  > [!WARNING]
+  > Of course, choosing a random city is not something you want to in real world, here we're doing this for the sake of training
+  >
 
-   > [!TIP] 
-   > To generate the "codice fiscale" value you can adopt the [python-codicefiscale](https://pypi.org/project/python-codicefiscale/) package
-   >
+  > [!TIP] 
+  > To generate the "codice fiscale" value you can adopt the [python-codicefiscale](https://pypi.org/project/python-codicefiscale/) package
+  >
 
-   - Create automatic revision
+   
 
 ## Molgenis
 
