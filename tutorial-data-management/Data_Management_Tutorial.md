@@ -210,7 +210,7 @@ We will run a simple mongoDB instance in a container using docker, inspect the d
   
 ## SQLAlchemy and Alembic
 
-In this part we will practice the creation of a database programmatically using SQL Alchemy and versioning of the database with Alembic.
+In this part we will practice the creation of a database programmatically using SQLAlchemy and versioning of the database with Alembic.
 
 We'll create a simple database based on this diagram:
 
@@ -219,7 +219,7 @@ erDiagram
     PARTICIPANTS {
         string participant_id PK
         string first_name
-        string last_name
+        string last_name "Possible Values: M for male, F for Female, U for Unknown"
         date date_of_birth
         string gender
     }
@@ -244,6 +244,8 @@ erDiagram
 ```
 
 We will use as DBMS the same PostgreSQL instance used for the [01-Relation-databases tutorial](#relational-databases)
+
+If you have doubts, you can use the [SQLAlchemy](https://docs.sqlalchemy.org/en/20/orm/quickstart.html) and [Alembic](https://alembic.sqlalchemy.org/) documentations as references.
 
 ### Database Creation
 
@@ -274,17 +276,23 @@ We will use as DBMS the same PostgreSQL instance used for the [01-Relation-datab
          models.py     # file with the SQLAlchemy models
    ```
 
-1. In the `conf.py` add DATABASE_URL variable using the following template. Set the values for user, password and db_name
+1. In the `conf.py` add `DATABASE_URL` variable using the following template. Set the values for user, password and db_name
 
    ```python
    "postgresql+psycopg2://{user}:{password}@localhost:5432/{db_name}"
    ```
 
+   Add also the `DATABASE_SCHEMA_NAME` variable with the value `"biobank_name"`
+
 1. In the `models.py` create three models based on the the ER Diagram
    
-   > [!TIP]
-   > Remember to create the Base class first. Use `biobank_manager` as schema name
-   >
+  > [!TIP]
+  > Remember to create the Base class first. Use `biobank_manager` as schema name
+  >
+
+  > [!TIP]
+  > To restrict the `gender` possible values use create a class GenderEnum and set the attribute to be Mapped[GenderEnum]
+  >
 
 1. In the `__main__.py` file add the instructions to:
    - create the SQLAlchemy `engine` for the `DATABASE_URL` db
@@ -303,32 +311,213 @@ We will use as DBMS the same PostgreSQL instance used for the [01-Relation-datab
 
 ### Insert, query, update, delete
 
-1. First of all we will populate the database adding some data
+1. Let's populate the database with some data
    
    Add to the `__main__.py` file a part that creates:
 
    - 100 participants 
-   - for each participant a random number of samples between 1 and 10
-   - for each participant a diagnosis
+   - for each participant a random number of samples between 1 and 10. Use 
+     this list of samples:
+     ```python
+        [
+          "DNA",
+          "RNA", 
+          "Blood", 
+          "Urine", 
+          "Feces", 
+          "Buffy Coat"
+        ]
+     ```
+   - for each participant a random number of diagnosis between 0 and 3. Use this list of diagnosis: 
+      ```python
+         [
+           "Urinary tract infection", 
+           "Human immunodeficiency virus disease",
+           "Sepsis",
+           "Malignant neoplasm of breast",
+           "Acute tonsillitis",
+           "Acute appendicitis",
+           "Streptococcus group A infection",
+           "Iron deficiency anemia",
+           "Hypocalcemia",
+           "Fatty liver"
+         ]
+      ```
 
   > [!TIP]
-  > To create random name surname you can use [names-generator](https://pypi.org/project/names-generator/) package
+  > To create random name and surname you can use [names-generator](https://pypi.org/project/names-generator/) package
   >
 
+1. Create a new file in `database/repository.py` and add some functions to perform some queries:
+   
+   ```
+   - get_samples_for_participant_by_id
+
+   - get_samples_for_participant_by_first_name_and_last_name
+
+   - get_samples_by_type
+
+   - get_diagnosis_for_participant_by_id
+
+   - get_diagnosis_before_date
+   ```
+
+   Then add to `__main__.py` calls to the functions
+
   > [!TIP]
-  > For the sample type use the following list
-  > "DNA", "RNA", "BLOOD", "URINE", "FECES", "BUFFY COAT"
-  > 
+  > You can create the session with a context
+  >
 
 1. 
 
 ### Database versioning
 
-4. Alembic
-   - Create baseline
-   - Change something in the DB (e.g., add column)
-   - Create a revision and edit it manually
-   - Add another column
+In this section we will update the database schema and create migrations with Alembic.
+
+1. First of all we need to create the alembic environment in our project. 
+
+   Move in to the root directory of the project `biobank_manager/` and run the command to initialize alembic
+
+   ```bash
+   alembic init alembic
+   ```
+   
+   This will create
+   - the `alembic.ini` file, that contains the alembic configuration
+   - the `alembic/` directory that will contain the migrations scripts
+   
+2. Now we need to edit the `alembic.ini` file to set the url of the database. 
+
+   Search the parameter `sqlalchemy.url` in the `[alembic]` section and set the usual url of the database
+
+3. We are ready to create the `baseline` of the database. Run the following command:
+
+   ```bash
+   alembic revision -m "baseline"
+   ```
+
+   > [!NOTE]
+   > Does `-m` reminds you of something?**
+
+   The command will generate a file in `alembic/versions/` directory called `<commit_id>_<commit_message>.py`
+
+   Let's open the file `<commit_id>_baseline.py`
+
+   We can see some variables and two functions.
+
+   The variables are:
+   
+   * `revision`: the id of the revision represented by the file
+   * `down_revision`: the id of the preceding revision. Since this is the very first revision, we leave this as None
+
+   **NB: we can ignore `branch_label` and `depends_on` for now
+  
+   The two functions are:
+   * `upgrade`: here we add the statements to change the database with modifications
+   * `downgrade`: here we add the statements to restore the database to the previouse version
+
+   Since this is the baseline we can leave the two functions empty
+
+1. It's time to make some changes to our database. We decide to update the Participant entity to add the `place_of_birth` and the `ssn` (Social Security Number) which in our case (we are in Italy!) is the "Codice Fiscale": it means it contains exactly 16 charachters
+
+   We want both to be mandatory (i.e., NOT NULL). The `ssn` must also be unique
+
+   Open the `models.py` and change the Participant table to add the two attributes
+
+1. Let's run our migration with the same command:
+
+   ```bash
+   $ alembic revision -m "add place of birth and ssn"
+   ```
+
+   Alembic created another script in `versions` directory. Let's check it:
+
+   In this case the `revision` contains the new value and the `down_revision` contains the id of the `baseline` revision.
+
+1. Next step is to add the instructions to change the database in the `upgrade` function
+
+   Here we show the first change that adds the `place_of_birth`
+
+   ```python
+   from alembic import op
+   import sqlalchemy as sa
+   
+   ...
+   
+   def upgrade() -> None:
+    # add_column add the column defined with the sqlalchemy definition to the table passed as first argument
+    op.add_column(
+        "participants",  # NB: it is the name of the table (i.e., the __tableaname__), not the SQLAlchemy model class name
+        sa.Column(name="place_of_birth", type_=sa.String, nullable=False),
+        schema="biobank_manager"
+    )
+   ```
+
+   Add the second instruction to add the `ssn` column. Remember that it must be non null and that it has the exact length of 16
+   
+1. Let's apply the changes with the alembic command
+
+   ```bash
+   $ alembic upgrade head
+   INFO  [alembic.runtime.migration] Context impl PostgresqlImpl.
+   INFO  [alembic.runtime.migration] Will assume transactional DDL.
+   INFO  [alembic.runtime.migration] Running upgrade  -> 1227802f7ccb, baseling
+   INFO  [alembic.runtime.migration] Running upgrade 1227802f7ccb -> a3e5da281584, add place of birth and ssn
+   ...
+   psycopg2.errors.NotNullViolation: column "place_of_birth" of relation "participants" contains null values 
+   ```
+
+   Doh! Something went wrong!
+
+   We added two new "not null" columns but the already presnt rows in our database are null. 
+
+   We need to change the `upgrade` function so we add values for the already present rows.
+
+   To do that, we can't directly create the two columns as null but we need to:
+
+   1. Add the two columns as nullable
+   2. Add the values for the already present rows
+   3. Alter the two columns to be not null
+
+   As before, here is the example for `place_of_birth`. Add the part for ssn
+
+   ```python
+    ITALIAN_CITIES = ['Bari', 'Bologna', 'Cagliari', 'Catania', 'Firenze', 'Genova', 
+                      'Milano', 'Napoli', 'Palermo', 'Roma', 'Sassari', 'Tonara', 'Torino']
+
+    def upgrade() -> None:
+        # Add nullable column
+        op.add_column(
+            "participants",
+            sa.Column(name="place_of_birth", type_=sa.String, nullable=True),
+            schema="biobank_manager",
+        )
+
+        conn = op.get_bind()
+        # Fetch all person IDs
+        results = conn.execute(
+            sa.text("SELECT id, last_name, first_name, gender, date_of_birth FROM biobank_manager.participants")
+        ).fetchall()
+
+        # Assign a random city to each 
+        for row in results:
+            city = random.choice(ITALIAN_CITIES)
+            conn.execute(
+                sa.text("UPDATE biobank_manager.participants SET place_of_birth = :city WHERE id = :id"),
+                {"city": city, "id": row.id},
+            )
+
+        op.alter_column('participants', 'place_of_birth', nullable=False, schema='biobank_manager')
+    ```
+   
+   > [!WARNING]
+   > Of course, choosing a random city is not something you want to in real world, here we're doing this for the sake of training
+   >
+
+   > [!TIP] 
+   > To generate the "codice fiscale" value you can adopt the [python-codicefiscale](https://pypi.org/project/python-codicefiscale/) package
+   >
+
    - Create automatic revision
 
 ## Molgenis
