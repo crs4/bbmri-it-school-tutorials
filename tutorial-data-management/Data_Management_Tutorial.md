@@ -715,7 +715,7 @@ We will create a very simple script that uses the [Molgenis PyClient](https://mo
      samples = client.get(table="Samples", columns=["type", "participant"], schema="bbmri-it-school-biobank")
      sample_type_count = defaultdict(int)
      for s in samples:
-       sample_type_count[s['sample_type']] += 1   
+       sample_type_count[s['type']] += 1   
  
    with open(outfile, "w") as f:
      for t, c in sample_type_count.items():
