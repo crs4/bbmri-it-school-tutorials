@@ -59,7 +59,7 @@ OMOP CDM can be loaded using different DBMS. For this tutorial we will adopt [Po
 
    You should be connected to the database loaded before. The tree on the left should look like this:
 
-   ![OMOP Schema][./images/01-omop-schema.png]
+   ![OMOP Schema](./images/01-omop-schema.png)
 
 6. This OMOP schema has only the terminology tables loaded; now we can proceed to load the data in the 
    CDM tables. There is a series of .csv files in the `tutorial-data-management/01-Relational-databases/omop_data`
@@ -416,7 +416,7 @@ In this section we will update the database schema and create migrations with Al
    * `revision`: the id of the revision represented by the file
    * `down_revision`: the id of the preceding revision. Since this is the very first revision, we leave this as None
 
-   **NB: we can ignore `branch_label` and `depends_on` for now
+   **NB: we can ignore `branch_label` and `depends_on` for now**
   
    The two functions are:
    * `upgrade`: here we add the statements to change the database with modifications
@@ -583,12 +583,12 @@ This is the header of the file. Then, all the data following the header will be 
    tableName,tableExtends,columnName,label,columnType,key,required,isReadonly,description,refSchema,refTable,refBack,refLabel,defaultValue,validation, message,computed,semantics
    Participants,,,,,,,Participants of the study,,,,,,,,,,,
    Participants,,id,Identifier of the participant,int,1,,Identifier of the participant,,,,,,,,,,,
-   Participants,,last_name,Last Name,string,,,Last Name of the participant,,,,,,,,,,,
    Participants,,first_name,First Name,string,,,First Name of the participant,,,,,,,,,,,
+   Participants,,last_name,Last Name,string,,,Last Name of the participant,,,,,,,,,,,
+   Participants,,gender,Gender,string,,,Gender of the participant,,,,,,,,,,,
    Participants,,date_of_birth,Date of birth,date,,,Date of birth of the participant,,,,,,,,,,,
    Participants,,place_of_birth,The place of birth,string,,,Place of birth of the participant,,,,,,,,,,,
    Participants,,ssn,Social Security Number,string,,,The Social Security Number. In Italy corresponds to the "Codice Fiscale",,,,,,,,,,,
-   Participants,,gender,Gender,string,,,Gender of the participant,,,,,,,,,,,
    ```
 
    The first row of the CSV is the table. We recognize it because it just has the `tableName` and the  `label`.
@@ -630,46 +630,58 @@ This is the header of the file. Then, all the data following the header will be 
 1. Now you can navigate using the menu to the `Schema` section where you can see the defined tables
 
   ![Molgenis View Schema](./images/05-molgenis-schema-view.png)
-   
 
+### Uploading the data
 
+For each table defined in the `molgenis.csv` file, we have have a corresponding .csv file that contains the data for that table.
 
-
-
-  
-
-#### Adding the data: the participants.csv, samples.csv, and diagnosis.csv files
-For each table defined in the `molgenis.csv` file, we will have a corresponding .csv file that contains the data for that table.
 Each csv file must have a header with the names of the fields, followed by a row for each different record.
-For example, the `participants.csv` file will have the following header and data (one example record only):
+
+For example, the `Participants.csv` file will have the following header and data (one example record only):
 
 ```csv
-participant_id,last_name,first_name,date_of_birth,gender
-1,Smith,John,1985-04-12,M
+id,first_name,last_name,gender,date_of_birth,place_of_birth,ssn
+1,Funny,Davinci,M,1982-12-03,Bari,DVNFNY82B12A662U
 ```
 
-### Steps
+1. Edit the three `csv`s files `Participants`, `Samples` and `Diagnosis`
+   
+   You have three choices:
 
-1. From the docker compose file in the `tutorial-data-management/04-Molgenis-EMX2` directory, start Molgenis:
-   ```bash
-      docker compose up -d
-      ```
-    Then, check that the server is up and running by going to the URL http://localhost:8080 and logging in with admin/admin
-2. Create a new database and name it bbmri-it-school-biobank
-3. Create the molgenis.csv, participants.csv, samples.csv, and diagnosis.csv files in the `tutorial-data-management/04-Molgenis-EMX2/data` directory.
-   - The `molgenis.csv` file should contain the schema definition as explained above.
-   - The `participants.csv`, `samples.csv`, and `diagnosis.csv` for the data; 
-   - 
-4. Create the schema and import the data into molgenis. This operation can be done either via the interface, or 
-   via the python client [PyClient](https://molgenis.github.io/molgenis-emx2/#/molgenis/use_usingpyclient).
-   From the interface, once created the database, click on its name in the database list of the molgenis home page,
-   Then click on "Up/Download" in the horizontal menu. Browse firsh the molgenis.csv file, and upload it. This will 
-   create the schema. Then, do the same with the participants.csv, samples.csv, and diagnosis.csv files.
-   If you want to use the python client instead, you can follow the instructions in the [PyClient documentation](https://molgenis.github.io/molgenis-emx2/#/molgenis/use_usingpyclient).
+   - manually add some data for each csv)
+   - write a python script similar to the one used to generate random data in SQLAlchemy
+   - only for the braves: write a python script that reads the data from the `biobank_manager` database and generate the corresponding csv for this new database. NB: the postgres db of `biobank_manager` is accessible at port `5432` the molgenis one at port `5434` so you can run both services at the same time
+
+1. After you created the `csv`s you can upload the data as you did with the schema
+   
+   ![Molgenis Data Upload](./images/06-molgenis-data-upload.png)
+   
+### Creating a report
+
+Molgenis allows to create some reports of the data using direct SQL queries on the database.
+
+In this section we will create a simple report as example.
+
+1. Go to the `Report` section, using the menu and click on the `+` button. 
+
+   ![Molgenis Report](./images/07-molgenis-report.png)
+
+   Then click the :pencil2: icon to edit the Report. You will see an error message: ignore it and click the :pencil2: icon next to the `View report id=uniqueid`
+
+1. Fill the form with the definition of the report. Set 
+   
+   - the id of the report (without blank spaces)
+   - a description
+   - the SQL query to select the participant id and the number of samples for each participant
+
+   Click the Save Button
+   
+   ![Molgenis Report](./images/08-molgenis-report-edited.png)
+
+   You should see a table with the results of the query
 
 
-5. Navigate the UI: you can now navigate the schema, clicking on "Tables" in the horizontal bar" and then on one 
-   of the tables. Notice that the interface allows you also to add additional rows in a table: try to do it!
+### Creating a script
 
 6. Create a script with [PyClient](https://molgenis.github.io/molgenis-emx2/#/molgenis/use_usingpyclient)
 
