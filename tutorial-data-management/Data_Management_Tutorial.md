@@ -9,11 +9,11 @@ In this tutorial you will practice what we've learned during the lessons on
 
 ## Relational Databases
 
-In this section we will perform some operations on a relational database that uses the [OMOP](https://www.ohdsi.org/data-standardization/).
+In this section we will perform some operations on a relational database that uses the [OMOP Common Data Model](https://www.ohdsi.org/data-standardization/).
 
-We will talk about OMOP in future lessons, for now we will use it as a database with a schema and some preloaded data.
+We will talk about OMOP CDM in future lessons, for now we will use it as a database with a schema and some preloaded data.
 
-OMOP can be loaded using different DBMS. For this tutorial we will adopt [PostgreSQL](https://www.postgresql.org/) run using docker. 
+OMOP CDM can be loaded using different DBMS. For this tutorial we will adopt [PostgreSQL](https://www.postgresql.org/) run using docker. 
 
 ### Steps
 
@@ -38,8 +38,10 @@ OMOP can be loaded using different DBMS. For this tutorial we will adopt [Postgr
 
    The `postgres` service in the compose file mounts the omop.sql file in the initdb directory, so the OMOP schema will be automatically loaded.
 
-   **NB: the schema is quite big (2.4GB) so it will take some time to load).**
-   **To check when PostgreSQL is ready, use `docker-compose logs -f postgres` and wait the message "PostgreSQL init process complete; ready for start up."**
+  > [!NOTE]
+  > the schema is quite big (2.4GB) so it will take some time to load). To check when PostgreSQL is ready, use `docker-compose logs -f postgres` and wait the message "PostgreSQL init process complete; ready for start up."
+  > Don't worry about the messages 'The role "root" doesn't exist. 
+  > 
 
 4. Access to pgAdmin web interface using a browser at the URL http://localhost:8888 and login using the credentials user: `admin@bbmri-school.it` pwd: `password`
 
@@ -61,19 +63,25 @@ OMOP can be loaded using different DBMS. For this tutorial we will adopt [Postgr
 
 6. This OMOP schema has only the terminology tables loaded; now we can proceed to load the data in the 
    CDM tables. There is a series of .csv files in the `tutorial-data-management/01-Relational-databases/omop_data`
-   directory that contains the data to be loaded in the CDM tables. Create a python script that reads the 
-   .csv files and loads the data in the corresponding tables. Notice that due to foreign key constraints you will have to follow this order;
-   Hint: you can use the csv and psycopg libraries. 
+   directory that contains the data to be loaded in the CDM tables. 
+   
+   Using Python, implement a script that reads the `.csv` files and loads the data in the corresponding tables. 
+   
+  > [!NOTE] 
+  > Due to foreign key constraints you will have to follow this order;
+  > - `person`
+  > - `provider`
+  > - `visit_occurrence`
+  > - `visit_detail`
+  > - `observation`
+  > - `condition_occurrence`
+  > - `device_exposure`
+  > - `drug_exposure`
+  > - `death`
 
-     - `person`
-     - `provider`
-     - `visit_occurrence`
-     - `visit_detail`
-     - `observation`
-     - `condition_occurrence`
-     - `device_exposure`
-     - `drug_exposure`
-     - `death`
+  > [!TIP]
+  > To read the CSVs use the built-in [csv](https://docs.python.org/3/library/csv.html) package.
+  > To access the database use [psycopg2](https://www.psycopg.org/docs/) package 
 
 7. Once the data is loaded, open a pgadmin query tab (query tool button ) in a way to start making some queries anc creation of object in the OMOP DB, via pure SQL.
    First, let's run this aggregation query: 
