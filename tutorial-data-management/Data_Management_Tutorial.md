@@ -365,7 +365,7 @@ If you have doubts, you can use the [SQLAlchemy](https://docs.sqlalchemy.org/en/
    Then add to `__main__.py` calls to the functions
 
   > [!TIP]
-  > You can create the session with a context
+  > You can create the session as a ContextManager (i.e., `with Session as session`) and pass it to the functions
   >
 
 1. 
