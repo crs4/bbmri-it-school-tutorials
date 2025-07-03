@@ -683,6 +683,74 @@ In this section we will create a simple report as example.
 
 ### Creating a script
 
-6. Create a script with [PyClient](https://molgenis.github.io/molgenis-emx2/#/molgenis/use_usingpyclient)
+In this last section we will see how Molgenis provides a functionality to run scripts and make analysis on the data using python.
+
+We will create a very simple script that uses the [Molgenis PyClient](https://molgenis.github.io/molgenis-emx2/#/molgenis/use_usingpyclient) just to write in file the count of samples for each type
+
+1. First of all go to the `Jobs & Scripts` section 
+
+   ![Molgenis Script](./images/09-molgenis-script.png)
+
+2. Then click the `+` button. You will see a form to define the script. The script has the following inputs:
+   
+   - name: just the name of the script
+   - type: Python or Bash. We will use Python
+   - script: the code of the script 
+   - dependencies: the libraries that the script needs to perform the analysis (e.g., `numpy` or `molgenis-emx2-pyclient`)
+   - outputFileExtension: the extension of the file produced by the script. Set `txt`
+   - failureAddress: the email address to notify that the job failed
+   - cron: a string to schedule the script at planned time  
+
+   In the script add the following code:
+
+   ```python
+   import os
+   from collections import defaultdict
+   from molgenis_emx2_pyclient import Client
+
+   token = os.environ.get("MOLGENIS_TOKEN")
+   outfile = os.environ.get("OUTPUT_FILE")
+
+   with Client(url='http://localhost:8080', token=token) as client:
+     samples = client.get(table="Samples", columns=["type", "participant"], schema="bbmri-it-school-biobank")
+     sample_type_count = defaultdict(int)
+     for s in samples:
+       sample_type_count[s['sample_type']] += 1   
+ 
+    with open(outfile, "w") as f:
+      for t, c in sample_type_count.items():
+        f.write(f"There are {c} samples of type: {t}")             
+   ```
+  
+   Some point to notice:
+   - The two environment variables `MOLGENIS_TOKEN` and `OUTPUT_FILE`. These are always passed by Molgenis when the script is run inside Molgenis. Indeed the same script can be run from outside the server. 
+      * The token is a string used by the client to authenticate into Molgenis when performing calls to the REST API. The token is valid for the local server
+      * The OUTPUT_FILE is the name of the file of the script
+   - The url is `http://localhost:8080`. `localhost` here means the internal address in the molgenis docker container. It means that it is referring to itself. If we run the script from outside, we should add the external url of molgenis
+
+   Here is the result of the filled form
+
+   ![Molgenis Script](./images/10-molgenis-script-new.png)
+
+   Click on `Save Scripts`
+
+3. To run the script click on the `play` button, don't add any parameter and wait for the script to finish.
+
+   ![Molgenis script run](./images/11-molgenis-script-run.png)
+
+4. Finally go to the [Jobs] tab where you can see the result of the run
+   
+   ![Molgenis script run](./images/12-molgenis-jobs-results.png)
+   
+   Notice the last column `output` where you can check the output file produced by the script
+
+  
+
+
+
+
+
+   
+
 
 
