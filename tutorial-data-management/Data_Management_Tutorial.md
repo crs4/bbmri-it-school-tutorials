@@ -509,7 +509,7 @@ In this section we will update the database schema and create migrations with Al
     ```
    
   > [!WARNING]
-  > Of course, choosing a random city is not something you want to in real world, here we're doing this for the sake of training
+  > Of course, choosing a random city is not something you want to do in real world, here we're doing this for the sake of training
   >
 
   > [!TIP] 
