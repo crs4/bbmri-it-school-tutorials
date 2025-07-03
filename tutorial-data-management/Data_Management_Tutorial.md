@@ -524,44 +524,119 @@ In this section we will update the database schema and create migrations with Al
   > To generate the "codice fiscale" value you can adopt the [python-codicefiscale](https://pypi.org/project/python-codicefiscale/) package
   >
 
-   
-
 ## Molgenis
 
-### Howto: creating a schema in Molgenis EMX2 and populating it
-
 As we have seen in the lessons, Molgenis is a platform that allows to create and manage data models, import data, and create reports.
-Schema definition and data import can be done in many ways, here we will explain how to do it with a series of
-.csv files. The purpose is to create in Molgenis the same schema created in the SqlAlchemy tutorial. 
-To to this, we will need some .csv files, and in particular: 
-- `molgenis.csv`: contains the definition of the overall schema: tables, and for each table, fields and 
-                  references/constraints 
- - .csv files for the data: these CSVs files are one for each table,and must have the same name as the table.
-   For example, if we have a table named `participants`, we will have a file named `participants.csv` that contains the data for that table.
-   Each .csv file must have a header with the names of the fields, followed by a row for each different record.
 
-#### Defining the schema: the molgenis.csv file
+The purpose of this tutorial is to create with Molgenis the same schema created in the SQLAlchemy tutorial. 
+
+We will create the updated version, the one with the changes done with Alembic
+
+Molgenis adopts a custom format, namely EMX2, which allows both the definitions of the database's schema and the upload of the data
+using spreadsheets (Excel or CSV).
+In particular:
+
+- `molgenis.csv`: contains the definition of the schema: tables, and for each table, the attributes with references and constraints 
+- `<table_name>.csv`: they contain the data for the tables. The columns of the CSV are the names of the attributes defined in the schema
+   For example, if we have a table named `Participants`, the data should be added in to `Participants.csv` fiels
+
+### Defining the schema: the molgenis.csv file
+
 The `molgenis.csv` file is a CSV file that contains the definition of the schema. It has the following columns:
 
-tableName,tableExtends,columnName,label,columnType,key,required,isReadonly,description,refSchema,refTable,refBack,refLabel,defaultValue,validation,message,computed,semantics
+- tableName
+- tableExtend
+- columnName 
+- columnType
+- label
+- key
+- required
+- isReadonly
+- description 
+- refSchema
+- refTable
+- refBack
+- refLabel
+- defaultValue
+- validation
+- message
+- computed
+- semantics
 
-This is the header of the file. Then, all the data following the header will be the definition of the schema. Not all columns above should be valued, let's analyze the mosrt important:
+For a detailed explanation, you can check the [official documentation](https://molgenis.github.io/molgenis-emx2/#/molgenis/use_schema)
+
+This is the header of the file. Then, all the data following the header will be the definition of the schema. Not all columns above should be valued, let's analyze the most important:
 
 - `tableName`: the name of the table
-- `columnName`: the name of the column in that table
-- `label`: the label of the column, that will be used in the UI
-- `columnType`: the type of the column, e.g., `string`, `integer`, `date`, `boolean`, `ref` (used for references, to other tables)
+- `columnName`: the name of the attribute
+- `columnType`: the type of the attribute, e.g., `string`, `integer`, `date`, `boolean`, `ref` (used for references, to other tables)
+- `required`: whether the attribute is required (i.e., not null) or not
+- `key`: A number to indicate that the attribute is part of a key (primary or unique). The primary key has value 1. If a key is composed of multiple attributes they must have the same number in this column
+- `refTable`: if the columnType is a ref, it needs to specify the referred table (e.g, `Participant` for the participant attribute of the `Sample` entity)
+- `refBack`: 
 
-Example: to define some fieds of the "Samples" table we will have:
-- Samples,,id,Identifier,int,1,,,Identifier of the sample
-- Samples,,collection_date,Collection date,date,,,Date of collection of the sample,,,,,,,,,,,
+1. Let's start creating our schema
 
-For the participants: 
-- Participants,,participant_id,Identifier,int,1,,Identifier of the participant,,,,,,,,,,,
-- Participants,,last_name,Last Name,string,,,Last Name of the participant,,,,,,,,,,,
+   Here is the first part of the `molgenis.csv` file for our database:
 
-As Samples must also have a referenct to a participant, we will also have a column of the Samples table defining that:
-- Samples,,participant,Participant,ref,,,,The participant that the sample belongs to,,Participants,
+   ```csv
+   tableName,tableExtends,columnName,label,columnType,key,required,isReadonly,description,refSchema,refTable,refBack,refLabel,defaultValue,validation, message,computed,semantics
+   Participants,,,,,,,Participants of the study,,,,,,,,,,,
+   Participants,,id,Identifier of the participant,int,1,,Identifier of the participant,,,,,,,,,,,
+   Participants,,last_name,Last Name,string,,,Last Name of the participant,,,,,,,,,,,
+   Participants,,first_name,First Name,string,,,First Name of the participant,,,,,,,,,,,
+   Participants,,date_of_birth,Date of birth,date,,,Date of birth of the participant,,,,,,,,,,,
+   Participants,,place_of_birth,The place of birth,string,,,Place of birth of the participant,,,,,,,,,,,
+   Participants,,ssn,Social Security Number,string,,,The Social Security Number. In Italy corresponds to the "Codice Fiscale",,,,,,,,,,,
+   Participants,,gender,Gender,string,,,Gender of the participant,,,,,,,,,,,
+   ```
+
+   The first row of the CSV is the table. We recognize it because it just has the `tableName` and the  `label`.
+   The other rows defines the attributes of the table Participants. Notice the `1` value for column key of the attribute `id`. It means it is the primary key.
+
+   We leave to you the addition of the other two tables with the attributes to the CSV. 
+   Be careful of the `ref` column for the `participant` attribute.
+
+1. We can try to upload the schema in molgenis now.
+   
+   In the `04-molgenis-EMX2` directory you can find a `docker-compose.yml` file with molgenis and postgres services. 
+
+   Run the `docker-compose.yml` file
+
+   ```bash
+   docker compose up -d
+   ```
+1. Access to molgenis using a browser at the link `http://localhost:8080/apps/central/#/`
+
+   You should see the `pet store` test schema
+
+1. Login using `admin/admin` credentials. You should see this:
+   
+   ![Molgenis Welcome](./images/02-molgenis-welcome.png)
+
+1. Click in the `+` button to add a new database and call it `bbmri-it-school-biobank`
+
+   ![Molgenis DB Creation](./images/03-molgenis-db-create.png)
+
+1. Go the `Up/Download` section of in the menu. Click on the `Browse` button and search for the molgenis.csv file created before. 
+   Finally, click on `Import`. If everything is correct you should see the following:
+
+  ![Molgenis Schema Uploaded](./images/04-molgenis-schema-uploaded.png)
+
+  > [!NOTE]
+  > At the beginning, the definition of the schema may have some issues. Molgenis gives feedbacks about the problems when importing the schema. 
+  > If you're having troubles defining the schema correctly, use the one in `04-Molgenis-EMX2/data`
+
+1. Now you can navigate using the menu to the `Schema` section where you can see the defined tables
+
+  ![Molgenis View Schema](./images/05-molgenis-schema-view.png)
+   
+
+
+
+
+
+  
 
 #### Adding the data: the participants.csv, samples.csv, and diagnosis.csv files
 For each table defined in the `molgenis.csv` file, we will have a corresponding .csv file that contains the data for that table.
