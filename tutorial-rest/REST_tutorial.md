@@ -37,28 +37,27 @@ from biobank_manager.services import participants
 from biobank_manager.dtos.participants import ParticipantReadDTO, ParticipantCreateDTO
 
 router = APIRouter(
-    prefix="/participants",
-    tags=["Participant"],
+   prefix="/participants",
+   tags=["Participant"],
 )
 
 
 @router.post(
-    "/",
-    response_model=ParticipantReadDTO,
-    response_description="Add a new participant",
-    status_code=status.HTTP_201_CREATED,
-    response_model_by_alias=False,
-    response_model_exclude_unset=False,
+   "/",
+   response_model=ParticipantReadDTO,
+   response_description="Add a new participant",
+   status_code=status.HTTP_201_CREATED,
+   response_model_by_alias=False,
+   response_model_exclude_unset=False,
 
 )
-
 def create_participant(
-    participant_create_dto: ParticipantCreateDTO,
-    db: Session = Depends(get_db)
+        participant_create_dto: ParticipantCreateDTO,
+        db: Session = Depends(get_db)
 ):
-    p = participants.add_participant(db, participant_create_dto
-    )
-    return p.to_participant_read_dto()
+   p = participants.add_participant(db, participant_create_dto
+                                    )
+   return p.to_participant_read_dto()
 ```
 This code defines a FastAPI router for the participants API. It includes a POST endpoint to create a new participant, which uses a DTO for input validation and returns a DTO for the response.
 Notide the call to the service (add_participant) that relates to what we will define at 4.
@@ -109,14 +108,14 @@ Notide the call to the service (add_participant) that relates to what we will de
       db.refresh(participant)  # refresh to get the auto-generated ID
       return participant
 5. Now, notice that both controller and participant service use this db object, that refers to the
-   logic used by SqlAlchemy to interact with the database. Actually we don't have created it yet, 
+   logic used by SqlAlchemy to interact with the database. Actually we don't have created it yet,
    let's do it by adding the following code to the database/__init__.py file:
    ```python
    from sqlalchemy import create_engine
    from sqlalchemy.orm import sessionmaker, Session
    from sqlalchemy.ext.declarative import declarative_base
 
-   from biobank_manager.conf import DATABASE_URL
+   from biobank_manager import DATABASE_URL
 
    engine = create_engine(DATABASE_URL, echo=True)
 
@@ -132,7 +131,7 @@ Notide the call to the service (add_participant) that relates to what we will de
         db.close()
    ```
    Notice that this configuration will be valid for all the APIs and all the related objects.
-   In order to test this API for participants, what is missing right not is to add the modules 
+   In order to test this API for participants, what is missing right not is to add the modules
    that will run the FastAPI application. 
 6. Create a new file called app.py in the biobank_manager directory with the following code:
    ```python
@@ -140,7 +139,7 @@ Notide the call to the service (add_participant) that relates to what we will de
    from fastapi import FastAPI
    from fastapi.middleware.cors import CORSMiddleware
    from biobank_manager.database import Base, engine
-   from biobank_manager.controllers.participants import router as participant_router
+   from biobank_manager import router as participant_router
 
     app = FastAPI(
        title="Biobank Manager API",
@@ -157,9 +156,9 @@ Notide the call to the service (add_participant) that relates to what we will de
    app.include_router(participant_router, prefix="/api", tags=["Participants"])
 
    ```
-    This code initializes the FastAPI application, includes the participants router, 
-    and sets up the database tables at startup. Notice that you will have to add the other routers 
-    for samples and diagnosis in the same way as the participants router (app.include_router calls).
+    This code initializes the FastAPI application, includes the participants router,
+   and sets up the database tables at startup. Notice that you will have to add the other routers
+   for samples and diagnosis in the same way as the participants router (app.include_router calls).
 7. Create now a run module to run the FastAPI application, for example in a file called start_api_server.py:
    ```python
    import uvicorn
