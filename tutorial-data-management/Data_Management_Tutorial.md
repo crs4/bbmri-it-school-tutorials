@@ -7,7 +7,10 @@ In this tutorial you will practice what we've learned during the lessons on
 * Programmatic Access
 * Molgenis
 
-## Relational Databases
+**NOTE** In the directory named Solutions some example of solutions or answers to question posed in the tutorial are provided, divided in sections, one per chapter. The names of the example files start with the paragraph where the question is posed, e.g, 6-loads_data_into_tables.py in directory Solutions/01-Relational-databases refer to paragraph numbered 6 of the Relation databases tutorial.
+
+
+# Relational Databases
 
 In this section we will perform some operations on a relational database that uses the [OMOP Common Data Model](https://www.ohdsi.org/data-standardization/).
 
@@ -23,7 +26,7 @@ OMOP CDM can be loaded using different DBMS. For this tutorial we will adopt [Po
    $ git clone https://github.com/crs4/bbmri-it-school-tutorials.git
    ```
 
-2. Download the file Data_Management_Tutorial/omop.zip from https://space.crs4.it/s/JzzPC2wPGFiHR7y and extract the ZIP file in the `tutorial-data-management/01-Relational-databases` directory (i.e., the directory with the PostgreSQL's docker compose file)
+2. Download the file Data_Management_Tutorial/omop.zip from https://space.crs4.it/s/JzzPC2wPGFiHR7y and extract the ZIP file in the `tutorial-data-management/01-Relational-databases` directory (i.e., the directory with the PostgreSQL's docker compose file). The file omop.sql is extracted.
 
 3. Run the compose
 
@@ -38,7 +41,7 @@ OMOP CDM can be loaded using different DBMS. For this tutorial we will adopt [Po
 
    The `postgres` service in the compose file mounts the omop.sql file in the initdb directory, so the OMOP schema will be automatically loaded.
 
-  > [!NOTE]
+  > **NOTE**
   > the schema is quite big (2.4GB) so it will take some time to load). To check when PostgreSQL is ready, use `docker-compose logs -f postgres` and wait the message "PostgreSQL init process complete; ready for start up."
   > Don't worry about the messages 'The role "root" doesn't exist. 
   > 
@@ -67,7 +70,7 @@ OMOP CDM can be loaded using different DBMS. For this tutorial we will adopt [Po
    
    Using Python, implement a script that reads the `.csv` files and loads the data in the corresponding tables. 
    
-  > [!NOTE] 
+  > **NOTE** 
   > Due to foreign key constraints you will have to follow this order;
   > - `person`
   > - `provider`
@@ -79,9 +82,10 @@ OMOP CDM can be loaded using different DBMS. For this tutorial we will adopt [Po
   > - `drug_exposure`
   > - `death`
 
-  > [!TIP]
-  > To read the CSVs use the built-in [csv](https://docs.python.org/3/library/csv.html) package.
+  > **TIP**
   > To access the database use [psycopg2](https://www.psycopg.org/docs/) package 
+  > To read the CSVs use the built-in [csv](https://docs.python.org/3/library/csv.html) package or directly use the copy_expert method of psycopg2 cursor.
+  
 
 7. Once the data is loaded, open a pgadmin query tab (query tool button ) in a way to start making some queries anc creation of object in the OMOP DB, via pure SQL.
    First, let's run this aggregation query: 
@@ -100,7 +104,7 @@ OMOP CDM can be loaded using different DBMS. For this tutorial we will adopt [Po
 8. Try to write the queries that answer to these business questions: 
    - Count the number of persons per gender;
    - Get all the persons that were diagnosed of a specific diagnosis type (chooose one) each year. Remember that the Condition table is the one that 
-     carries the diagnosis information
+     carries the diagnosis information. In particular the conditions are expressed as SNOMED codes and found in the column condition_source_value.
 
 9. Drop one of the indexes on the `omop_cdm.concept_ancestor` table:
 
@@ -123,9 +127,8 @@ OMOP CDM can be loaded using different DBMS. For this tutorial we will adopt [Po
   
   This will take a long time. Now, re-execute the previous query. How long does it take now?
 
-10. Create a view namd `v_person_observation` that contains the person_id and the observation_count for each person. 
-    Use the query you wrote in step 7 as a base.
-    In this view, mark the count for the person '40766239'.
+10. Create a view named `v_person_observation` that contains the person_id and the observation_count for each person. 
+    Use the query shown in step 7 as a base. In this view, find and annotate the count for the person '28'.
 
 11. Add this log table:
       
@@ -155,9 +158,9 @@ OMOP CDM can be loaded using different DBMS. For this tutorial we will adopt [Po
 
 14. Check the log table to see if the new record has been logged.
 
-15. Check the view to see if the count for the person '40766239' has been updated.
+15. Check the view to see if the count for the person '28' has been updated.
 
-## NoSQL Databases
+# NoSQL Databases
 
 In this section we will perform some operations on a NoSQL database that uses the [MongoDB](https://www.mongodb.com/) engine.
 We will run a simple mongoDB instance in a container using docker, inspect the data and perform some simple queries using the mongo shell.
@@ -215,7 +218,9 @@ We will run a simple mongoDB instance in a container using docker, inspect the d
 7. Execute one of the queries examples in the queries_examples  directory(simply copy the overall code in the shell). For each query, try to understand what it is trying to do in detail, according to the operators that it is using.
 
 8. Try to modify the "sample per year" query by adding also the sample type in the aggregation.
-  
+
+# Accessing-modelling-querying-prog
+
 ## SQLAlchemy and Alembic
 
 In this part we will practice the creation of a database programmatically using SQLAlchemy and versioning of the database with Alembic.
@@ -272,16 +277,18 @@ If you have doubts, you can use the [SQLAlchemy](https://docs.sqlalchemy.org/en/
    pip install sqlalchemy alembic psycopg2
    ```
 
-1. Create the following directories and files
+1. Create a tree structure like the one shown below: 
 
    ```
    biobank_manager/    # main directory
      biobank_manager/  # main python module
-       __init__.py  
+       __init__.py    # empty file for module
        conf.py         # file with configurations
+       __main__.py     # main file
        database/       # directory with the database definition
-         __init__.py
+         __init__.py  # empty file for module
          models.py     # file with the SQLAlchemy models
+         repositories.py # file with SQLAlchemy queries
    ```
 
 1. In the `conf.py` add `DATABASE_URL` variable using the following template. Set the values for user, password and db_name
@@ -294,30 +301,30 @@ If you have doubts, you can use the [SQLAlchemy](https://docs.sqlalchemy.org/en/
 
 1. In the `models.py` create three models based on the the ER Diagram
    
-  > [!TIP]
-  > Remember to create the Base class first. Use `biobank_manager` as schema name
-  >
+   > **TIP**
+   > Remember to create the Base class first. Use `biobank_manager` as schema name
+   >
 
-  > [!TIP]
-  > To restrict the `gender` possible values use create a class GenderEnum and set the attribute to be Mapped[GenderEnum]
-  >
+   >**TIP**
+   > To restrict the `gender` possible values use create a class GenderEnum and set the attribute to be Mapped[GenderEnum]
+   >
 
 1. In the `__main__.py` file add the instructions to:
    - create the SQLAlchemy `engine` for the `DATABASE_URL` db
    - create the schema `DATABASE_SCHEMA_NAME`
    - create all the tables
 
-1. Run the module 
+1. Do not create the repository.py yet. Run the module 
 
    ```bash
-   $ python -m biobank_manager
+   $ CREATE_DATA=false python -m biobank_manager
    ```
 
    This will run the database initialization
 
 1. Check the database in pgAdmin4. If everything is correct you should see the schema `biobank_manager` in the `bbmri-it-school` database with the 3 tables
 
-### Insert, query, update, delete
+### Insert, query
 
 1. Let's populate the database with some data
    
@@ -352,9 +359,9 @@ If you have doubts, you can use the [SQLAlchemy](https://docs.sqlalchemy.org/en/
          ]
       ```
 
-  > [!TIP]
-  > To create random name and surname you can use [names-generator](https://pypi.org/project/names-generator/) package
-  >
+   > **TIP**
+   > To create random name and surname you can use [names-generator](https://pypi.org/project/names-generator/) package
+   >
 
 1. Create a new file in `database/repository.py` and add some functions to perform some queries:
    
@@ -372,7 +379,7 @@ If you have doubts, you can use the [SQLAlchemy](https://docs.sqlalchemy.org/en/
 
    Then add to `__main__.py` calls to the functions
 
-  > [!TIP]
+  > **TIP**
   > You can create the session as a ContextManager (i.e., `with Session as session`) and pass it to the functions
   >
 
@@ -402,7 +409,7 @@ In this section we will update the database schema and create migrations with Al
    alembic revision -m "baseline"
    ```
 
-   > [!NOTE]
+   > **NOTE**
    > Does `-m` reminds you of something?**
 
    The command will generate a file in `alembic/versions/` directory called `<commit_id>_<commit_message>.py`
@@ -516,17 +523,17 @@ In this section we will update the database schema and create migrations with Al
         op.alter_column('participants', 'place_of_birth', nullable=False, schema='biobank_manager')
     ```
    
-  > [!WARNING]
+  > **WARNING**
   > Of course, choosing a random city is not something you want to do in real world, here we're doing this for the sake of training
   >
 
-  > [!TIP] 
+  > **TIP** 
   > To generate the "codice fiscale" value you can adopt the [python-codicefiscale](https://pypi.org/project/python-codicefiscale/) package
   >
 
    
 
-## Molgenis
+# Molgenis
 
 ### Howto: creating a schema in Molgenis EMX2 and populating it
 

@@ -1,0 +1,15 @@
+[
+  {
+    _id: ObjectId('6867eeb2b55c2479d8baa8bc'),
+    name: 'Biobanca di Ricerca Napoli',
+    acronym: 'BdRN',
+    location: 'Via Esempio 4, Città 4',
+    contact_person: 'Responsabile 4',
+    contact_email: 'contact3@biobancadiricercanapoli.it',
+    phone_number: '+390201239654',
+    establishment_date: ISODate('2004-05-11T07:28:57.517Z'),
+    certification_status: 'Accredited',
+    url: 'https://www.biobancadiricercanapoli.it',
+    notes: 'Biobanca di esempio numero 4'
+  }
+]

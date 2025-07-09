@@ -1,0 +1,67 @@
+[
+  {
+    _id: ObjectId('6867eeb2b55c2479d8baa8b9'),
+    name: 'Biobanca Universitaria di Milano',
+    acronym: 'BUdM',
+    location: 'Via Esempio 1, Città 1',
+    contact_person: 'Responsabile 1',
+    contact_email: 'contact0@biobancauniversitariadimilano.it',
+    phone_number: '+390812519533',
+    establishment_date: ISODate('2020-04-06T13:48:55.129Z'),
+    certification_status: 'ISO 20387 Certified',
+    url: 'https://www.biobancauniversitariadimilano.it',
+    notes: 'Biobanca di esempio numero 1'
+  },
+  {
+    _id: ObjectId('6867eeb2b55c2479d8baa8ba'),
+    name: 'Biobanca Regionale Toscana',
+    acronym: 'BRT',
+    location: 'Via Esempio 2, Città 2',
+    contact_person: 'Responsabile 2',
+    contact_email: 'contact1@biobancaregionaletoscana.it',
+    phone_number: '+390318063701',
+    establishment_date: ISODate('2007-12-07T22:48:45.329Z'),
+    certification_status: 'Accredited',
+    url: 'https://www.biobancaregionaletoscana.it',
+    notes: 'Biobanca di esempio numero 2'
+  },
+  {
+    _id: ObjectId('6867eeb2b55c2479d8baa8bb'),
+    name: 'Centro Nazionale Biobanche Roma',
+    acronym: 'CNBR',
+    location: 'Via Esempio 3, Città 3',
+    contact_person: 'Responsabile 3',
+    contact_email: 'contact2@centronazionalebiobancheroma.it',
+    phone_number: '+390452513528',
+    establishment_date: ISODate('2011-10-05T16:48:17.378Z'),
+    certification_status: 'ISO 20387 Certified',
+    url: 'https://www.centronazionalebiobancheroma.it',
+    notes: 'Biobanca di esempio numero 3'
+  },
+  {
+    _id: ObjectId('6867eeb2b55c2479d8baa8bc'),
+    name: 'Biobanca di Ricerca Napoli',
+    acronym: 'BdRN',
+    location: 'Via Esempio 4, Città 4',
+    contact_person: 'Responsabile 4',
+    contact_email: 'contact3@biobancadiricercanapoli.it',
+    phone_number: '+390201239654',
+    establishment_date: ISODate('2004-05-11T07:28:57.517Z'),
+    certification_status: 'Accredited',
+    url: 'https://www.biobancadiricercanapoli.it',
+    notes: 'Biobanca di esempio numero 4'
+  },
+  {
+    _id: ObjectId('6867eeb2b55c2479d8baa8bd'),
+    name: 'Biobanca Sarda di Precisione',
+    acronym: 'BSdP',
+    location: 'Via Esempio 5, Città 5',
+    contact_person: 'Responsabile 5',
+    contact_email: 'contact4@biobancasardadiprecisione.it',
+    phone_number: '+390870606583',
+    establishment_date: ISODate('2020-04-14T04:58:03.938Z'),
+    certification_status: 'ISO 20387 Certified',
+    url: 'https://www.biobancasardadiprecisione.it',
+    notes: 'Biobanca di esempio numero 5'
+  }
+]

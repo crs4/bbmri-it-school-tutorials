@@ -1,0 +1,22 @@
+  db.samples.aggregate([
+    {
+      $addFields: {
+        collectionYear: { $year: "$collection_date" }
+      }
+    },
+    {
+      $group: {
+        _id: {
+          year: "$collectionYear",
+          sampleType: "$sample_type.name"
+        },
+        sampleCount: { $sum: 1 }
+      }
+    },
+    {
+      $sort: {
+        "_id.year": 1,
+        "_id.sampleType": 1  // Sort by sample type ascending
+      }  // Sort by year ascending
+    }
+  ]);
