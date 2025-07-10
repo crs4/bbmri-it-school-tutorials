@@ -1,0 +1,11 @@
+id,condition,diagnosis_date,severity,participant
+1,Urinary tract infection,2021-02-11,moderate,1
+2,Human immunodeficiency virus disease,2020-07-23,severe,2
+3,Sepsis,2022-03-15,mild,3
+4,Malignant neoplasm of breast,2021-11-01,moderate,4
+5,Acute tonsillitis,2023-04-09,severe,5
+6,Acute appendicitis,2020-10-18,mild,6
+7,Streptococcus group A infection,2022-06-30,severe,7
+8,Iron deficiency anemia,2023-02-20,moderate,8
+9,Hypocalcemia,2021-08-12,moderate,9
+10,Fatty liver,2020-12-27,severe,10

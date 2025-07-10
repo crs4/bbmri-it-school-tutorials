@@ -1,20 +1,18 @@
 tableName,tableExtends,columnName,label,columnType,key,required,isReadonly,description,refSchema,refTable,refBack,refLabel,defaultValue,validation,message,computed,semantics
 Participants,,,,,,,Participants of the study,,,,,,,,,,,
-Participants,,participant_id,Identifier,int,1,,Identifier of the participant,,,,,,,,,,,
+Participants,,id,Identifier of the participant,int,1,,Identifier of the participant,,,,,,,,,,,
 Participants,,last_name,Last Name,string,,,Last Name of the participant,,,,,,,,,,,
 Participants,,first_name,First Name,string,,,First Name of the participant,,,,,,,,,,,
 Participants,,date_of_birth,Date of birth,date,,,Date of birth of the participant,,,,,,,,,,,
-
+Participants,,place_of_birth,The place of birth,string,,,Place of birth of the participant,,,,,,,,,,,
+Participants,,ssn,Social Security Number,string,,,The Social Security Number. In Italy corresponds to the "Codice Fiscale",,,,,,,,,,,
 Participants,,gender,Gender,string,,,Gender of the participant,,,,,,,,,,,
-
 Samples,,id,Identifier,int,1,,,Identifier of the sample
 Samples,,collection_date,Collection date,date,,,Date of collection of the sample,,,,,,,,,,,
-Samples,,sample_type,Sample Type,string,,,,Type of the sample
-
+Samples,,type,Sample Type,string,,,,Type of the sample
+Samples,,participant,Participant,ref,,,,The participant that the sample belongs to,,Participants,
 Diagnosis,,id,Identifier,int,1,,,Identifier of the diagnosis
 Diagnosis,,condition,Condition,string,,,,Condition
 Diagnosis,,diagnosis_date,Diagnosis date,date,,,Date of diagnosis,,,,,,,,,,,
 Diagnosis,,severity,Severity,string,,,,Severity
-
-Samples,,participant,Participant,ref,,,,The participant that the sample belongs to,,Participants,
 Diagnosis,,participant,Participant,ref,,,,The participant that the diagnosis belongs to,,Participants,

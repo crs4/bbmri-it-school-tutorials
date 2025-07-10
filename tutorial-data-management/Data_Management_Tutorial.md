@@ -62,7 +62,7 @@ OMOP CDM can be loaded using different DBMS. For this tutorial we will adopt [Po
 
    You should be connected to the database loaded before. The tree on the left should look like this:
 
-   ![OMOP Schema][./images/01-omop-schema.png]
+   ![OMOP Schema](./images/01-omop-schema.png)
 
 6. This OMOP schema has only the terminology tables loaded; now we can proceed to load the data in the 
    CDM tables. There is a series of .csv files in the `tutorial-data-management/01-Relational-databases/omop_data`
@@ -423,7 +423,7 @@ In this section we will update the database schema and create migrations with Al
    * `revision`: the id of the revision represented by the file
    * `down_revision`: the id of the preceding revision. Since this is the very first revision, we leave this as None
 
-   **NB: we can ignore `branch_label` and `depends_on` for now
+   **NB: we can ignore `branch_label` and `depends_on` for now**
   
    The two functions are:
    * `upgrade`: here we add the statements to change the database with modifications
@@ -535,74 +535,231 @@ In this section we will update the database schema and create migrations with Al
 
 # Molgenis
 
-### Howto: creating a schema in Molgenis EMX2 and populating it
-
 As we have seen in the lessons, Molgenis is a platform that allows to create and manage data models, import data, and create reports.
-Schema definition and data import can be done in many ways, here we will explain how to do it with a series of
-.csv files. The purpose is to create in Molgenis the same schema created in the SqlAlchemy tutorial. 
-To to this, we will need some .csv files, and in particular: 
-- `molgenis.csv`: contains the definition of the overall schema: tables, and for each table, fields and 
-                  references/constraints 
- - .csv files for the data: these CSVs files are one for each table,and must have the same name as the table.
-   For example, if we have a table named `participants`, we will have a file named `participants.csv` that contains the data for that table.
-   Each .csv file must have a header with the names of the fields, followed by a row for each different record.
 
-#### Defining the schema: the molgenis.csv file
+The purpose of this tutorial is to create with Molgenis the same schema created in the SQLAlchemy tutorial. 
+
+We will create the updated version, the one with the changes done with Alembic
+
+Molgenis adopts a custom format, namely EMX2, which allows both the definitions of the database's schema and the upload of the data
+using spreadsheets (Excel or CSV).
+In particular:
+
+- `molgenis.csv`: contains the definition of the schema: tables, and for each table, the attributes with references and constraints 
+- `<table_name>.csv`: they contain the data for the tables. The columns of the CSV are the names of the attributes defined in the schema
+   For example, if we have a table named `Participants`, the data should be added in to `Participants.csv` fiels
+
+### Defining the schema: the molgenis.csv file
+
 The `molgenis.csv` file is a CSV file that contains the definition of the schema. It has the following columns:
 
-tableName,tableExtends,columnName,label,columnType,key,required,isReadonly,description,refSchema,refTable,refBack,refLabel,defaultValue,validation,message,computed,semantics
+- tableName
+- tableExtend
+- columnName 
+- columnType
+- label
+- key
+- required
+- isReadonly
+- description 
+- refSchema
+- refTable
+- refBack
+- refLabel
+- defaultValue
+- validation
+- message
+- computed
+- semantics
 
-This is the header of the file. Then, all the data following the header will be the definition of the schema. Not all columns above should be valued, let's analyze the mosrt important:
+For a detailed explanation, you can check the [official documentation](https://molgenis.github.io/molgenis-emx2/#/molgenis/use_schema)
+
+This is the header of the file. Then, all the data following the header will be the definition of the schema. Not all columns above should be valued, let's analyze the most important:
 
 - `tableName`: the name of the table
-- `columnName`: the name of the column in that table
-- `label`: the label of the column, that will be used in the UI
-- `columnType`: the type of the column, e.g., `string`, `integer`, `date`, `boolean`, `ref` (used for references, to other tables)
+- `columnName`: the name of the attribute
+- `columnType`: the type of the attribute, e.g., `string`, `integer`, `date`, `boolean`, `ref` (used for references, to other tables)
+- `required`: whether the attribute is required (i.e., not null) or not
+- `key`: A number to indicate that the attribute is part of a key (primary or unique). The primary key has value 1. If a key is composed of multiple attributes they must have the same number in this column
+- `refTable`: if the columnType is a ref, it needs to specify the referred table (e.g, `Participant` for the participant attribute of the `Sample` entity)
+- `refBack`: 
 
-Example: to define some fieds of the "Samples" table we will have:
-- Samples,,id,Identifier,int,1,,,Identifier of the sample
-- Samples,,collection_date,Collection date,date,,,Date of collection of the sample,,,,,,,,,,,
+1. Let's start creating our schema
 
-For the participants: 
-- Participants,,participant_id,Identifier,int,1,,Identifier of the participant,,,,,,,,,,,
-- Participants,,last_name,Last Name,string,,,Last Name of the participant,,,,,,,,,,,
+   Here is the first part of the `molgenis.csv` file for our database:
 
-As Samples must also have a referenct to a participant, we will also have a column of the Samples table defining that:
-- Samples,,participant,Participant,ref,,,,The participant that the sample belongs to,,Participants,
+   ```csv
+   tableName,tableExtends,columnName,label,columnType,key,required,isReadonly,description,refSchema,refTable,refBack,refLabel,defaultValue,validation, message,computed,semantics
+   Participants,,,,,,,Participants of the study,,,,,,,,,,,
+   Participants,,id,Identifier of the participant,int,1,,Identifier of the participant,,,,,,,,,,,
+   Participants,,first_name,First Name,string,,,First Name of the participant,,,,,,,,,,,
+   Participants,,last_name,Last Name,string,,,Last Name of the participant,,,,,,,,,,,
+   Participants,,gender,Gender,string,,,Gender of the participant,,,,,,,,,,,
+   Participants,,date_of_birth,Date of birth,date,,,Date of birth of the participant,,,,,,,,,,,
+   Participants,,place_of_birth,The place of birth,string,,,Place of birth of the participant,,,,,,,,,,,
+   Participants,,ssn,Social Security Number,string,,,The Social Security Number. In Italy corresponds to the "Codice Fiscale",,,,,,,,,,,
+   ```
 
-#### Adding the data: the participants.csv, samples.csv, and diagnosis.csv files
-For each table defined in the `molgenis.csv` file, we will have a corresponding .csv file that contains the data for that table.
+   The first row of the CSV is the table. We recognize it because it just has the `tableName` and the  `label`.
+   The other rows defines the attributes of the table Participants. Notice the `1` value for column key of the attribute `id`. It means it is the primary key.
+
+   We leave to you the addition of the other two tables with the attributes to the CSV. 
+   Be careful of the `ref` column for the `participant` attribute.
+
+1. We can try to upload the schema in molgenis now.
+   
+   In the `04-molgenis-EMX2` directory you can find a `docker-compose.yml` file with molgenis and postgres services. 
+
+   Run the `docker-compose.yml` file
+
+   ```bash
+   docker compose up -d
+   ```
+1. Access to molgenis using a browser at the link `http://localhost:8080/apps/central/#/`
+
+   You should see the `pet store` test schema
+
+1. Login using `admin/admin` credentials. You should see this:
+   
+   ![Molgenis Welcome](./images/02-molgenis-welcome.png)
+
+1. Click in the `+` button to add a new database and call it `bbmri-it-school-biobank`
+
+   ![Molgenis DB Creation](./images/03-molgenis-db-create.png)
+
+1. Go the `Up/Download` section of in the menu. Click on the `Browse` button and search for the molgenis.csv file created before. 
+   Finally, click on `Import`. If everything is correct you should see the following:
+
+  ![Molgenis Schema Uploaded](./images/04-molgenis-schema-uploaded.png)
+
+  > [!NOTE]
+  > At the beginning, the definition of the schema may have some issues. Molgenis gives feedbacks about the problems when importing the schema. 
+  > If you're having troubles defining the schema correctly, use the one in `04-Molgenis-EMX2/data`
+
+1. Now you can navigate using the menu to the `Schema` section where you can see the defined tables
+
+  ![Molgenis View Schema](./images/05-molgenis-schema-view.png)
+
+### Uploading the data
+
+For each table defined in the `molgenis.csv` file, we have have a corresponding .csv file that contains the data for that table.
+
 Each csv file must have a header with the names of the fields, followed by a row for each different record.
-For example, the `participants.csv` file will have the following header and data (one example record only):
+
+For example, the `Participants.csv` file will have the following header and data (one example record only):
 
 ```csv
-participant_id,last_name,first_name,date_of_birth,gender
-1,Smith,John,1985-04-12,M
+id,first_name,last_name,gender,date_of_birth,place_of_birth,ssn
+1,Funny,Davinci,M,1982-12-03,Bari,DVNFNY82B12A662U
 ```
 
-### Steps
+1. Edit the three `csv`s files `Participants`, `Samples` and `Diagnosis`
+   
+   You have three choices:
 
-1. From the docker compose file in the `tutorial-data-management/04-Molgenis-EMX2` directory, start Molgenis:
-   ```bash
-      docker compose up -d
-      ```
-    Then, check that the server is up and running by going to the URL http://localhost:8080 and logging in with admin/admin
-2. Create a new database and name it bbmri-it-school-biobank
-3. Create the molgenis.csv, participants.csv, samples.csv, and diagnosis.csv files in the `tutorial-data-management/04-Molgenis-EMX2/data` directory.
-   - The `molgenis.csv` file should contain the schema definition as explained above.
-   - The `participants.csv`, `samples.csv`, and `diagnosis.csv` for the data; 
-   - 
-4. Create the schema and import the data into molgenis. This operation can be done either via the interface, or 
-   via the python client [PyClient](https://molgenis.github.io/molgenis-emx2/#/molgenis/use_usingpyclient).
-   From the interface, once created the database, click on its name in the database list of the molgenis home page,
-   Then click on "Up/Download" in the horizontal menu. Browse firsh the molgenis.csv file, and upload it. This will 
-   create the schema. Then, do the same with the participants.csv, samples.csv, and diagnosis.csv files.
-   If you want to use the python client instead, you can follow the instructions in the [PyClient documentation](https://molgenis.github.io/molgenis-emx2/#/molgenis/use_usingpyclient).
+   - manually add some data for each csv)
+   - write a python script similar to the one used to generate random data in SQLAlchemy
+   - only for the braves: write a python script that reads the data from the `biobank_manager` database and generate the corresponding csv for this new database. NB: the postgres db of `biobank_manager` is accessible at port `5432` the molgenis one at port `5434` so you can run both services at the same time
+
+1. After you created the `csv`s you can upload the data as you did with the schema
+   
+   ![Molgenis Data Upload](./images/06-molgenis-data-upload.png)
+   
+### Creating a report
+
+Molgenis allows to create some reports of the data using direct SQL queries on the database.
+
+In this section we will create a simple report as example.
+
+1. Go to the `Report` section, using the menu and click on the `+` button. 
+
+   ![Molgenis Report](./images/07-molgenis-report.png)
+
+   Then click the :pencil2: icon to edit the Report. You will see an error message: ignore it and click the :pencil2: icon next to the `View report id=uniqueid`
+
+1. Fill the form with the definition of the report. Set 
+   
+   - the id of the report (without blank spaces)
+   - a description
+   - the SQL query to select the participant id and the number of samples for each participant
+
+   Click the Save Button
+   
+   ![Molgenis Report](./images/08-molgenis-report-edited.png)
+
+   You should see a table with the results of the query
 
 
-5. Navigate the UI: you can now navigate the schema, clicking on "Tables" in the horizontal bar" and then on one 
-   of the tables. Notice that the interface allows you also to add additional rows in a table: try to do it!
+### Creating a script
 
-6. Create a script with [PyClient](https://molgenis.github.io/molgenis-emx2/#/molgenis/use_usingpyclient)
+In this last section we will see how Molgenis provides a functionality to run scripts and make analysis on the data using python.
+
+We will create a very simple script that uses the [Molgenis PyClient](https://molgenis.github.io/molgenis-emx2/#/molgenis/use_usingpyclient) just to write in file the count of samples for each type
+
+1. First of all go to the `Jobs & Scripts` section 
+
+   ![Molgenis Script](./images/09-molgenis-script.png)
+
+2. Then click the `+` button. You will see a form to define the script. The script has the following inputs:
+   
+   - name: just the name of the script
+   - type: Python or Bash. We will use Python
+   - script: the code of the script 
+   - dependencies: the libraries that the script needs to perform the analysis (e.g., `numpy` or `molgenis-emx2-pyclient`)
+   - outputFileExtension: the extension of the file produced by the script. Set `txt`
+   - failureAddress: the email address to notify that the job failed
+   - cron: a string to schedule the script at planned time  
+
+   In the script add the following code:
+
+   ```python
+   import os
+   from collections import defaultdict
+   from molgenis_emx2_pyclient import Client
+
+   token = os.environ.get("MOLGENIS_TOKEN")
+   outfile = os.environ.get("OUTPUT_FILE")
+
+   with Client(url='http://localhost:8080', token=token) as client:
+     samples = client.get(table="Samples", columns=["type", "participant"], schema="bbmri-it-school-biobank")
+     sample_type_count = defaultdict(int)
+     for s in samples:
+       sample_type_count[s['type']] += 1   
+ 
+   with open(outfile, "w") as f:
+     for t, c in sample_type_count.items():
+       f.write(f"There are {c} samples of type: {t}\n")
+   ```
+  
+   Some point to notice:
+   - The two environment variables `MOLGENIS_TOKEN` and `OUTPUT_FILE`. These are always passed by Molgenis when the script is run inside Molgenis. Indeed the same script can be run from outside the server. 
+      * The token is a string used by the client to authenticate into Molgenis when performing calls to the REST API. The token is valid for the local server
+      * The OUTPUT_FILE is the name of the file of the script
+   - The url is `http://localhost:8080`. `localhost` here means the internal address in the molgenis docker container. It means that it is referring to itself. If we run the script from outside, we should add the external url of molgenis
+
+   Here is the result of the filled form
+
+   ![Molgenis Script](./images/10-molgenis-script-new.png)
+
+   Click on `Save Scripts`
+
+3. To run the script click on the `play` button, don't add any parameter and wait for the script to finish.
+
+   ![Molgenis script run](./images/11-molgenis-script-run.png)
+
+4. Finally go to the [Jobs] tab where you can see the result of the run
+   
+   ![Molgenis script run](./images/12-molgenis-jobs-results.png)
+   
+   Notice the last column `output` where you can check the output file produced by the script
+
+  
+
+
+
+
+
+   
+
 
 
