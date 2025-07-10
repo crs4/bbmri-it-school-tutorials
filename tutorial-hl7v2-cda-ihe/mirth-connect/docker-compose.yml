@@ -1,0 +1,35 @@
+version: "3.9"
+
+services:
+  mirth:
+    image: nextgenhealthcare/connect:4.5.1
+    container_name: mirth
+    restart: unless-stopped
+    environment:
+      - DATABASE=postgres
+      - DATABASE_URL=jdbc:postgresql://db:5432/mirthdb
+      - DATABASE_USERNAME=mirthuser
+      - DATABASE_PASSWORD=mirthpass
+      - JAVA_OPTS=-Xms512m -Xmx1g
+    ports:
+      - "8087:8080"   # Web dashboard
+      - "8443:8443"   # HTTPS (if enabled)
+      - "6662:6662"   # PDQ Supplier Listener
+    depends_on:
+      - db
+
+  db:
+    image: postgres:15
+    container_name: postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: mirthdb
+      POSTGRES_USER: mirthuser
+      POSTGRES_PASSWORD: mirthpass
+    volumes:
+      - postgres_mirth_data:/var/lib/postgresql/data
+      - ./initdb:/docker-entrypoint-initdb.d
+    ports:
+      - "5437:5432"
+volumes:
+  postgres_mirth_data:
