@@ -1,0 +1,34 @@
+{
+  "resourceType": "ImplementationGuide",
+  "id": "example.fhir.ig",
+  "url": "http://example.org/fhir/ImplementationGuide/example.fhir.ig",
+  "version": "0.1.0",
+  "name": "ExampleFHIRIG",
+  "title": "Example FHIR IG",
+  "status": "draft",
+  "date": "2025-07-14",
+  "publisher": "Example IG Publisher",
+  "packageId": "example.fhir.ig",
+  "license": "CC0-1.0",
+  "fhirVersion": [
+    "4.0.1"
+  ],
+  "definition": {
+    "resource": [
+            {
+        "reference": {
+          "reference": "StructureDefinition/my-patient-profile"
+        },
+        "name": "Patient",
+        "description": "Test patient profiling.",
+        "exampleBoolean": false
+      }
+    ],
+    "parameter": [
+      {
+        "code": "releaselabel",
+        "value": "CI Build"
+      }
+    ]
+  }
+}

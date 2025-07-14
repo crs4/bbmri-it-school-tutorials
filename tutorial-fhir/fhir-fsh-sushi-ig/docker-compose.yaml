@@ -1,0 +1,14 @@
+version: '3.8'
+
+services:
+  fhir-ig:
+    image: logicahealth/fhir-ig-base:latest
+    volumes:
+      - ./fsh-generated:/app/fsh-generated
+      - ./input:/app/input
+      - ./output:/app/output
+      - ./sushi-config.yaml:/app/sushi-config.yaml
+      - ./ig.ini:/app/ig.ini
+    working_dir: /app
+    entrypoint: sh -c "sushi . && ./_genonce.sh"
+    #entrypoint: tail -f /dev/null
