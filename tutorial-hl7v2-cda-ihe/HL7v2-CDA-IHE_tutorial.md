@@ -48,9 +48,9 @@ In this section we will implement a PDQ Consumer using the HL7v2 library `hl7apy
 we'll use a Mirth Connect impllementation that we will run in a Docker container. This implementation has
 a simple demographics table; the "PDQ_SERVER_ACTOR_LOCAL_DOMAIN" channel recieves at input
 the request message from the consumer, extracts the query parameters from the message and 
-creates the DB equery to search for results. Then, according to the results, it builds the response 
+creates the DB query to search for results. Then, according to the results, it builds the response 
 message and sends it back to the consumer.
-Tip: have always a look to the IHE soecificaitons of the transactio, here: 
+Tip: have always a look to the IHE specifications of the transaction, here: 
 https://profiles.ihe.net/ITI/TF/Volume2/ITI-21.html
 In particular, the sections related to "message semantics" and "query parameters".
 
@@ -63,7 +63,7 @@ In particular, the sections related to "message semantics" and "query parameters
    After that, let's start the Mirth Connect administrator app, in a way to check the Mirth Channels 
    and also to inspect the code of the PDQ Server channel.
    From a browser, go to http://localhost:8087 and download the administrator launcher. 
-   In the login prompt that appears, type admin for both username and password. 
+   In the login prompt that appears, type "admin" for both username and password. 
 3. Now, let's implement the PDQ Consumer in Python to send some HL7 queries to the Supplier.
    First, install the `hl7apy` library:
    ```bash
@@ -98,6 +98,16 @@ In particular, the sections related to "message semantics" and "query parameters
       - QPD.1: Set it to "IHE PDQ Query"
       - QPD.2: It must be a unique query identifier; use the uuid library for that
    
-   Now, we have to set the query parameters. Theu are repetitions of the QPD.3, as per specification. 
+   Now, we have to set the query parameters. They are repetitions of the QPD.3, as per specification. 
    try to execute the python module several times, trying som queries. Under ./mirth-connect there is 
-   the file demographics.csv that contains a dump of all demographics that is queried by the PDQ consumer
+   the file demographics.csv that contains a dump of all demographics that is queried by the PDQ consumer. 
+   Try different king of queries, involving the following fields:
+      - Query with last name = "Smith". We expect 4 responses: Smith Albert, Smith CHarles, Smith Amy, Smith Carrie.
+      - Query with last name = Smith and geneder = "F". We expect 2 responses: Smith Amy, Smith Carrie.
+      - Query with date of birth = "19610131"- We expect 2 responses: Smirth Charles, Hon Charles.
+      - Query with address city = "Tucson". We expect 8 responses in total.
+   Now, force an application reject to be forced by the PDQ Supplier. Make a query with an unknown parameter code, for example:
+   for example "PID.x.x". Check the message response error sent by the PDQ supplier.
+   
+   For each query, write a simple piece of code that parses the received message, scans the results and 
+   writes a simple json with all the main attributes for each result: id, last name, first name, date of birth.
