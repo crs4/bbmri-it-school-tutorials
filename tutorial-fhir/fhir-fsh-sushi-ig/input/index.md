@@ -4,11 +4,8 @@ This Implementation Guide (IG) defines the **MyPatientProfile** and supporting r
 
 ## 📘 Overview
 
-This guide includes:
+This guide includes Specimen profiles and extensions to support patient data management.
 
-- A profile on `Patient` called **MyPatientProfile**
-- A custom extension: **favoriteColor**
-- Example instances using these definitions
 
 ## 🧬 FHIR Version
 
