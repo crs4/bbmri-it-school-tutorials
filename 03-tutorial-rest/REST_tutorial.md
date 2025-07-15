@@ -173,6 +173,23 @@ The REST API is composed of several levels of services:
    app.include_router(participant_router)
    ```
 
+   To try the endpoints we can use the browser (only for GET endpoints), or we can use curl
+
+   ```bash
+   $ curl -X GET http://localhost:8000/participants
+   []
+
+   $ curl -X GET http://localhost:8000/participants/123
+   {"id": 123}
+
+   curl -X POST http://localhost:8000/participants
+   null
+   ```
+
+   Or, even better, we can use Postman
+
+   ![Call API with Postman](./images/postman.png)
+
 3. In the same way, create a new package called dtos under the biobank_manager directory, with three files:
     - samples.py: it will contain the DTO models for the samples
     - participants.py: it will contain the DTO models for the participants
