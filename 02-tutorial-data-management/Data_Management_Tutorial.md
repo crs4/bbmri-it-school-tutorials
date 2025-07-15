@@ -283,7 +283,6 @@ If you have doubts, you can use the [SQLAlchemy](https://docs.sqlalchemy.org/en/
      biobank_manager/  # main python module
        __init__.py    # empty file for module
        conf.py         # file with configurations
-       __main__.py     # main file
        database/       # directory with the database definition
          __init__.py  # empty file for module
          models.py     # file with the SQLAlchemy models
@@ -308,15 +307,15 @@ If you have doubts, you can use the [SQLAlchemy](https://docs.sqlalchemy.org/en/
    > To restrict the `gender` possible values use create a class GenderEnum and set the attribute to be Mapped[GenderEnum]
    >
 
-1. In the `__main__.py` file add the instructions to:
+1. In the `main` directory, create a script named `create_schema.py` that will populate the database. Add the instructions to:
    - create the SQLAlchemy `engine` for the `DATABASE_URL` db
    - create the schema `DATABASE_SCHEMA_NAME`
    - create all the tables
 
-1. Do not create the repository.py yet. Run the module 
+1. Do not create the repository.py yet. Run the script 
 
    ```bash
-   $ CREATE_DATA=false python -m biobank_manager
+   $ python create_schema.py
    ```
 
    This will run the database initialization
@@ -327,7 +326,7 @@ If you have doubts, you can use the [SQLAlchemy](https://docs.sqlalchemy.org/en/
 
 1. Let's populate the database with some data
    
-   Add to the `__main__.py` file a part that creates:
+   Create in the main directory a script named `insert_data.py` that creates:
 
    - 100 participants 
    - for each participant a random number of samples between 1 and 10. Use 
@@ -358,6 +357,11 @@ If you have doubts, you can use the [SQLAlchemy](https://docs.sqlalchemy.org/en/
          ]
       ```
 
+   > **NOTE**
+   > To communicate with the database you need to create an engine (e.g., `engine = create_engine(DATABASE_URL)`)
+   > and a Session. You can use a Context Manager to do that (i.e., with `Session(engine) as session`)
+   >
+
    > **TIP**
    > To create random name and surname you can use [names-generator](https://pypi.org/project/names-generator/) package
    >
@@ -365,6 +369,8 @@ If you have doubts, you can use the [SQLAlchemy](https://docs.sqlalchemy.org/en/
 1. Create a new file in `database/repository.py` and add some functions to perform some queries:
    
    ```
+   - get_all_participants
+   
    - get_samples_for_participant_by_id
 
    - get_samples_for_participant_by_first_name_and_last_name
@@ -376,10 +382,10 @@ If you have doubts, you can use the [SQLAlchemy](https://docs.sqlalchemy.org/en/
    - get_diagnosis_before_date
    ```
 
-   Then add to `__main__.py` calls to the functions
+1. Create another script in the `main` directory, named `query_data.py` that calls to the functions
 
-  > **TIP**
-  > You can create the session as a ContextManager (i.e., `with Session as session`) and pass it to the functions
+  > **NOTE**
+  > As for the previous script you should create the engine and the Session
   >
 
 ### Database versioning
