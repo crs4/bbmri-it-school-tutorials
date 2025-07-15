@@ -4,6 +4,11 @@ from sqlalchemy.orm import Session
 from biobank_manager.database.models import Participant, Sample, Diagnosis
 
 
+def get_all_participants(session: Session):
+    stmt = select(Participant)
+    return session.execute(stmt).scalars().all()
+
+
 def get_participant_id_by_first_name_and_last_name(
     session: Session, first_name: str, last_name: str
 ):
