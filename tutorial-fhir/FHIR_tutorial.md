@@ -4,13 +4,56 @@
 [TBD]
 
 # Implementing a IHE PDQ Consumer in FHIR
+This section has the purpose to implement a PDQ Consumer in FHIR, compliant with the IHE PDQm 
+profile. This is the same as we did in the previous tuttorial, where we implemented a PDQ Consumer
+in HL7 v2. The two actors involved in the transaction are the same, and also their behaviour and 
+the query parameters are the same. What changes is the adopted standard, that in this case is FHIR. 
+As PDQ supplier, we will use the one provided by the Gazelle's Patient Manager application. Gazelle 
+is the reference platforms used for testing, where Vendors can find simulators and validators to 
+prepare themselves for the IHE Connectathon. 
+The endpoint to the PDQ Supplier provided by Gazelle is this one: 
+https://gazelle.ihe.net/PatientManager/fhir/
+According to the specification, this is the base endpoint of the PDQ Supplier, and we can query 
+it accrging to the PDQm profile, for demographica according to certain parameters. Refer to the 
+lesson slides or to the profile documentation for the details of the query parameters: 
+https://profiles.ihe.net/ITI/PDQm/ITI-78.html (Section 2:3.78.4.1.2.1 Search Parameters)
+For example, we can query the PDQ Supplier for a patient with a specific family name, directly from shell, in this way; 
+```bash
+curl -X GET "https://gazelle.ihe.net/PatientManager/fhir/Patient?family=Smith" \
+     -H "Accept: application/fhir+json"
+```
+Anyway, our purpose is to implement a PDQ consumer client in Python, able to query the Supplier and parse 
+its response and results. To do so, we will use the FHIR client library for Python. First, we need to install the library:
+```bash
+pip install fhirclient
+```
+Then, refer to the slide #35 "Programmatic Interactions" for an example of how to use the lubrary to 
+implement the PDQ Consumer client. The code is similar to the one we used in the previous tutorial,
+Remember that the query parameters shall be defined in a dictionary, for example: 
+```python
+query_params = {
+    'family': 'Smith',
+    'given': 'John'
+}
+```
+In the same way as we did for the PGQ Consumer in HL7 v2, make several queries with some parameters: 
+      - Query with last name = "Smith". We expect 4 responses: Smith Albert, Smith CHarles, Smith Amy, Smith Carrie.
+      - Query with last name = Smith and gender = "F". We expect 2 responses: Smith Amy, Smith Carrie.
+      - Query with date of birth = "19610131"- We expect 1 response: Smith Charles
+      - Query with address city = "Tucson". We expect 4 responses in total.
+
+Now, for the query with last name = Smith, limit the query to only 1 result, by adding the _count 
+parameter and setting it to 1. When parsing the response, refer to the "next" link in the result, 
+provided by the client, ans make a new query with this ling to get the result (you can use request library
+and make a simple GET for that). 
+    
 
 # Creating a FHIR IG with FHIR Shorthand and Sushi 
 In this part of the tutorial, we will learn how to create a FHIR Implementation Guide (IG) using 
 FHIR Shorthand (FSH) and the SUSHI tool, starting from a pre-built and configured docker 
 image.
 
-## Check the project and run the container for the first time
+## 1. Check the project and run the container for the first time
 The project is under ./fhir-fsh-sushi-ig that is a project respecting the structure required 
 by fhir shorthnd and sushi for creating a FHIR IG. This includes: 
     - a input/fsh folder with the FSH files: here we will put the .fsh files that define the 
@@ -44,7 +87,7 @@ Notice that if from here you click on "My custom specimen profile" link, you wil
 the profile Specimen Resource has not differentials (the differetials tab is empty) because we have not 
 defined any specific profile rule yet. 
 
-## Adding a profile rule to the Specimen profile
+## 2. Add a profile rule to the Specimen profile
 Now we can add a rule to the Specimen profile. Open the file:
 ```
     ./fhir-fsh-sushi-ig/input/fsh/SpecimenProfile.fsh
