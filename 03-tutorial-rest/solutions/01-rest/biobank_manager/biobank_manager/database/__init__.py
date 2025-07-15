@@ -10,9 +10,10 @@ SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
 Base = declarative_base()
 
+
 def get_db() -> Session:
-    db = SessionLocal()
-    try:
-        yield db  # use as a generator for cleanup
-    finally:
-        db.close()
+  db = SessionLocal()
+  try:
+    yield db  # use as a generator for cleanup
+  finally:
+    db.close()

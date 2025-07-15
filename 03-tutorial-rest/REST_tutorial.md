@@ -1,17 +1,20 @@
 # REST API
 
-In this tutorial we will see how interact with APIs
+In this tutorial you will practive how to interact with REST APIs.
 
 ## Building a REST API with FastAPI
 
-In this section we will create a REST API layer for the Database that we build in the [Data Management Tutorial](../tutorial-data-management/Data_Management_Tutorial.md)
-We will create API calls for the objects samples, participants and diagnosis that we already developed (toghether with the related databaase) 
-during the SQLAlchemy tutorial.
-The rest API is composed of several levels of services, as per MVC pattern: 
-- **Controllers**: they are the entry point of the API, they receive the requests and call the services to perform the operations
-- **Services**: they contain the business logic of the application, they call the repositories to perform the operations on the database
-- **DTOs**: they are the Data Transfer Objects, they are used to validate the data received from the API and to return the data to the client
-1. Install FastAPI and uvicorn in the virtual env of the project
+In this section we will create a REST API layer for the Database that we built in the [Data Management Tutorial](../02-tutorial-data-management/Data_Management_Tutorial.md)
+We will create API endpoints for the entities Samples, Participants and Diagnosis that we already developed (toghether with the related databaase) during the SQLAlchemy tutorial.
+
+The REST API is composed of several levels of services: 
+  - **Controllers**: they are the entrypoints of the API. They receive the requests from the client and call the services to perform the operations
+  - **Services**: they contain the business logic of the application. They call the repositories to perform the operations on the database
+  - **DTOs**: they are the Data Transfer Objects, the classes used to model the bodies of the requests and the responses of the API. 
+
+### Steps 
+
+1. Install FastAPI and Uvicorn in the virtualenv of the project
    
    **NB: remember to activate the virtualenv with `source venv/bin/activate`**
 
@@ -20,47 +23,46 @@ The rest API is composed of several levels of services, as per MVC pattern:
    pip install uvicorn
    ```
 
-2. In the biobank_manager project add the controllers package under the biobank_manager directory, with three files:
-    - samples.py: it will contain the API calls for the samples
-    - participants.py: it will contain the API calls for the participants
-    - diagnosis.py: it will contain the API calls for the diagnosis
+1. In the biobank_manager project add the `controllers` package under the biobank_manager directory, with three files (moreover the `__init__.py`):
+    - `participants.py`: it will contain the controllers for the participants
+    - `samples.py`: it will contain the controllers for the samples
+    - `diagnosis.py`: it will contain the controllers for the diagnosis
 
-For example, for participants.py, the code will look like this:
+1. Let's implement together the participants' controllers. Add this code to the `participants.py`
 
-```python
-from fastapi import APIRouter, Depends
-from starlette import status
-from sqlalchemy.orm import Session
-from biobank_manager.database import get_db  # your DB session dependency
+   ```python
+   from fastapi import APIRouter, Depends
+   from starlette import status
+   from sqlalchemy.orm import Session
+   from biobank_manager.database import get_db
 
-from biobank_manager.services import participants
-from biobank_manager.dtos.participants import ParticipantReadDTO, ParticipantCreateDTO
+   from biobank_manager.services import participants
+   from biobank_manager.dtos.participants import ParticipantReadDTO, ParticipantCreateDTO
 
-router = APIRouter(
-   prefix="/participants",
-   tags=["Participant"],
-)
+   # Handles the endpoints that start with `/participants` (e.g., POST /participants, GET /participants, GET /participants/{id})
+   router = APIRouter(
+     prefix="/participants",
+     tags=["Participant"],
+   )
 
 
-@router.post(
-   "/",
-   response_model=ParticipantReadDTO,
-   response_description="Add a new participant",
-   status_code=status.HTTP_201_CREATED,
-   response_model_by_alias=False,
-   response_model_exclude_unset=False,
+   # Implements the POST action for participants
+   @router.post(
+     "",  # empty means it is handling POST participants (router prefix + "")
+     response_model=ParticipantReadDTO,  # DTO of the response. FastAPI will serialize as JSON by default
+     response_description="Add a new participant",  # Description for the swagger endpoint
+     status_code=status.HTTP_201_CREATED  # The status code in case the operation is ok (i.e., no exception are raised)
+   )
+   def create_participant(
+     participant_create_dto: ParticipantCreateDTO,  # DTO of the request (FastAPI will generate the object from the JSON sent from the client)
+     db: Session = Depends(get_db)  # FastAPI will take care of passing the Session returned by the get_db function
+   ):
+     p = participants.add_participant(db, participant_create_dto)  # Simply call 
+     return p.to_participant_read_dto()
+   ```
 
-)
-def create_participant(
-        participant_create_dto: ParticipantCreateDTO,
-        db: Session = Depends(get_db)
-):
-   p = participants.add_participant(db, participant_create_dto
-                                    )
-   return p.to_participant_read_dto()
-```
-This code defines a FastAPI router for the participants API. It includes a POST endpoint to create a new participant, which uses a DTO for input validation and returns a DTO for the response.
-Notide the call to the service (add_participant) that relates to what we will define at 4.
+   This code defines a FastAPI router for the participants API. It includes a POST endpoint to create a new participant, which uses a DTO for input validation and returns a DTO for the response.
+   Notice the call to the service (`participants.add_participant`) that relates to what we will define at 4.
 
 3. In the same way, create a new package called dtos under the biobank_manager directory, with three files:
     - samples.py: it will contain the DTO models for the samples
@@ -70,21 +72,22 @@ Notide the call to the service (add_participant) that relates to what we will de
    The DTO models are related to the API input and output operations: it means that when an endpoint, for example 
    a POST to add new samples, will receive the data from the incoming request, it will use the DTO model to validate the data.
    In the same way, there will be a DTO model to return the data to the client.
-   For example, in the DTO module for the participants, there will be: 
+   For example, in the DTO module for the participants, there will be:
+
    ```python
-    class ParticipantCreateDTO(BaseModel):
-      last_name: str = Field(title="Last name of the participant")
-      first_name: str = Field(title="First name of the participant")
-      date_of_birth: date = Field(title="Date of birth of the participant in ISO format (YYYY-MM-DD)")
-      place_of_birth: str = Field(title="Place of birth of the participant")
-      ssn: str = Field(title="Social Security Number of the participant")
-      gender: str = Field("Gender of the participant")
+   class ParticipantCreateDTO(BaseModel):
+     last_name: str = Field(title="Last name of the participant")
+     first_name: str = Field(title="First name of the participant")
+     date_of_birth: date = Field(title="Date of birth of the participant in ISO format (YYYY-MM-DD)")
+     place_of_birth: str = Field(title="Place of birth of the participant")
+     ssn: str = Field(title="Social Security Number of the participant")
+     gender: str = Field("Gender of the participant")
  
-    class ParticipantReadDTO(ParticipantCreateDTO):
-       id: int = Field(title="Unique identifier for the participant")
-       model_config = ConfigDict(from_attributes=True)
-   
+   class ParticipantReadDTO(ParticipantCreateDTO):
+     id: int = Field(title="Unique identifier for the participant")
+     model_config = ConfigDict(from_attributes=True)   
     ```
+    
    Notice that we do not want to set the IDs in the DTOs, because they are generated by the database. To do that, 
    remember to assign the attribute "autoincrement=True" to the id field in the SQLAlchemy model, so that the database will generate the ID automatically.
    The `model_config = ConfigDict(from_attributes=True)` is used to allow the DTO to be created from the SQLAlchemy model.
