@@ -7,7 +7,7 @@ In this tutorial you will practice what we've learned during the lessons on
 * Programmatic Access
 * Molgenis
 
-**NOTE** In the directory named `solutions`, examples of solutions or answers to questions posed in the tutorial are provided, divided into sections, one per chapter. The names of the example files start with the paragraph where the question is posed, e.g, 06-loads_data_into_tables.py in directory solutions/01-Relational-databases refers to paragraph numbered 6 of the Relational databases tutorial.
+**NOTE** In the directory named [solutions](./solutions), examples of solutions and answers to questions posed in the tutorial are provided, divided into sections, one per chapter. The names of the example files start with the paragraph where the question is posed, e.g, 06-loads_data_into_tables.py in directory solutions/01-Relational-databases refers to paragraph numbered 6 of the Relational databases tutorial. Please use the solutions as a reference to compare your or in case you are stuck on some steps.
 
 # Relational Databases
 
