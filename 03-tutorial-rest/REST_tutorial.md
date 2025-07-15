@@ -1,10 +1,13 @@
 # REST API
 
-In this tutorial you will practive how to interact with REST APIs.
+In this tutorial you will practice how to interact with REST APIs.
 
 ## Building a REST API with FastAPI
 
-In this section we will create a REST API layer for the Database that we built in the [Data Management Tutorial](../02-tutorial-data-management/Data_Management_Tutorial.md)
+In this section you will extend the `biobank_manager` project that we built in the [Data Management Tutorial](../02-tutorial-data-management/Data_Management_Tutorial.md) by adding a REST API layer.
+
+Remember that there is also a base for the data layer in the [solution directory](../02-tutorial-data-management/solutions/03-accessing-modelling-querying-prog/overall_solution/).
+
 We will create API endpoints for the entities Samples, Participants and Diagnosis that we already developed (toghether with the related databaase) during the SQLAlchemy tutorial.
 
 The REST API is composed of several levels of services: 
@@ -14,55 +17,161 @@ The REST API is composed of several levels of services:
 
 ### Steps 
 
-1. Install FastAPI and Uvicorn in the virtualenv of the project
+1. First of all we must install FastAPI and Uvicorn in the virtualenv of the project
    
    **NB: remember to activate the virtualenv with `source venv/bin/activate`**
 
    ```bash
    pip install "fastapi[standard]"
+   ```
+
+1. The second step is to initialize our REST API. Edit the `biobank_manager/__init__.py` file with the following code
+
+   ```python
+   from fastapi import FastAPI
+
+   app = FastAPI(
+     title="Biobank Manager API",
+     version="1.0.0",
+     description="Biobank manager API for managing biobank data",
+   )
+
+   @app.get("/")
+   def home():
+     return {"message": f"Hello to {app.title}"}
+   ```
+
+   This code, simply creates the app and the first endpoint: the `home` function will respond to `GET /` requests by returning
+   a JSON response with a welcome message
+
+1. Ok now we need to serve the REST API so it can be exposed via network. To do that a common solution is [Uvicorn](https://www.uvicorn.org/) which a ASGI web server. Install it as usual with pip
+
+   ```bash
    pip install uvicorn
    ```
 
-1. In the biobank_manager project add the `controllers` package under the biobank_manager directory, with three files (moreover the `__init__.py`):
-    - `participants.py`: it will contain the controllers for the participants
-    - `samples.py`: it will contain the controllers for the samples
-    - `diagnosis.py`: it will contain the controllers for the diagnosis
-
-1. Let's implement together the participants' controllers. Add this code to the `participants.py`
+1. Now we can add a `__main__.py` in the `biobank_manager` directory that simply run uvicorn which exposes the API
 
    ```python
-   from fastapi import APIRouter, Depends
-   from starlette import status
-   from sqlalchemy.orm import Session
-   from biobank_manager.database import get_db
+   import uvicorn
 
-   from biobank_manager.services import participants
-   from biobank_manager.dtos.participants import ParticipantReadDTO, ParticipantCreateDTO
-
-   # Handles the endpoints that start with `/participants` (e.g., POST /participants, GET /participants, GET /participants/{id})
-   router = APIRouter(
-     prefix="/participants",
-     tags=["Participant"],
-   )
-
-
-   # Implements the POST action for participants
-   @router.post(
-     "",  # empty means it is handling POST participants (router prefix + "")
-     response_model=ParticipantReadDTO,  # DTO of the response. FastAPI will serialize as JSON by default
-     response_description="Add a new participant",  # Description for the swagger endpoint
-     status_code=status.HTTP_201_CREATED  # The status code in case the operation is ok (i.e., no exception are raised)
-   )
-   def create_participant(
-     participant_create_dto: ParticipantCreateDTO,  # DTO of the request (FastAPI will generate the object from the JSON sent from the client)
-     db: Session = Depends(get_db)  # FastAPI will take care of passing the Session returned by the get_db function
-   ):
-     p = participants.add_participant(db, participant_create_dto)  # Simply call 
-     return p.to_participant_read_dto()
+   if __name__ == "__main__":
+       uvicorn.run("biobank_manager:app", host="127.0.0.1", port=8000, reload=True)
    ```
 
-   This code defines a FastAPI router for the participants API. It includes a POST endpoint to create a new participant, which uses a DTO for input validation and returns a DTO for the response.
-   Notice the call to the service (`participants.add_participant`) that relates to what we will define at 4.
+   This command runs uvicorn and exposes a web server on the port 8000 of the local interface. Which application is handling the requests? Of course, the object `app` in the `biobank_manager` package, i.e., the FastAPI `app` instance that we created in the `__init__.py`.
+
+   From the `main` directory, run the module 
+
+   ```bash
+   $ python -m biobank_manager
+   INFO:     Will watch for changes in these directories: ['~/biobank_manager']
+   INFO:     Uvicorn running on http://127.0.0.1:8000 (Press CTRL+C to quit)
+   INFO:     Started reloader process [341658] using WatchFiles
+   INFO:     Started server process [341678]
+   INFO:     Waiting for application startup.
+   INFO:     Application startup complete.
+   ```
+  
+   Now navigate with a browser to `http://localhost:8000`, you should obtain as response the `json` 
+
+   ```json
+   { "message": "Hello to Biobank Manager API" }
+   ```
+
+1. We can start now to implement the endpoints for the Participants entities. We will need to create some objects:
+   
+   - the `controller`: the functions that handle the request for a specific endpoint
+   - the `dtos`: the models of the request and response
+   - the `service`: the business logic modules that create an interface between the controller and the database.
+   
+   Of course, we need also the `database` module, but we already created it in the prviouse tutorial.
+
+   Let's create the directories for these objects with the module files
+
+   ```
+   biobank_manager/
+     controllers/
+       __init__.py
+       participants.py
+     dtos/
+       __init__.py
+       participants.py
+     services/
+       __init__.py
+       participants.py
+   ```
+
+1. Let's implement the first endpoint. To get all the participants. Edit the file `controllers/participants.py` with the following code
+   
+   ```python
+   from fastapi import APIRouter, status
+
+   router = APIRouter(
+     prefix="/participants",
+     tags=["Participant"]
+   )
+
+   @router.get(
+       "",
+       description="Return a list of participants",
+       status_code=status.HTTP_200_OK
+   )
+   def list_participants():
+       return []
+
+   @router.get(
+       "/{pid}",
+       description="Return the participant with the id specified in input",
+       status_code=status.HTTP_200_OK
+   )
+   def retrieve_participant(pid: int):
+       return { "id": pid }
+
+   @router.post(
+       "",
+       description="Create a participant",
+       status_code=status.HTTP_201_CREATED
+   )
+   def add_participant():
+       pass
+   ```
+
+   This code defines a FastAPI router for the participants API. A router is used to handle a part of the API. It is usefult to split the API in small pieces so it's easier to maintain.
+   
+   The module creates three endpoints to handle:
+
+   - `GET /participants`: return the list of participants
+   - `GET /participants/{pid}`: return the specific participant with id `pid`
+   - `POST /participants`: create a participant
+
+   Notice the function `retrieve_participant`: the signature has a `pid` parameter with the same name of the parameter between brackets `{}` in the url of the endpoint `"{pid}"`. FastAPI will set the value of the parameter in the function, with the value sent by the client. For example the HTTP call
+   
+   ```http
+   GET /participants/123
+   ```
+
+   Will pass `123` as the value of the pid argument of the `retrieve_participant` function.
+
+   Two more things can be noted:
+    - the `response_status_code` parameter of the `@router` decorator: it indicates the default status code returned if the operation is successfull (i.e., no exceptions are raised)
+    - the `description` parameter of `@router` decorator: FastAPI use it for the swagger documentation of the API
+
+   Before trying the endpoints, we need to tell the `app` objects that there is a router that handles the `/participants` sub-endpoints. To do that, edit the `biobank_manager/__init__.py` file to
+   - add an import statement for the router 
+   - call the `app.include_router` method of the FastAPI class to add the router
+
+   ```python
+   from biobank_manager.controllers.participants import router as participant_router
+   ...
+   app = FastAPI(
+     title="Biobank Manager API",
+     version="1.0.0",
+     description="Biobank manager API for managing biobank data",
+   )
+
+   app.include_router(participant_router)
+   ```
 
 3. In the same way, create a new package called dtos under the biobank_manager directory, with three files:
     - samples.py: it will contain the DTO models for the samples
