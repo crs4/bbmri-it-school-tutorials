@@ -757,13 +757,3 @@ We will create a very simple script that uses the [Molgenis PyClient](https://mo
    ![Molgenis script run](./images/12-molgenis-jobs-results.png)
    
    Notice the last column `output` where you can check the output file produced by the script
-
-  
-
-
-
-
-
-   
-
-
