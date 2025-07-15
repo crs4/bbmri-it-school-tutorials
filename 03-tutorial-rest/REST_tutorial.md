@@ -176,19 +176,143 @@ The REST API is composed of several levels of services:
    To try the endpoints we can use the browser (only for GET endpoints), or we can use curl
 
    ```bash
-   $ curl -X GET http://localhost:8000/participants
+   $ curl -X GET http://localhost:8000/participants -v 
+   ...
+   * Request completely sent off
+   < HTTP/1.1 200 OK
+   ...
    []
 
-   $ curl -X GET http://localhost:8000/participants/123
+   $ curl -X GET http://localhost:8000/participants/123 -v
+   ...
+   * Request completely sent off
+   < HTTP/1.1 200 OK
+   ...
    {"id": 123}
 
-   curl -X POST http://localhost:8000/participants
+   curl -X POST http://localhost:8000/participants -v
+   ...
+   * Request completely sent off
+   < HTTP/1.1 201 Created
+   ...
    null
    ```
 
    Or, even better, we can use Postman
 
    ![Call API with Postman](./images/postman.png)
+
+1. Cool, but you probably noticed that our API is kind of useless until now. It returns an empty list, the id that we send, and an empty object.
+
+   It's time for us to implement some logics to interact with the database. The `services` module will handle these logics.
+
+   Let's edit the `services/participants.py` module to implement two functions to get the participants:
+
+   - 'get_all_participants`: query the databse to get all participants
+   - 'get_participant_by_id`: query the databse to get the participant with the specified id
+
+   The functions simply call the repository functions that we already implemented to interact with the database
+
+   ```python
+   # services/participants.py
+   from biobank_manager.database.repository import get_all_participants, get_participant_by_id
+
+   def list_participants(session):
+     return get_all_participants(session)
+
+   def retrieve_participant_by_id(session):
+     return get_participant_by_id(session)
+   ```
+
+   Now the two controllers must be changed to call the services
+
+   ```python
+   # controllers/participants.py
+   from sqlalchemy.orm import Session
+   from biobank_manager.database import get_db
+   from biobank_manager.services import participants as part_services
+
+   router = APIRouter(
+     prefix="/participants",
+     tags=["Participant"]
+   )
+
+   @router.get(
+       "",
+       description="Return a list of participants",
+       status_code=status.HTTP_200_OK
+   )
+   def list_participants(session: Session = Depends(get_db)):
+       return part_services.get_all_participants(session)
+
+   @router.get(
+       "/{pid}",
+       description="Return the participant with the id specified in input",
+       status_code=status.HTTP_200_OK
+   )
+   def retrieve_participant(pid: int, session: Session = Depends(get_db)):
+       return part_services.get_participant_by_id(session, pid)
+   ```
+
+   Nothing special to discuss. we're just calling the corresponing service function to retrieve the needed objects.
+   Nothing special...but one thing. As you can see we need to pass to the service functions the db session. We already
+   had a function in the `database` module that gets the session for us. But what's that second parameter in the controllers'
+   functions? `session: Session = Depends(get_db)`. This is a [FastAPI Dependency](https://fastapi.tiangolo.com/tutorial/dependencies/). In simple words, FastAPI will inject the parameters defined using `Depends`. In this case it will
+   inject the session object returned by get_db function.
+
+   Let's try again the GET endpoints
+
+
+   ```bash
+   $ curl http://localhost:8000/participants
+
+   * Request completely sent off
+   < HTTP/1.1 200 OK
+   < date: Tue, 15 Jul 2025 14:47:52 GMT
+   < server: uvicorn
+   < content-length: 18746
+   < content-type: application/json
+   < 
+   [{
+     "last_name":"Banzai",
+     "place_of_birth":"Genova",
+     "ssn":"BNZLTC34P51D969D",
+     "id":2,
+     "first_name":"Elastic",
+     "date_of_birth":"1934-09-11",
+     "gender":"F"
+   },{
+     "last_name":"Dhawan",
+     "place_of_birth":"Bologna",
+     "ssn":"DHWPCT15B66A944F",
+     "id":3,
+     "first_name":"Practical",
+     "date_of_birth":"2015-02-26",
+     "gender":"F"
+   }
+   ....
+   ]
+   
+   $ curl http://localhost:8000/participants/2
+   ...
+   * Request completely sent off
+   < HTTP/1.1 200 OK
+   < date: Tue, 15 Jul 2025 14:50:35 GMT
+   < server: uvicorn
+   < content-length: 145
+   < content-type: application/json
+   < 
+   * Connection #0 to host localhost left intact
+   {
+    "last_name":"Banzai",
+    "place_of_birth": "Genova",
+    "ssn":"BNZLTC34P51D969D",
+    "id":2,
+    "first_name":"Elastic",
+    "date_of_birth":"1934-09-11",
+    "gender":"F"
+   }
+   ```
 
 3. In the same way, create a new package called dtos under the biobank_manager directory, with three files:
     - samples.py: it will contain the DTO models for the samples

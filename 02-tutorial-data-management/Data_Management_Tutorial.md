@@ -370,6 +370,8 @@ If you have doubts, you can use the [SQLAlchemy](https://docs.sqlalchemy.org/en/
    
    ```
    - get_all_participants
+
+   - get_participant_by_id
    
    - get_samples_for_participant_by_id
 

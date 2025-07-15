@@ -9,6 +9,11 @@ def get_all_participants(session: Session):
     return session.execute(stmt).scalars().all()
 
 
+def get_participant_by_id(session: Session, id: int):
+    stmt = select(Participant).where(Participant.id == id)
+    return session.execute(stmt).scalar()
+
+
 def get_participant_id_by_first_name_and_last_name(
     session: Session, first_name: str, last_name: str
 ):

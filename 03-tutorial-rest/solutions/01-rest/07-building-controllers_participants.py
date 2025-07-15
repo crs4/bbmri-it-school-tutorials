@@ -1,4 +1,7 @@
-from fastapi import APIRouter, status
+from fastapi import APIRouter, Depends, status
+from sqlalchemy.orm import Session
+from biobank_manager.database import get_db
+from biobank_manager.services import participants as part_services
 
 router = APIRouter(
   prefix="/participants",
@@ -10,8 +13,8 @@ router = APIRouter(
     description="Return a list of participants",
     status_code=status.HTTP_200_OK
 )
-def list_participants():
-    return []
+def list_participants(session: Session = Depends(get_db)):
+    return part_services.get_all_participants(session)
 
 
 @router.get(
@@ -19,8 +22,8 @@ def list_participants():
     description="Return the participant with the id specified in input",
     status_code=status.HTTP_200_OK
 )
-def retrieve_participant(pid: int):
-    return { "id": pid }
+def retrieve_participant(pid: int, session: Session = Depends(get_db)):
+    return part_services.get_participant_by_id(session, pid)
 
 @router.post(
     "",
