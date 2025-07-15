@@ -7,8 +7,7 @@ In this tutorial you will practice what we've learned during the lessons on
 * Programmatic Access
 * Molgenis
 
-**NOTE** In the directory named Solutions some example of solutions or answers to question posed in the tutorial are provided, divided in sections, one per chapter. The names of the example files start with the paragraph where the question is posed, e.g, 6-loads_data_into_tables.py in directory Solutions/01-Relational-databases refer to paragraph numbered 6 of the Relation databases tutorial.
-
+**NOTE** In the directory named `solutions`, examples of solutions or answers to questions posed in the tutorial are provided, divided into sections, one per chapter. The names of the example files start with the paragraph where the question is posed, e.g, 06-loads_data_into_tables.py in directory solutions/01-Relational-databases refers to paragraph numbered 6 of the Relational databases tutorial.
 
 # Relational Databases
 
@@ -760,6 +759,5 @@ We will create a very simple script that uses the [Molgenis PyClient](https://mo
 
 
    
-
 
 
