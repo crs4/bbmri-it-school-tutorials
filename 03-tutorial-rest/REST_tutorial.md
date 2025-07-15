@@ -215,13 +215,13 @@ The REST API is composed of several levels of services:
 
    ```python
    # services/participants.py
-   from biobank_manager.database.repository import get_all_participants, get_participant_by_id
+   from biobank_manager.database import repository
 
    def list_participants(session):
-     return get_all_participants(session)
+     return repository.get_all_participants(session)
 
    def retrieve_participant_by_id(session):
-     return get_participant_by_id(session)
+     return repository.get_participant_by_id(session)
    ```
 
    Now the two controllers must be changed to call the services
@@ -243,7 +243,7 @@ The REST API is composed of several levels of services:
        status_code=status.HTTP_200_OK
    )
    def list_participants(session: Session = Depends(get_db)):
-       return part_services.get_all_participants(session)
+       return part_services.list_participants(session)
 
    @router.get(
        "/{pid}",
@@ -251,7 +251,7 @@ The REST API is composed of several levels of services:
        status_code=status.HTTP_200_OK
    )
    def retrieve_participant(pid: int, session: Session = Depends(get_db)):
-       return part_services.get_participant_by_id(session, pid)
+       return part_services.retrieve_participant_by_id(session, pid)
    ```
 
    Nothing special to discuss. we're just calling the corresponing service function to retrieve the needed objects.
@@ -431,7 +431,42 @@ The REST API is composed of several levels of services:
        return participant
    ```
 
+   Test again the calls with curl
    
+   ```bash
+   $ curl http://localhost:8000/participants
+   ...
+   [{
+      "prefix": null,
+      "suffix":null,
+      "last_name":"Banzai",
+      "first_name":"Elastic",
+      "date_of_birth":"1934-09-11",
+      "place_of_birth":"Genova",
+      "ssn":"BNZLTC34P51D969D",
+      "gender":"F",
+      "id":2,
+      "name":"Elastic Banzai"
+    },
+    {
+      "prefix":null,
+      "suffix":null,
+      "last_name":"Dhawan",
+      "first_name":"Practical",
+      "date_of_birth":"2015-02-26",
+      "place_of_birth":"Bologna",
+      "ssn":"DHWPCT15B66A944F",
+      "gender":"F",
+      "id":3,
+      "name":"Practical Dhawan"
+   }
+   ```
+   This time we have `prefix`, `suffix` and the computed `name`. Notice that FastAPI is able to convert the data from SQLAlchemy to Pydantic.
+
+   Now let's create a participant using the POST
+
+   ```bash
+
 
 3. In the same way, create a new package called dtos under the biobank_manager directory, with three files:
     - samples.py: it will contain the DTO models for the samples
@@ -480,69 +515,6 @@ The REST API is composed of several levels of services:
       db.refresh(participant)  # refresh to get the auto-generated ID
       return participant
 
-5. Now, notice that both controller and participant service use this db object, that refers to the
-   logic used by SqlAlchemy to interact with the database. Actually we don't have created it yet,
-   let's do it by adding the following code to the database/__init__.py file:
-   ```python
-   from sqlalchemy import create_engine
-   from sqlalchemy.orm import sessionmaker, Session
-   from sqlalchemy.ext.declarative import declarative_base
-
-   from biobank_manager import DATABASE_URL
-
-   engine = create_engine(DATABASE_URL, echo=True)
-
-   SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
-
-   Base = declarative_base()
-
-   def get_db() -> Session:
-      db = SessionLocal()
-      try:
-        yield db  # use as a generator for cleanup
-      finally:
-        db.close()
-   ```
-   Notice that this configuration will be valid for all the APIs and all the related objects.
-   In order to test this API for participants, what is missing right not is to add the modules
-   that will run the FastAPI application. 
-6. Create a new file called app.py in the biobank_manager directory with the following code:
-   ```python
-   from contextlib import asynccontextmanager
-   from fastapi import FastAPI
-   from fastapi.middleware.cors import CORSMiddleware
-   from biobank_manager.database import Base, engine
-   from biobank_manager import router as participant_router
-
-    app = FastAPI(
-       title="Biobank Manager API",
-       version="1.0.0",
-       description="Biobank manager API for managing biobank data",
-    )
-   
-   @asynccontextmanager
-   async def lifespan(app: FastAPI):
-      Base.metadata.create_all(bind=engine)
-      yield
-
-   app = FastAPI(lifespan=lifespan)
-   app.include_router(participant_router, prefix="/api", tags=["Participants"])
-
-   ```
-    This code initializes the FastAPI application, includes the participants router,
-   and sets up the database tables at startup. Notice that you will have to add the other routers
-   for samples and diagnosis in the same way as the participants router (app.include_router calls).
-7. Create now a run module to run the FastAPI application, for example in a file called start_api_server.py:
-   ```python
-   import uvicorn
-   if __name__ == "__main__":
-      uvicorn.run("biobank_manager.app:app", host="127.0.0.1", port=8000, reload=True)
-    ```
-   Set the host and port values accordingly. 
-8. Run the API server with the following command:
-   ```bash
-   python start_api_server.py
-   ```
 9. Now, let's test the only endpoint that we have created so far, the one to add a new participant.
    You can use a tool like Postman or the python requests library to test the API.
    Make a POST request to the endpoint http://[host]:[port]/api/participants/ with the following JSON body:

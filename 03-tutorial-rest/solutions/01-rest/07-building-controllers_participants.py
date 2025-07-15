@@ -14,7 +14,7 @@ router = APIRouter(
     status_code=status.HTTP_200_OK
 )
 def list_participants(session: Session = Depends(get_db)):
-    return part_services.get_all_participants(session)
+    return part_services.list_participants(session)
 
 
 @router.get(
@@ -23,7 +23,7 @@ def list_participants(session: Session = Depends(get_db)):
     status_code=status.HTTP_200_OK
 )
 def retrieve_participant(pid: int, session: Session = Depends(get_db)):
-    return part_services.get_participant_by_id(session, pid)
+    return part_services.retrieve_participant_by_id(session, pid)
 
 @router.post(
     "",
