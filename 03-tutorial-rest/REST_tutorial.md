@@ -314,6 +314,125 @@ The REST API is composed of several levels of services:
    }
    ```
 
+1. As you may have noticed, FastAPI is able to automatically return a `JSON` serialization of the data retrieved from the database.
+   Sometimes, we want to expose only a part of the data for a table, or we want to return the data formatted in a different way, or we want to change something in the data before returning it.
+   Moreover, we didn't implement the POST controller yet. How can we define the body of the data that we expect from the client? How can we validate the data sent from the client or read from the database?
+   Well, the answer is, as anticipated at the beginning is by using DTOs.
+
+   With FastAPI the models are created using [Pydantic](https://docs.pydantic.dev/latest/).
+   Let's define two models in the `dtos/participants.py`: one for the POST request body, one for the responses.
+
+   ```python
+   # dtos/participants.py
+   from datetime import date
+   from typing import Optional
+   from pydantic import BaseModel, Field
+
+   class ParticipantCreateDTO(BaseModel):
+     prefix: Optional[str] = Field(title="An honorific prefix for the person (e.g., Dr.)")
+     suffix: Optional[str] = Field(title="An honorific suffix for the person (e.g., MD.)")
+     last_name: str = Field(title="Last name of the participant")
+     first_name: str = Field(title="First name of the participant")
+     date_of_birth: date = Field(title="Date of birth of the participant in ISO format (YYYY-MM-DD)")
+     place_of_birth: str = Field(title="Place of birth of the participant")
+     ssn: str = Field(title="Social Security Number of the participant")
+     gender: str = Field("Gender of the participant")
+ 
+   class ParticipantReadDTO(ParticipantCreateDTO):
+     id: int = Field(title="Unique identifier for the participant")
+  
+     @computed_field
+     @property
+     def name(self) -> str:
+       return f"{self.first_name} {self.last_name}"
+   ```
+
+   Before using the models let's point out something about the models:
+
+   - The `ParticipantCreateDTO`, that we will use as body of the POST, defines a list of attributes. Most of them are required (i.e., not `Optional`). `prefix` and `suffix` are not optional. Pydantic is used to validate the response and the request. This means that if the client sends a body that misses one of the mandatory fields, a `ValidationError` will be raised.
+   - All the fields are documented using the `title` attribute: it will be used to document the property in swagger
+   - `ParticipantReadDTO` extends the `ParticipantCreateDTO` but adds the `id`. This is ok for the responses, since they return also the id of the read/created object. Moreover, it adds a computed field. This is to show how the DTOs are different than the DB row.
+
+   Let's now change the controllers to use the models:
+
+   ```python
+   # controllers/participants.py
+   from typing import List
+   from biobank_manager.dtos.participants import ParticipantCreateDTO, ParticipantReadDTO
+   from fastapi import APIRouter, Depends, status
+   from sqlalchemy.orm import Session
+   from biobank_manager.database import get_db
+   from biobank_manager.services import participants as part_services
+
+   router = APIRouter(
+     prefix="/participants",
+     tags=["Participant"]
+   )
+
+   @router.get(
+       "",
+       description="Return a list of participants",
+       status_code=status.HTTP_200_OK,
+       response_model=List[ParticipantReadDTO]
+   )
+   def list_participants(session: Session = Depends(get_db)):
+       return part_services.get_all_participants(session)
+
+
+   @router.get(
+       "/{pid}",
+       description="Return the participant with the id specified in input",
+       status_code=status.HTTP_200_OK,
+       response_model=ParticipantReadDTO
+   )
+   def retrieve_participant(pid: int, session: Session = Depends(get_db)):
+       return part_services.get_participant_by_id(session, pid)
+
+   @router.post(
+       "",
+       description="Create a participant",
+       status_code=status.HTTP_201_CREATED,
+       response_model=ParticipantReadDTO
+   )
+   def add_participant(data: ParticipantCreateDTO, session: Session = Depends(get_db)):
+       return part_services.create_participant(session, data)
+   ```
+
+   We added the `response_model=ParticipantReadDTO` to tell FastAPI the model that the responses should return.
+   Notice the in the `list_participants` it is a `List` of `ParticipantReadDTO`.
+  In the POST controller we also added `data` parameter with `ParticipantCreatedDTO` as typehint. Now the controller expect the requeest body to be a valid json.
+
+   Let's implement also the service `create_participant` function
+
+   ```python
+   # service/participants.py
+   from biobank_manager.database import repository
+   from biobank_manager.dtos.participants import ParticipantCreateDTO
+  
+   def create_participant(session, participant_data: ParticipantCreateDTO):
+       db_data = participant_data.model_dump()
+       del db_data["prefix"]
+       del db_data["suffix"]
+       return repository.create_participant(session, db_data)
+   ```
+
+   The service handles the business logic to manage the inpute and communicate with the database. 
+   In this case creates a dictionary from the Pydantic model in input (`model_dump()`), removes the `prefix`, `suffix` that are not in the DB (yes, they were there just as example), and calls the repository function to store the new participant.
+
+   Finally, let's edit also the repository to add the create_participant function
+
+   ```python
+   # database/repository.py
+   def create_participant_data(session, data: dict):
+       participant = Participant(**data)
+       session.add(participant)
+       session.commit()
+       session.refresh(participant)
+       return participant
+   ```
+
+   
+
 3. In the same way, create a new package called dtos under the biobank_manager directory, with three files:
     - samples.py: it will contain the DTO models for the samples
     - participants.py: it will contain the DTO models for the participants
@@ -360,6 +479,7 @@ The REST API is composed of several levels of services:
       db.commit()
       db.refresh(participant)  # refresh to get the auto-generated ID
       return participant
+
 5. Now, notice that both controller and participant service use this db object, that refers to the
    logic used by SqlAlchemy to interact with the database. Actually we don't have created it yet,
    let's do it by adding the following code to the database/__init__.py file:
