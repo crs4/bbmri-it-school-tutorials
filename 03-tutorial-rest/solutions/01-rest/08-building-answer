@@ -1,0 +1,1 @@
+Because the database model doesn't have the `prefix` and `suffix` properties so they are not stored in the db.

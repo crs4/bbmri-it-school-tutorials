@@ -1,0 +1,1 @@
+It's strange that the database allows the creation of a participant with the same `ssn`. We should update the database to set ssn as unique
