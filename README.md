@@ -6,3 +6,4 @@ Here is a list of tutorials
 
 - [Git](./01-tutorial-git/Git_Tutorial.md)
 - [Data Management](./02-tutorial-data-management/Data_Management_Tutorial.md)
+- [REST API](./03-tutorial-rest/REST_tutorial.md)
