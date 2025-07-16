@@ -14,7 +14,7 @@ services:
       - "5432:5432"
     volumes:
       - db-data:/var/lib/postgresql/data
-      - ./omop.sql:/docker-entrypoint-initdb.d/omop.sql
+      # - ./omop.sql:/docker-entrypoint-initdb.d/omop.sql
     command: -c 'shared_buffers=256MB' -c 'max_locks_per_transaction=1024'
   pgadmin:
     image: dpage/pgadmin4

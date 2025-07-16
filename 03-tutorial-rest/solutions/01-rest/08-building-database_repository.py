@@ -14,7 +14,7 @@ def get_participant_by_id(session: Session, id: int):
     return session.execute(stmt).scalar()
 
 
-def create_participant_data(session, data: dict):
+def create_participant(session, data: dict):
     participant = Participant(**data)
     session.add(participant)
     session.commit()

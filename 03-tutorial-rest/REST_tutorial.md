@@ -1,14 +1,22 @@
 # REST API
 
-In this tutorial you will practice how to interact with REST APIs.
+In this tutorial you will practice how to implement a REST API with FastAPI
 
 ## Building a REST API with FastAPI
 
-In this section you will extend the `biobank_manager` project that we built in the [Data Management Tutorial](../02-tutorial-data-management/Data_Management_Tutorial.md) by adding a REST API layer.
+You will extend the `biobank_manager` project that we built in the [Data Management Tutorial](../02-tutorial-data-management/Data_Management_Tutorial.md) by adding a REST API layer.
 
-Remember that there is also a base for the data layer in the [solution directory](../02-tutorial-data-management/solutions/03-accessing-modelling-querying-prog/overall_solution/).
+> [!NOTE]
+> Remember that there is also a base implementation for the data layer in the [solution directory](../02-tutorial-data-management/solutions/03-accessing-modelling-querying-prog/overall_solution/).
+>
 
-We will create API endpoints for the entities Samples, Participants and Diagnosis that we already developed (toghether with the related databaase) during the SQLAlchemy tutorial.
+> [!NOTE]
+> For the database you can use the same [compose](../02-tutorial-data-management/01-relational-databases/docker-compose.yml) file of the Data Management Tutorial. Since we don't need the omop schema for this tutorial, you can comment the line to deploy the omop schema
+>
+> `# - ./omop.sql:/docker-entrypoint-initdb.d/omop.sql`
+>
+
+We will create API endpoints for the entities Participants and Samples that we already developed (together with the related databaase) during the SQLAlchemy tutorial.
 
 The REST API is composed of several levels of services: 
   - **Controllers**: they are the entrypoints of the API. They receive the requests from the client and call the services to perform the operations
@@ -500,6 +508,6 @@ The REST API is composed of several levels of services:
      - `POST /participants/{pid}/samples`
      - `GET /participants/{pid}/samples` 
      - `GET /participants/{pid}/samples/{sid}`
-     
+
 
 
