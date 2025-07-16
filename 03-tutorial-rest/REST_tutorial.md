@@ -504,10 +504,25 @@ The REST API is composed of several levels of services:
 1. Now that you've learned how to implement the endpoints with FastAPI continue the implementation to:
    
    - Add a DELETE endpoint for participants `DELETE /participants/{pid}`
-   - Add components to manage samples for a participant:
+   - Add components to manage samples and diagnosis for participants. For example for the samples it may be:
      - `POST /participants/{pid}/samples`
      - `GET /participants/{pid}/samples` 
      - `GET /participants/{pid}/samples/{sid}`
+   
+1. As an extra assigment, try to add some query parameters to the GET endpoints to query the entities
 
+   For example you can add search by `last_name`, `family_name` and `ssn` for participants and query by `type` for samples. 
 
+   As a reference che the FastAPI [documentation](https://fastapi.tiangolo.com/tutorial/query-params/)
 
+## Interacting with a REST API
+
+1. Create a script that uses [requests]`https://pypi.org/project/requests/` to perform some actions on the REST API you have just implemented. 
+   
+   For example the script can:
+    
+   - create a participant
+   - add some samples and diagnosis for the participant
+   - perform some GET requests
+
+1. Create a Postman collection that performs the same operations
