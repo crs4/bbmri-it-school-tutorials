@@ -1,0 +1,35 @@
+{
+  "gender": "male",
+  "identifier": [
+    {
+      "value": "patient-01"
+    }
+  ],
+  "name": [
+    {
+      "family": "Smith",
+      "given": [
+        "John"
+      ]
+    }
+  ],
+  "telecom": [
+    {
+      "system": "phone",
+      "value": "0405687522",
+      "use": "mobile"
+    }
+  ],
+  "address": [
+    {
+      "use": "work",
+      "line": [
+        "1 Muppets Way"
+      ],
+      "city": "New York",
+      "state": "NY",
+      "country": "USA"
+    }
+  ],
+  "resourceType": "Patient"
+}

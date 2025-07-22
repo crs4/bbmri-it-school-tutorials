@@ -1,0 +1,35 @@
+{
+  "resourceType": "Specimen",
+  "identifier": [ {
+    "value": "specimen-01"
+  } ],
+  "status": "available",
+  "type": {
+    "coding": [ {
+      "system": "http://snomed.info/sct",
+      "code": "122555007",
+      "display": "Venous blood specimen"
+    } ]
+  },
+  "subject": {
+    "reference": "Patient/[ID of the references patient resource]",
+  },
+  "receivedTime": "2011-03-04T07:03:00Z",
+  "container": [ {
+    "identifier": [ {
+      "value": "48736-15394-75465"
+    } ],
+    "description": "Green Gel tube",
+    "type": {
+      "text": "Vacutainer"
+    },
+    "capacity": {
+      "value": 10,
+      "unit": "mL"
+    },
+    "specimenQuantity": {
+      "value": 6,
+      "unit": "mL"
+    }
+  } ]
+}

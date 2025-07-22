@@ -1,0 +1,35 @@
+{
+  "gender": "female",
+  "identifier": [
+    {
+      "value": "patient-02"
+    }
+  ],
+  "name": [
+    {
+      "family": "Red",
+      "given": [
+        "Kelly"
+      ]
+    }
+  ],
+  "telecom": [
+    {
+      "system": "phone",
+      "value": "0408347522",
+      "use": "mobile"
+    }
+  ],
+  "address": [
+    {
+      "use": "work",
+      "line": [
+        "23th Street"
+      ],
+      "city": "New York",
+      "state": "NY",
+      "country": "USA"
+    }
+  ],
+  "resourceType": "Patient"
+}

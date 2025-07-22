@@ -1,0 +1,35 @@
+{
+  "resourceType": "Specimen",
+  "identifier": [ {
+    "value": "specimen-02"
+  } ],
+  "status": "available",
+  "type": {
+    "coding": [ {
+      "system": "http://snomed.info/sct",
+      "code": "2431000181102",
+      "display": "Arterial plasma specimen"
+    } ]
+  },
+  "subject": {
+    "reference": "Patient/[ID of the references patient resource]",
+  },
+  "receivedTime": "2011-03-04T07:03:00Z",
+  "container": [ {
+    "identifier": [ {
+      "value": "78564-39865-27659"
+    } ],
+    "description": "Red cap tube",
+    "type": {
+      "text": "Vacutainer"
+    },
+    "capacity": {
+      "value": 5,
+      "unit": "mL"
+    },
+    "specimenQuantity": {
+      "value": 4,
+      "unit": "mL"
+    }
+  } ]
+}

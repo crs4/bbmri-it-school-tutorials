@@ -1,7 +1,117 @@
 # FHIR: understanding FHIR and Resources structure 
-[TBD]
+In this first section we will practice with the structure of a resource, analysing and identifying the 
+components and elements.
+We will take the Specimen resource as an example. Let's identify the stucture of the Specimen resource in 
+version 4.0.1 of FHIR, by looking at the official FHIR specification:
+https://www.hl7.org/fhir/Specimen.html
+
+Look at the specifications and try to identify: 
+1. The scope and usage
+2. The mandatory elements 
+3. The elements that must have a value taken from a code system
+4. The elements that are references to other resources. Which are the resources they reference?
+
 # Managing APIs in FHIR
-[TBD]
+As we have seen in the lectures, FHIR defines a RESTful API to interact with the resources. We will now 
+learn how to interact with the FHIR API, with the various operations. To do that, we wull use as FHIR server
+the one provided by BBMRI.de, that is the same used by the Sample Locator (we will talk a lot about it in 
+future lessons).
+
+First, we will run the docker compose to start the fhir server. From ./blaze, run:
+```bash
+docker compose up -d
+```
+This will start the FHIR server. We will use Postman, that we also used in the previous tutorial, to interact with it.
+Open Postman and on the left side, near the "Colections" tab, click on the "+" button to create a new collection. 
+Name the collection "FHIR_REST_tutorial" and click on "Create":
+
+![Postman Collection Creation](./images/collection_creation.png)
+
+Now you should see the new collection in the left side panel. Click on the three tabs on the right and
+create the first GET request, by selecting "Sdd request" in the appearing panel. Name it 
+"GET Capability Statement". It is a request of type GET, whose url is the base url of the FHIR server, that 
+is running on the port 8889, followed by "/metadata". So the full url is:
+```
+http://localhost:8889/fhir/metadata
+```
+Put it in the postman request url field: 
+
+![Get Capability Statement Request](./images/get_capability_stmt.png)
+
+Now_click on the "Send" button to send the request. You should see a response like this
+![Get Capability Statement Response](./images/get_capability_stmt_response.png)
+This is just a get to check that the FHIR server is running and able to provide the capability statement.
+Notice that the JSON response is very big, because it contains all the operations for all the resources that 
+the server is able to manage.
+The server is empty, it means that it does not contain any resource yet. We'll now add some resources, through 
+some POST requests. The ./resources folder contains the resources to add. We will add some patients and some 
+related specimens. 
+Now, in the same way we did for the capability statement, let's create a new request in the collection, named
+"Add Patient 01". In this case we have a POST request on the Patient resource. We'll set it this way: 
+1. Set the request type to POST and enter the url: ```
+        http://localhost:8089/fhir/Patient 
+        ```
+2. In the radio buttons below the url, select "Body" and then "raw".
+3. In the dropdown on the right, select "JSON" and paste the content of the file 
+   `./resources/patient01.json` in the body field.
+The setup of the POST request shouls appear like this:
+
+![Add Patient 01 Request](./images/add_patient_01_request.png)
+
+Now, click on the "Send" button to send the request. You should see a response like this:
+![Add Patient 01 Response](./images/add_patient_01_response.png)
+
+There are some important remarks to do about the response:
+- The status 201 created means that the resource has been created successfully.
+- As explained on the slide 13 of the lessons, pay attention to the idetifiers in the response:
+    - a) id "DGBRFSQE7HY6IWA2" is the unique identifier assigned by the server to the resource. You'll
+               noice that yours in your own response is different from this one. This id is the one that must
+               be used to refer to reference the resource in other resources. It is also the identifier to 
+               directly access the resource, by using the url:
+               ```
+                 http://localhost:8089/fhir/Patient/DGBRFSQE7HY6IWA2
+               ```
+    - b) identifier "patient-01" is instead the value of the identifier attribute that is part of the 
+               patient resource, that has been assigned by us.
+
+We can now create a new GET request im postman, named "Get Patient 01", to retrieve the patient we just created:
+
+![Get Patient 01](./images/get_patient_01.png)
+
+In the same way that we did for patient 01, set up all the postman request to add and get patient 02.
+Now, let's add two specimens, each one related to one of the two patients we just created. The reference must 
+be set in the "subject" attribute of the specimen resource (we are referring to FHIR version 4.0.1). 
+Create a new POST request in postman, named "Add Specimen 01". The url must be: 
+```
+http://localhost:8889/fhir/Specimen
+```
+Before copying the body from ./Specimens/specimen01.json, be careful to set up the proper reference to the 
+patient01 in the "subject" attribute, that for this exemple is:
+```json
+{
+  "reference": "Patient/DGBRFSQE7HY6IWA2"
+}
+```
+If all went fine, you should see a response like this:
+![Get Patient 01](./images/get_patient_01.png)
+
+Now, make the same for the second specimen, relating it to the second patient.
+
+The PUT operation is used to update a resource. Notice that the added patients miss the 
+date of birth. Let's create a new Postman request named "Update Patient 01" to add it. 
+In the url we have to refer to the patient we want to update, so it will be:
+```http://localhost:8889/fhir/Patient/DGBRFSQE7HY6IWA2
+```
+In the body, instead, we will have the same body used to create the patient, but with the
+date of birth added. We will add this attribute: 
+```json
+"birthDate": "1980-01-01"
+```
+Now, click on the "Send" button to send the request. You should see a response like this:
+![Update Patient 01](./images/update_patient_01.png)
+
+Notice that now the birthDate attribute is part of the response, meaning that the 
+patient has been updated successfully.
 
 # Implementing a IHE PDQ Consumer in FHIR
 This section has the purpose to implement a PDQ Consumer in FHIR, compliant with the IHE PDQm 
