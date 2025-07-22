@@ -73,81 +73,97 @@ message and sends it back to the consumer.
    ✔ Container postgres             Started      0.1s
    ✔ Container mirth                Started      0.0s                                                                                                                                                 ```
    
-3. This step is not mandatory, but it is useful if you want to see a Mirth Connect channel in action.
+3. This step is not mandatory, but it may be useful for you to see a Mirth Connect channel in action.
    After having run the container, let's start the Mirth Connect administrator app to check 
    the Mirth Channels and also to inspect the code of the PDQ Server channel.
    
    Using a browser, access [http://localhost:8087](http://localhost:8087) and download the administrator launcher.
    
    The page will look like this:
+   
    ![Mirth Connect web page](./mirth-connect/img/mirth_web_page.png)
 
    Click on `Download Administrator Launcher`, which will download the installer for the Mirth Connect
    application. Install and run the application. At startup, you should see this page:
-         ![Mirth Connect launcher](./mirth-connect/img/mirth-connect-launcher.png)
-   Click on "Launch"; this will open the Mirth Connect Administrator application: 
-           ![Mirth Connect launcher](./mirth-connect/img/mirth-connect-login.png)
 
-   Type admin/admin as username and password. The application will open. At the first time, you
-   shall see a form that allows you to change the username and password and fill some mandatory
-   information. Fill the form and confirm the operation. The Mirth Connect Dashboard will then open:
-            ![Mirth Connect dashboard](./mirth-connect/img/mirth-connect-dashboard.png)
+   ![Mirth Connect launcher](./mirth-connect/img/mirth-connect-launcher.png)
 
-   Here you can see the active channels. As soon as the channels will receive messages, the counters 
-   in the dashboard will increase, and you can als chedk message logs by double-clicking on the channel. 
-   Now let's focus on the PDQ_SERVER_ACTOR_LOCAL_DOMAIN channel. In the left pannel click on "Channels", 
-   then search for the channel named "PDQ_SERVER_ACTOR_LOCAL_DOMAIN". Double-click on it to open the channel 
-   in editing mode and see how it is implemented; click on the "Destinations" tab and then to "Edit transformers"
-   Click on some of the javascript step to see all the code that parses the HL7 v2 input message, extracts the
-   query parameters from it, creates the output message and sends it back to the consumer:
+   Click on `Launch` to open the Mirth Connect Administrator application:
+    
+   ![Mirth Connect launcher](./mirth-connect/img/mirth-connect-login.png)
+
+   Type admin/admin as username and password. The application will open. The first time, you
+   shall see a form that allows you to change the username and password and fill in some mandatory
+   information. Complete the form and confirm the operation.
+   
+   The Mirth Connect Dashboard will then open:
+
+   ![Mirth Connect dashboard](./mirth-connect/img/mirth-connect-dashboard.png)
+
+   Here you can see the active channels. As soon as the channels receive messages, the counters 
+   in the dashboard will increase, and you can also check message logs by double-clicking on the channel. 
+   Now let's focus on the `PDQ_SERVER_ACTOR_LOCAL_DOMAIN` channel. In the left panel, click on `Channels`, 
+   then search for the channel named `PDQ_SERVER_ACTOR_LOCAL_DOMAIN`. Double-click on it to open the channel 
+   in editing mode and see how it is implemented; click on the `Destinations` tab and then `Edit transformers`
+   Click on some of the JavaScript steps to see the code that parses the HL7 v2 input message, extracts the
+   query parameters from it, creates the output message, and sends it back to the consumer:
                
    ![Mirth PDQ Channel](./mirth-connect/img/mirth-pdq-channel.png)
 
    
 5. Now, let's implement the PDQ Consumer in Python to send some HL7 queries to the Supplier.
    First, install the `hl7apy` library:
+
    ```bash
-    pip install hl7apy
-    ```
-   Then, we will proceed to write the code. Refer to this example of PDQ Consumer here: 
-   https://github.com/crs4/hl7apy/blob/develop/examples/iti_21/client.py
-   This code can be copied in a local .py file, let's name it `pdq_consumer.py`.
-   We will do several chanel to this code. We have to modify the msg template message to set up
-   all the values according to our use case. To do that, it is better to parse the message first. 
-   At line 32, let's define the parsed message:
-    ```python
-       parsed_msg = parse_message(msg)
-    ```
-   In this way we can assign the fields value to the message directly with the dot notation. Remember
-   that HL7 apy either supports the notation by field name or by index. For example, to set the value
-   of the sending application (MSH.3) we can do:
-    ```python
-       parsed_message.msh.sending_application = 'BBMRI-IT-SCHOOL-APP'
-    ```
-   Or, in alternative, we can do:
-    ```python
-       parsed_messagem.msh.msh_3 = 'BBMRI-IT-SCHOOL-APP'
-    ```
-   Proceed in the same way and add the code to set the valued of the following fields:
-      - Sending Application (MSH.3): Choose a code for your custom application
-      - Sending Facility (MSH.4): Choose a code for your custom facility
-      - Receiving Application (MSH.5): Set it to the code of the receiving application (Mirth Connect PDQ Supplier): 'ARS_APP'
-      - Receiving Facility (MSH.6): Set it to the code of the receiving facility (Mirth Connect PDQ Supplier): 'ARS_PDQ_SUPPL'
-      - MSH.7: Set it to the current date and time in the format YYYYMMDDHHMMSS
-      - MSH.10: Assign to it a unique identifier for the message; use the uuid library for that
-      - QPD.1: Set it to "IHE PDQ Query"
-      - QPD.2: It must be a unique query identifier; use the uuid library for that
+   pip install hl7apy
+   ```
    
-   Now, we have to set the query parameters. They are repetitions of the QPD.3, as per specification. 
-   try to execute the python module several times, trying som queries. Under ./mirth-connect there is 
-   the file demographics.csv that contains a dump of all demographics that is queried by the PDQ consumer. 
-   Try different king of queries, involving the following fields:
-      - Query with last name = "Smith". We expect 4 responses: Smith Albert, Smith CHarles, Smith Amy, Smith Carrie.
-      - Query with last name = Smith and gender = "F". We expect 2 responses: Smith Amy, Smith Carrie.
-      - Query with date of birth = "19610131"- We expect 2 responses: Smirth Charles, Hon Charles.
-      - Query with address city = "Tucson". We expect 8 responses in total.
-   Now, force an application reject to be forced by the PDQ Supplier. Make a query with an unknown parameter code, for example:
-   for example "PID.x.x". Check the message response error sent by the PDQ supplier.
+   Then, we will proceed to write the code. Refer to this example of PDQ Consumer [here](https://github.com/crs4/hl7apy/blob/develop/examples/iti_21/client.py)
+   Copy it into a local Python file, named `pdq_consumer.py`.
+   We will make several changes to this code. We have to modify the msg `template message` to set up
+   the values according to our use case. To do that, it is better to parse the message first. 
+   At line 32, let's parse the message:
+
+   ```python
+   parsed_msg = parse_message(msg)
+   ```
+
+   In this way, we can assign the fields' value to the message directly with the dot notation. Remember
+   that HL7apy either supports the notation by field name or by index. For example, to set the value
+   of the sending application `MSH.3`, you can do:
+
+   ```python
+   parsed_message.msh.sending_application = 'BBMRI-IT-SCHOOL-APP'
+   ```
+
+   Or, alternatively
    
-   For each query, write a simple piece of code that parses the received message, scans the results and 
-   writes a simple json with all the main attributes for each result: id, last name, first name, date of birth.
+   ```python
+   parsed_messagem.msh.msh_3 = 'BBMRI-IT-SCHOOL-APP'
+   ```
+   
+   Proceed in the same way and add the code to set the value of the following fields:
+   - Sending Application (MSH.3): Choose a code for your custom application
+   - Sending Facility (MSH.4): Choose a code for your custom facility
+   - Receiving Application (MSH.5): Set it to the code of the receiving application (Mirth Connect PDQ Supplier): 'ARS_APP'
+   - Receiving Facility (MSH.6): Set it to the code of the receiving facility (Mirth Connect PDQ Supplier): 'ARS_PDQ_SUPPL'
+   - MSH.7: Set it to the current date and time in the format YYYYMMDDHHMMSS
+   - MSH.10: Assign to it a unique identifier for the message; use the [uuid](https://docs.python.org/3/library/uuid.html) package for that
+   - QPD.1: Set it to "IHE PDQ Query"
+   - QPD.2: It must be a unique query identifier; use the [uuid](https://docs.python.org/3/library/uuid.html) library for that
+   
+   It's time to add the query parameters. They are repetitions of the QPD.3 field, as per specification. 
+   Try to execute the Python module several times, trying some queries. Under the `./mirth-connect` directory, there is 
+   the `demographics.csv` file that contains a dump of all demographics that are queried by the PDQ consumer. 
+   Try different kinds of queries, involving the following fields:
+
+   - Query with last name = "Smith". We expect 4 responses: Smith Albert, Smith CHarles, Smith Amy, Smith Carrie.
+   - Query with last name = Smith and gender = "F". We expect 2 responses: Smith Amy, Smith Carrie.
+   - Query with date of birth = "19610131"- We expect 2 responses: Smirth Charles, Hon Charles.
+   - Query with address city = "Tucson". We expect 8 responses in total.
+   
+   Now, perform a query with an unknown parameter code, (e.g., `"PID.x.x"`) so you can force an AR (Application Reject) ack from the PDQ Supplier. 
+   Check the response message error sent by the PDQ supplier.
+   
+   For each query, write a simple piece of code that parses the received message, scans the results, and
+   writes a simple JSON with all the main attributes for each result: id, last name, first name, date of birth.
