@@ -1,10 +1,10 @@
 # Hl7v2, CDA, IHE Tutorial
 
-In this tutorial we will acquire familiarity with HL7v2 and CDA standards, with some examples and 
+In this tutorial, we will acquire familiarity with HL7v2 and CDA standards, with some examples and 
 exercises with the aim to understand how to use them in practice. 
-We will then learn how to use HL7v2 in the context of IHE profile by implementing a Patient Demographics Query (PDQ)
-Consumer actors in python, using the HL7v2 library `hl7apy`. We will perform the query against a 
-PDQ Supplier, developed with Mirth Connect, that we will run with a Docker container.
+We will then learn how to use HL7v2 in the context of an IHE profile by implementing a Patient Demographics Query (PDQ)
+Consumer actors in Python, using the HL7 v2 library [hl7apy](https://github.com/crs4/hl7apy). We will perform the query against a 
+PDQ Supplier, developed using Mirth Connect, that we will run in a Docker container.
 
 ## HL7 v2: "Reading a message structure".
 
@@ -18,64 +18,72 @@ QPD|Q22^Find Candidates^HL7|QRY12345|@PID.5.1.1^Smith~@PID.5.2^Amy
 PID|||IHERED-1005^^^IHERED&1.3.6.1.4.1.21367.13.20.1000&ISO||Smith^Amy^^^^^L||19610228|F|||5660 S Palo Verde^^Tucson^USA^85706^^H
 ```
 
-
-
-a) What is the message type? In which context this message has been used?
-b) How many segments are there in the message?
-b) It is a request message or a response message?
-c) How many components does the QPD.1.1 field have? Which is the value of QPD.1.1?
-d) Which is the unique identifier of the message?
+1. What is the message type? In which context has this message been used?
+1. How many segments are there in the message?
+1. Is it a request message or a response message?
+1. How many components does the QPD.1.1 field have? What is the value of QPD.1.1?
+1. Which is the unique identifier of the message?
 
 ## CDA: Inspecting the document and its structure
-Given the CDA document under /CDA named sample:CDA.xml, inspect the raw xml document 
-structure and identify: 
+Given the CDA document under /CDA named sample:CDA.xml, inspect the raw XML document 
+structure and answer the following questions: 
 
-1) Who is the related patient?
-2) Who are the author and the custodian of the document?
-3) Which is the unique identifier of the document?
-4) Does the component has a structured body? Identify it 
-5) How many sections are there in the document?
-6) How many observations are there in the document?
+1. Who is the related patient?
+1. Who is the author and the custodian of the document?
+1. Which is the unique identifier of the document?
+1. Does the component have a structured body? Identify it 
+1. How many sections are there in the document?
+1. How many observations are there in the document?
 
-Then, render the CDA document in a browser. Notice that the sample_cda document always has 
-the reference to a stylesheet. In order to be able to render the document, you need to run 
-the browser without the security restrictions, so that it can access the stylesheet.
-You should see a result like this:
+Then, render the CDA document in a browser. 
+
+> [!NOTE]
+> The `sample_cda.xml` document contains a reference to a stylesheet XLS document.
+> To be able to render the document, you need to run the browser without the security restrictions, so that it can access the stylesheet.
+
+You should see a result like this
 
 ![CDA rendered](./CDA/rendering.png)
 
 
 ## IHE: Implementing a PDQ Consumer
 
-In this section we will implement a PDQ Consumer using the HL7v2 library `hl7apy`. As PDQ supplier 
+In this section, we will implement a PDQ Consumer using the HL7v2 library `hl7apy`. As a PDQ supplier,
 we'll use a Mirth Connect implementation that we will run in a Docker container. This implementation has
-a simple demographics table; the "PDQ_SERVER_ACTOR_LOCAL_DOMAIN" channel receives at input
-the request message from the consumer, extracts the query parameters from the message and 
+a simple demographics table; the "PDQ_SERVER_ACTOR_LOCAL_DOMAIN" channel receives as input
+the request message from the consumer, extracts the query parameters from it, and 
 creates the DB query to search for results. Then, according to the results, it builds the response 
 message and sends it back to the consumer.
-Tip: have always a look to the IHE specifications of the transaction, here: 
-https://profiles.ihe.net/ITI/TF/Volume2/ITI-21.html
-In particular, the sections related to "message semantics" and "query parameters".
+
+> [!TIP]
+> Keep in mind that for every doubt about the transaction, you can look at the IHE specifications as a reference.
+> The PDQ transaction is available [here](https://profiles.ihe.net/ITI/TF/Volume2/ITI-21.html)
+> In particular, have a look at the  [Message semantics](https://profiles.ihe.net/ITI/TF/Volume2/ITI-21.html#3.21.4.1.2) and [Query Parameters](https://profiles.ihe.net/ITI/TF/Volume2/ITI-21.html#3.21.4.1.2.3) sections. 
+> .
 
 1. First, let's run the docker container. From ./mirth-connect, run:
-    ```bash
-    docker compose up -d 
-    ```
+
+   ```bash
+   docker compose up -d 
+   ```
+
    You should see a message like this:
    ```
    ✔ Network mirth-connect_default  Created    0.0s
    ✔ Container postgres             Started      0.1s
-   ✔ Container mirth                Started      0.0s                                                                                                                                                                           
-    ```
-2. This step is not mandatory but it is useful if you want to see in practice who a 
-   Mirth Connect channel works.
-   After having run the container, let's start the Mirth Connect administrator app, in a way to check 
+   ✔ Container mirth                Started      0.0s                                                                                                                                                 ```
+   
+3. This step is not mandatory, but it is useful if you want to see a Mirth Connect channel in action.
+   After having run the container, let's start the Mirth Connect administrator app to check 
    the Mirth Channels and also to inspect the code of the PDQ Server channel.
-   From a browser, go to http://localhost:8087 and download the administrator launcher. 
+   
+   Using a browser, access [http://localhost:8087](http://localhost:8087) and download the administrator launcher.
+   
    The page will look like this:
-          ![Mirth Connect web page](./mirth-connect/img/mirth_web_page.png)
-   Click on "Download Administrator Launcher", that will download the installer for the Mirth Connect
-   application. Install it and run the application. At startup, you should see this page:
+   ![Mirth Connect web page](./mirth-connect/img/mirth_web_page.png)
+
+   Click on `Download Administrator Launcher`, which will download the installer for the Mirth Connect
+   application. Install and run the application. At startup, you should see this page:
          ![Mirth Connect launcher](./mirth-connect/img/mirth-connect-launcher.png)
    Click on "Launch"; this will open the Mirth Connect Administrator application: 
            ![Mirth Connect launcher](./mirth-connect/img/mirth-connect-login.png)
@@ -96,7 +104,7 @@ In particular, the sections related to "message semantics" and "query parameters
    ![Mirth PDQ Channel](./mirth-connect/img/mirth-pdq-channel.png)
 
    
-3. Now, let's implement the PDQ Consumer in Python to send some HL7 queries to the Supplier.
+5. Now, let's implement the PDQ Consumer in Python to send some HL7 queries to the Supplier.
    First, install the `hl7apy` library:
    ```bash
     pip install hl7apy
