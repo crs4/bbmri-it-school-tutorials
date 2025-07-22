@@ -1,0 +1,13 @@
+services:
+  blaze:
+    image: "samply/blaze:latest"
+    environment:
+      BASE_URL: "http://localhost:8080"
+      JAVA_TOOL_OPTIONS: "-Xmx2g"
+      LOG_LEVEL: "debug"
+    ports:
+    - "8089:8080"
+    volumes:
+    - "fhir-server-data:/app/data"
+volumes:
+  fhir-server-data:
