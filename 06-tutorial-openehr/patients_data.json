@@ -1,0 +1,1152 @@
+[
+    {
+        "biobank_name": "FirstBiobank",
+        "biobank_patient_identifier": "FB1",
+        "date_of_birth": "1979-11-05",
+        "country_of_birth": "Italy",
+        "place_of_birth": "Cagliari",
+        "sex": "M",
+        "primary_diagnosis": "Lung Cancer",
+        "date_of_diagnosis": "2015-02-07",
+        "age_at_diagnosis": 36,
+        "samples": [
+            {
+                "sample_id": "FB1_1",
+                "sample_material_type": "Tumor tissue sample",
+                "sample_preservation_mode": "Cryopreservation",
+                "year_of_sample_collection": 2017
+            }
+        ]
+    },
+    {
+        "biobank_name": "FirstBiobank",
+        "biobank_patient_identifier": "FB2",
+        "date_of_birth": "1999-11-28",
+        "country_of_birth": "Italy",
+        "place_of_birth": "Cagliari",
+        "sex": "M",
+        "primary_diagnosis": "Lung Cancer",
+        "date_of_diagnosis": "2014-07-26",
+        "age_at_diagnosis": 15,
+        "samples": [
+            {
+                "sample_id": "FB2_1",
+                "sample_material_type": "Tumor tissue sample",
+                "sample_preservation_mode": "Cryopreservation",
+                "year_of_sample_collection": 2024
+            },
+            {
+                "sample_id": "FB2_2",
+                "sample_material_type": "Tumor tissue sample",
+                "sample_preservation_mode": "Cryopreservation",
+                "year_of_sample_collection": 2020
+            },
+            {
+                "sample_id": "FB2_3",
+                "sample_material_type": "Tumor tissue sample",
+                "sample_preservation_mode": "Cryopreservation",
+                "year_of_sample_collection": 2020
+            }
+        ]
+    },
+    {
+        "biobank_name": "FirstBiobank",
+        "biobank_patient_identifier": "FB3",
+        "date_of_birth": "1977-07-10",
+        "country_of_birth": "Italy",
+        "place_of_birth": "Bari",
+        "sex": "M",
+        "primary_diagnosis": "Lung Cancer",
+        "date_of_diagnosis": "2005-05-05",
+        "age_at_diagnosis": 28,
+        "samples": [
+            {
+                "sample_id": "FB3_1",
+                "sample_material_type": "Tumor tissue sample",
+                "sample_preservation_mode": "FFPE",
+                "year_of_sample_collection": 2011
+            },
+            {
+                "sample_id": "FB3_2",
+                "sample_material_type": "Tumor tissue sample",
+                "sample_preservation_mode": "Cryopreservation",
+                "year_of_sample_collection": 2010
+            },
+            {
+                "sample_id": "FB3_3",
+                "sample_material_type": "Tumor tissue sample",
+                "sample_preservation_mode": "FFPE",
+                "year_of_sample_collection": 2010
+            }
+        ]
+    },
+    {
+        "biobank_name": "FirstBiobank",
+        "biobank_patient_identifier": "FB4",
+        "date_of_birth": "2000-11-30",
+        "country_of_birth": "Italy",
+        "place_of_birth": "Genova",
+        "sex": "F",
+        "primary_diagnosis": "Breast Cancer",
+        "date_of_diagnosis": "2011-09-24",
+        "age_at_diagnosis": 11,
+        "samples": [
+            {
+                "sample_id": "FB4_1",
+                "sample_material_type": "Tumor tissue sample",
+                "sample_preservation_mode": "FFPE",
+                "year_of_sample_collection": 2017
+            }
+        ]
+    },
+    {
+        "biobank_name": "FirstBiobank",
+        "biobank_patient_identifier": "FB5",
+        "date_of_birth": "2007-09-22",
+        "country_of_birth": "Italy",
+        "place_of_birth": "Palermo",
+        "sex": "M",
+        "primary_diagnosis": "Lung Cancer",
+        "date_of_diagnosis": "2017-12-18",
+        "age_at_diagnosis": 10,
+        "samples": []
+    },
+    {
+        "biobank_name": "FirstBiobank",
+        "biobank_patient_identifier": "FB6",
+        "date_of_birth": "1951-08-01",
+        "country_of_birth": "Italy",
+        "place_of_birth": "Firenze",
+        "sex": "F",
+        "primary_diagnosis": "Colorectal Cancer",
+        "date_of_diagnosis": "2005-11-09",
+        "age_at_diagnosis": 54,
+        "samples": [
+            {
+                "sample_id": "FB6_1",
+                "sample_material_type": "Tumor tissue sample",
+                "sample_preservation_mode": "Cryopreservation",
+                "year_of_sample_collection": 2007
+            },
+            {
+                "sample_id": "FB6_2",
+                "sample_material_type": "Tumor tissue sample",
+                "sample_preservation_mode": "Cryopreservation",
+                "year_of_sample_collection": 2012
+            },
+            {
+                "sample_id": "FB6_3",
+                "sample_material_type": "Tumor tissue sample",
+                "sample_preservation_mode": "FFPE",
+                "year_of_sample_collection": 2011
+            }
+        ]
+    },
+    {
+        "biobank_name": "FirstBiobank",
+        "biobank_patient_identifier": "FB7",
+        "date_of_birth": "2002-12-30",
+        "country_of_birth": "Italy",
+        "place_of_birth": "Bari",
+        "sex": "F",
+        "primary_diagnosis": "Breast Cancer",
+        "date_of_diagnosis": "2015-03-22",
+        "age_at_diagnosis": 13,
+        "samples": [
+            {
+                "sample_id": "FB7_1",
+                "sample_material_type": "Tumor tissue sample",
+                "sample_preservation_mode": "Cryopreservation",
+                "year_of_sample_collection": 2016
+            },
+            {
+                "sample_id": "FB7_2",
+                "sample_material_type": "Tumor tissue sample",
+                "sample_preservation_mode": "FFPE",
+                "year_of_sample_collection": 2018
+            },
+            {
+                "sample_id": "FB7_3",
+                "sample_material_type": "Tumor tissue sample",
+                "sample_preservation_mode": "Cryopreservation",
+                "year_of_sample_collection": 2022
+            }
+        ]
+    },
+    {
+        "biobank_name": "FirstBiobank",
+        "biobank_patient_identifier": "FB8",
+        "date_of_birth": "1985-03-25",
+        "country_of_birth": "Italy",
+        "place_of_birth": "Napoli",
+        "sex": "F",
+        "primary_diagnosis": "Breast Cancer",
+        "date_of_diagnosis": "2008-02-13",
+        "age_at_diagnosis": 23,
+        "samples": []
+    },
+    {
+        "biobank_name": "FirstBiobank",
+        "biobank_patient_identifier": "FB9",
+        "date_of_birth": "1979-08-21",
+        "country_of_birth": "Italy",
+        "place_of_birth": "Cagliari",
+        "sex": "M",
+        "primary_diagnosis": "Colorectal Cancer",
+        "date_of_diagnosis": "2011-02-24",
+        "age_at_diagnosis": 32,
+        "samples": [
+            {
+                "sample_id": "FB9_1",
+                "sample_material_type": "Tumor tissue sample",
+                "sample_preservation_mode": "FFPE",
+                "year_of_sample_collection": 2019
+            },
+            {
+                "sample_id": "FB9_2",
+                "sample_material_type": "Tumor tissue sample",
+                "sample_preservation_mode": "Cryopreservation",
+                "year_of_sample_collection": 2021
+            },
+            {
+                "sample_id": "FB9_3",
+                "sample_material_type": "Tumor tissue sample",
+                "sample_preservation_mode": "Cryopreservation",
+                "year_of_sample_collection": 2021
+            }
+        ]
+    },
+    {
+        "biobank_name": "FirstBiobank",
+        "biobank_patient_identifier": "FB10",
+        "date_of_birth": "1960-09-11",
+        "country_of_birth": "Italy",
+        "place_of_birth": "Firenze",
+        "sex": "M",
+        "primary_diagnosis": "Colorectal Cancer",
+        "date_of_diagnosis": "2003-02-15",
+        "age_at_diagnosis": 43,
+        "samples": [
+            {
+                "sample_id": "FB10_1",
+                "sample_material_type": "Tumor tissue sample",
+                "sample_preservation_mode": "Cryopreservation",
+                "year_of_sample_collection": 2003
+            },
+            {
+                "sample_id": "FB10_2",
+                "sample_material_type": "Tumor tissue sample",
+                "sample_preservation_mode": "FFPE",
+                "year_of_sample_collection": 2013
+            },
+            {
+                "sample_id": "FB10_3",
+                "sample_material_type": "Tumor tissue sample",
+                "sample_preservation_mode": "FFPE",
+                "year_of_sample_collection": 2013
+            }
+        ]
+    },
+    {
+        "biobank_name": "FirstBiobank",
+        "biobank_patient_identifier": "FB11",
+        "date_of_birth": "1982-10-11",
+        "country_of_birth": "Italy",
+        "place_of_birth": "Bari",
+        "sex": "M",
+        "primary_diagnosis": "Colorectal Cancer",
+        "date_of_diagnosis": "1993-08-09",
+        "age_at_diagnosis": 11,
+        "samples": [
+            {
+                "sample_id": "FB11_1",
+                "sample_material_type": "Tumor tissue sample",
+                "sample_preservation_mode": "Cryopreservation",
+                "year_of_sample_collection": 1999
+            },
+            {
+                "sample_id": "FB11_2",
+                "sample_material_type": "Tumor tissue sample",
+                "sample_preservation_mode": "FFPE",
+                "year_of_sample_collection": 1995
+            },
+            {
+                "sample_id": "FB11_3",
+                "sample_material_type": "Tumor tissue sample",
+                "sample_preservation_mode": "FFPE",
+                "year_of_sample_collection": 1999
+            }
+        ]
+    },
+    {
+        "biobank_name": "FirstBiobank",
+        "biobank_patient_identifier": "FB12",
+        "date_of_birth": "2001-03-11",
+        "country_of_birth": "Italy",
+        "place_of_birth": "Genova",
+        "sex": "F",
+        "primary_diagnosis": "Breast Cancer",
+        "date_of_diagnosis": "2013-09-01",
+        "age_at_diagnosis": 12,
+        "samples": [
+            {
+                "sample_id": "FB12_1",
+                "sample_material_type": "Tumor tissue sample",
+                "sample_preservation_mode": "Cryopreservation",
+                "year_of_sample_collection": 2020
+            },
+            {
+                "sample_id": "FB12_2",
+                "sample_material_type": "Tumor tissue sample",
+                "sample_preservation_mode": "FFPE",
+                "year_of_sample_collection": 2022
+            },
+            {
+                "sample_id": "FB12_3",
+                "sample_material_type": "Tumor tissue sample",
+                "sample_preservation_mode": "Cryopreservation",
+                "year_of_sample_collection": 2020
+            }
+        ]
+    },
+    {
+        "biobank_name": "FirstBiobank",
+        "biobank_patient_identifier": "FB13",
+        "date_of_birth": "1980-01-06",
+        "country_of_birth": "Italy",
+        "place_of_birth": "Napoli",
+        "sex": "F",
+        "primary_diagnosis": "Breast Cancer",
+        "date_of_diagnosis": "2013-02-21",
+        "age_at_diagnosis": 33,
+        "samples": [
+            {
+                "sample_id": "FB13_1",
+                "sample_material_type": "Tumor tissue sample",
+                "sample_preservation_mode": "Cryopreservation",
+                "year_of_sample_collection": 2014
+            },
+            {
+                "sample_id": "FB13_2",
+                "sample_material_type": "Tumor tissue sample",
+                "sample_preservation_mode": "FFPE",
+                "year_of_sample_collection": 2018
+            }
+        ]
+    },
+    {
+        "biobank_name": "FirstBiobank",
+        "biobank_patient_identifier": "FB14",
+        "date_of_birth": "2000-12-19",
+        "country_of_birth": "Italy",
+        "place_of_birth": "Genova",
+        "sex": "M",
+        "primary_diagnosis": "Colorectal Cancer",
+        "date_of_diagnosis": "2013-03-11",
+        "age_at_diagnosis": 13,
+        "samples": [
+            {
+                "sample_id": "FB14_1",
+                "sample_material_type": "Tumor tissue sample",
+                "sample_preservation_mode": "Cryopreservation",
+                "year_of_sample_collection": 2020
+            },
+            {
+                "sample_id": "FB14_2",
+                "sample_material_type": "Tumor tissue sample",
+                "sample_preservation_mode": "FFPE",
+                "year_of_sample_collection": 2018
+            }
+        ]
+    },
+    {
+        "biobank_name": "FirstBiobank",
+        "biobank_patient_identifier": "FB15",
+        "date_of_birth": "1961-08-17",
+        "country_of_birth": "Italy",
+        "place_of_birth": "Roma",
+        "sex": "M",
+        "primary_diagnosis": "Colorectal Cancer",
+        "date_of_diagnosis": "2005-06-16",
+        "age_at_diagnosis": 44,
+        "samples": []
+    },
+    {
+        "biobank_name": "FirstBiobank",
+        "biobank_patient_identifier": "FB16",
+        "date_of_birth": "1971-06-18",
+        "country_of_birth": "Italy",
+        "place_of_birth": "Roma",
+        "sex": "M",
+        "primary_diagnosis": "Lung Cancer",
+        "date_of_diagnosis": "2004-02-25",
+        "age_at_diagnosis": 33,
+        "samples": [
+            {
+                "sample_id": "FB16_1",
+                "sample_material_type": "Tumor tissue sample",
+                "sample_preservation_mode": "Cryopreservation",
+                "year_of_sample_collection": 2004
+            },
+            {
+                "sample_id": "FB16_2",
+                "sample_material_type": "Tumor tissue sample",
+                "sample_preservation_mode": "FFPE",
+                "year_of_sample_collection": 2008
+            },
+            {
+                "sample_id": "FB16_3",
+                "sample_material_type": "Tumor tissue sample",
+                "sample_preservation_mode": "Cryopreservation",
+                "year_of_sample_collection": 2009
+            }
+        ]
+    },
+    {
+        "biobank_name": "FirstBiobank",
+        "biobank_patient_identifier": "FB17",
+        "date_of_birth": "1981-01-21",
+        "country_of_birth": "Italy",
+        "place_of_birth": "Palermo",
+        "sex": "M",
+        "primary_diagnosis": "Lung Cancer",
+        "date_of_diagnosis": "2012-11-19",
+        "age_at_diagnosis": 31,
+        "samples": [
+            {
+                "sample_id": "FB17_1",
+                "sample_material_type": "Tumor tissue sample",
+                "sample_preservation_mode": "FFPE",
+                "year_of_sample_collection": 2018
+            },
+            {
+                "sample_id": "FB17_2",
+                "sample_material_type": "Tumor tissue sample",
+                "sample_preservation_mode": "FFPE",
+                "year_of_sample_collection": 2017
+            }
+        ]
+    },
+    {
+        "biobank_name": "FirstBiobank",
+        "biobank_patient_identifier": "FB18",
+        "date_of_birth": "1981-02-17",
+        "country_of_birth": "Italy",
+        "place_of_birth": "Bologna",
+        "sex": "F",
+        "primary_diagnosis": "Colorectal Cancer",
+        "date_of_diagnosis": "1997-07-13",
+        "age_at_diagnosis": 16,
+        "samples": [
+            {
+                "sample_id": "FB18_1",
+                "sample_material_type": "Tumor tissue sample",
+                "sample_preservation_mode": "Cryopreservation",
+                "year_of_sample_collection": 2000
+            },
+            {
+                "sample_id": "FB18_2",
+                "sample_material_type": "Tumor tissue sample",
+                "sample_preservation_mode": "Cryopreservation",
+                "year_of_sample_collection": 2002
+            }
+        ]
+    },
+    {
+        "biobank_name": "FirstBiobank",
+        "biobank_patient_identifier": "FB19",
+        "date_of_birth": "2009-08-03",
+        "country_of_birth": "Italy",
+        "place_of_birth": "Napoli",
+        "sex": "F",
+        "primary_diagnosis": "Breast Cancer",
+        "date_of_diagnosis": "2019-08-23",
+        "age_at_diagnosis": 10,
+        "samples": []
+    },
+    {
+        "biobank_name": "FirstBiobank",
+        "biobank_patient_identifier": "FB20",
+        "date_of_birth": "1991-04-01",
+        "country_of_birth": "Italy",
+        "place_of_birth": "Torino",
+        "sex": "M",
+        "primary_diagnosis": "Colorectal Cancer",
+        "date_of_diagnosis": "2002-05-21",
+        "age_at_diagnosis": 11,
+        "samples": [
+            {
+                "sample_id": "FB20_1",
+                "sample_material_type": "Tumor tissue sample",
+                "sample_preservation_mode": "FFPE",
+                "year_of_sample_collection": 2009
+            },
+            {
+                "sample_id": "FB20_2",
+                "sample_material_type": "Tumor tissue sample",
+                "sample_preservation_mode": "FFPE",
+                "year_of_sample_collection": 2008
+            }
+        ]
+    },
+    {
+        "biobank_name": "FirstBiobank",
+        "biobank_patient_identifier": "FB21",
+        "date_of_birth": "1998-07-24",
+        "country_of_birth": "Italy",
+        "place_of_birth": "Cagliari",
+        "sex": "F",
+        "primary_diagnosis": "Colorectal Cancer",
+        "date_of_diagnosis": "2010-05-01",
+        "age_at_diagnosis": 12,
+        "samples": [
+            {
+                "sample_id": "FB21_1",
+                "sample_material_type": "Tumor tissue sample",
+                "sample_preservation_mode": "FFPE",
+                "year_of_sample_collection": 2016
+            },
+            {
+                "sample_id": "FB21_2",
+                "sample_material_type": "Tumor tissue sample",
+                "sample_preservation_mode": "FFPE",
+                "year_of_sample_collection": 2013
+            },
+            {
+                "sample_id": "FB21_3",
+                "sample_material_type": "Tumor tissue sample",
+                "sample_preservation_mode": "Cryopreservation",
+                "year_of_sample_collection": 2017
+            }
+        ]
+    },
+    {
+        "biobank_name": "FirstBiobank",
+        "biobank_patient_identifier": "FB22",
+        "date_of_birth": "1958-10-26",
+        "country_of_birth": "Italy",
+        "place_of_birth": "Cagliari",
+        "sex": "F",
+        "primary_diagnosis": "Breast Cancer",
+        "date_of_diagnosis": "2003-09-30",
+        "age_at_diagnosis": 45,
+        "samples": [
+            {
+                "sample_id": "FB22_1",
+                "sample_material_type": "Tumor tissue sample",
+                "sample_preservation_mode": "FFPE",
+                "year_of_sample_collection": 2011
+            }
+        ]
+    },
+    {
+        "biobank_name": "FirstBiobank",
+        "biobank_patient_identifier": "FB23",
+        "date_of_birth": "1952-12-15",
+        "country_of_birth": "Italy",
+        "place_of_birth": "Bari",
+        "sex": "F",
+        "primary_diagnosis": "Breast Cancer",
+        "date_of_diagnosis": "2002-01-23",
+        "age_at_diagnosis": 50,
+        "samples": [
+            {
+                "sample_id": "FB23_1",
+                "sample_material_type": "Tumor tissue sample",
+                "sample_preservation_mode": "FFPE",
+                "year_of_sample_collection": 2003
+            },
+            {
+                "sample_id": "FB23_2",
+                "sample_material_type": "Tumor tissue sample",
+                "sample_preservation_mode": "FFPE",
+                "year_of_sample_collection": 2010
+            },
+            {
+                "sample_id": "FB23_3",
+                "sample_material_type": "Tumor tissue sample",
+                "sample_preservation_mode": "Cryopreservation",
+                "year_of_sample_collection": 2009
+            }
+        ]
+    },
+    {
+        "biobank_name": "FirstBiobank",
+        "biobank_patient_identifier": "FB24",
+        "date_of_birth": "1951-10-15",
+        "country_of_birth": "Italy",
+        "place_of_birth": "Genova",
+        "sex": "F",
+        "primary_diagnosis": "Colorectal Cancer",
+        "date_of_diagnosis": "1965-09-04",
+        "age_at_diagnosis": 14,
+        "samples": []
+    },
+    {
+        "biobank_name": "FirstBiobank",
+        "biobank_patient_identifier": "FB25",
+        "date_of_birth": "1956-10-09",
+        "country_of_birth": "Italy",
+        "place_of_birth": "Torino",
+        "sex": "F",
+        "primary_diagnosis": "Breast Cancer",
+        "date_of_diagnosis": "2014-11-16",
+        "age_at_diagnosis": 58,
+        "samples": [
+            {
+                "sample_id": "FB25_1",
+                "sample_material_type": "Tumor tissue sample",
+                "sample_preservation_mode": "FFPE",
+                "year_of_sample_collection": 2015
+            },
+            {
+                "sample_id": "FB25_2",
+                "sample_material_type": "Tumor tissue sample",
+                "sample_preservation_mode": "FFPE",
+                "year_of_sample_collection": 2015
+            }
+        ]
+    },
+    {
+        "biobank_name": "SecondBiobank",
+        "biobank_patient_identifier": "SB1",
+        "date_of_birth": "2009-06-14",
+        "country_of_birth": "Germany",
+        "place_of_birth": "Essen",
+        "sex": "M",
+        "primary_diagnosis": "Colorectal Cancer",
+        "date_of_diagnosis": "2019-10-16",
+        "age_at_diagnosis": 10,
+        "samples": [
+            {
+                "sample_id": "SB1_1",
+                "sample_material_type": "Tumor tissue sample",
+                "sample_preservation_mode": "FFPE",
+                "year_of_sample_collection": 2025
+            },
+            {
+                "sample_id": "SB1_2",
+                "sample_material_type": "Tumor tissue sample",
+                "sample_preservation_mode": "FFPE",
+                "year_of_sample_collection": 2019
+            }
+        ]
+    },
+    {
+        "biobank_name": "SecondBiobank",
+        "biobank_patient_identifier": "SB2",
+        "date_of_birth": "1954-02-02",
+        "country_of_birth": "Germany",
+        "place_of_birth": "Dortmund",
+        "sex": "F",
+        "primary_diagnosis": "Breast Cancer",
+        "date_of_diagnosis": "2004-09-22",
+        "age_at_diagnosis": 50,
+        "samples": []
+    },
+    {
+        "biobank_name": "SecondBiobank",
+        "biobank_patient_identifier": "SB3",
+        "date_of_birth": "1978-06-11",
+        "country_of_birth": "Germany",
+        "place_of_birth": "Cologne",
+        "sex": "M",
+        "primary_diagnosis": "Lung Cancer",
+        "date_of_diagnosis": "2006-07-16",
+        "age_at_diagnosis": 28,
+        "samples": [
+            {
+                "sample_id": "SB3_1",
+                "sample_material_type": "Tumor tissue sample",
+                "sample_preservation_mode": "Cryopreservation",
+                "year_of_sample_collection": 2009
+            }
+        ]
+    },
+    {
+        "biobank_name": "SecondBiobank",
+        "biobank_patient_identifier": "SB4",
+        "date_of_birth": "1951-06-11",
+        "country_of_birth": "Germany",
+        "place_of_birth": "Leipzig",
+        "sex": "F",
+        "primary_diagnosis": "Breast Cancer",
+        "date_of_diagnosis": "1983-06-04",
+        "age_at_diagnosis": 32,
+        "samples": []
+    },
+    {
+        "biobank_name": "SecondBiobank",
+        "biobank_patient_identifier": "SB5",
+        "date_of_birth": "1966-04-04",
+        "country_of_birth": "Germany",
+        "place_of_birth": "Dortmund",
+        "sex": "F",
+        "primary_diagnosis": "Breast Cancer",
+        "date_of_diagnosis": "2006-11-22",
+        "age_at_diagnosis": 40,
+        "samples": [
+            {
+                "sample_id": "SB5_1",
+                "sample_material_type": "Tumor tissue sample",
+                "sample_preservation_mode": "Cryopreservation",
+                "year_of_sample_collection": 2016
+            },
+            {
+                "sample_id": "SB5_2",
+                "sample_material_type": "Tumor tissue sample",
+                "sample_preservation_mode": "FFPE",
+                "year_of_sample_collection": 2014
+            },
+            {
+                "sample_id": "SB5_3",
+                "sample_material_type": "Tumor tissue sample",
+                "sample_preservation_mode": "Cryopreservation",
+                "year_of_sample_collection": 2012
+            }
+        ]
+    },
+    {
+        "biobank_name": "SecondBiobank",
+        "biobank_patient_identifier": "SB6",
+        "date_of_birth": "1959-06-13",
+        "country_of_birth": "Germany",
+        "place_of_birth": "Munich",
+        "sex": "M",
+        "primary_diagnosis": "Lung Cancer",
+        "date_of_diagnosis": "2011-08-26",
+        "age_at_diagnosis": 52,
+        "samples": [
+            {
+                "sample_id": "SB6_1",
+                "sample_material_type": "Tumor tissue sample",
+                "sample_preservation_mode": "FFPE",
+                "year_of_sample_collection": 2011
+            },
+            {
+                "sample_id": "SB6_2",
+                "sample_material_type": "Tumor tissue sample",
+                "sample_preservation_mode": "FFPE",
+                "year_of_sample_collection": 2016
+            }
+        ]
+    },
+    {
+        "biobank_name": "SecondBiobank",
+        "biobank_patient_identifier": "SB7",
+        "date_of_birth": "2008-12-22",
+        "country_of_birth": "Germany",
+        "place_of_birth": "D\u00fcsseldorf",
+        "sex": "M",
+        "primary_diagnosis": "Lung Cancer",
+        "date_of_diagnosis": "2018-11-25",
+        "age_at_diagnosis": 10,
+        "samples": [
+            {
+                "sample_id": "SB7_1",
+                "sample_material_type": "Tumor tissue sample",
+                "sample_preservation_mode": "Cryopreservation",
+                "year_of_sample_collection": 2020
+            },
+            {
+                "sample_id": "SB7_2",
+                "sample_material_type": "Tumor tissue sample",
+                "sample_preservation_mode": "Cryopreservation",
+                "year_of_sample_collection": 2028
+            },
+            {
+                "sample_id": "SB7_3",
+                "sample_material_type": "Tumor tissue sample",
+                "sample_preservation_mode": "FFPE",
+                "year_of_sample_collection": 2022
+            }
+        ]
+    },
+    {
+        "biobank_name": "SecondBiobank",
+        "biobank_patient_identifier": "SB8",
+        "date_of_birth": "1989-08-27",
+        "country_of_birth": "Germany",
+        "place_of_birth": "Leipzig",
+        "sex": "M",
+        "primary_diagnosis": "Colorectal Cancer",
+        "date_of_diagnosis": "2005-12-09",
+        "age_at_diagnosis": 16,
+        "samples": [
+            {
+                "sample_id": "SB8_1",
+                "sample_material_type": "Tumor tissue sample",
+                "sample_preservation_mode": "Cryopreservation",
+                "year_of_sample_collection": 2006
+            }
+        ]
+    },
+    {
+        "biobank_name": "SecondBiobank",
+        "biobank_patient_identifier": "SB9",
+        "date_of_birth": "1995-01-10",
+        "country_of_birth": "Germany",
+        "place_of_birth": "Frankfurt",
+        "sex": "M",
+        "primary_diagnosis": "Colorectal Cancer",
+        "date_of_diagnosis": "2007-02-13",
+        "age_at_diagnosis": 12,
+        "samples": [
+            {
+                "sample_id": "SB9_1",
+                "sample_material_type": "Tumor tissue sample",
+                "sample_preservation_mode": "Cryopreservation",
+                "year_of_sample_collection": 2008
+            }
+        ]
+    },
+    {
+        "biobank_name": "SecondBiobank",
+        "biobank_patient_identifier": "SB10",
+        "date_of_birth": "1968-02-17",
+        "country_of_birth": "Germany",
+        "place_of_birth": "Cologne",
+        "sex": "F",
+        "primary_diagnosis": "Breast Cancer",
+        "date_of_diagnosis": "1983-02-10",
+        "age_at_diagnosis": 15,
+        "samples": [
+            {
+                "sample_id": "SB10_1",
+                "sample_material_type": "Tumor tissue sample",
+                "sample_preservation_mode": "FFPE",
+                "year_of_sample_collection": 1989
+            },
+            {
+                "sample_id": "SB10_2",
+                "sample_material_type": "Tumor tissue sample",
+                "sample_preservation_mode": "Cryopreservation",
+                "year_of_sample_collection": 1991
+            },
+            {
+                "sample_id": "SB10_3",
+                "sample_material_type": "Tumor tissue sample",
+                "sample_preservation_mode": "FFPE",
+                "year_of_sample_collection": 1991
+            }
+        ]
+    },
+    {
+        "biobank_name": "SecondBiobank",
+        "biobank_patient_identifier": "SB11",
+        "date_of_birth": "1966-07-04",
+        "country_of_birth": "Germany",
+        "place_of_birth": "Frankfurt",
+        "sex": "M",
+        "primary_diagnosis": "Lung Cancer",
+        "date_of_diagnosis": "1982-01-22",
+        "age_at_diagnosis": 16,
+        "samples": [
+            {
+                "sample_id": "SB11_1",
+                "sample_material_type": "Tumor tissue sample",
+                "sample_preservation_mode": "Cryopreservation",
+                "year_of_sample_collection": 1988
+            },
+            {
+                "sample_id": "SB11_2",
+                "sample_material_type": "Tumor tissue sample",
+                "sample_preservation_mode": "FFPE",
+                "year_of_sample_collection": 1989
+            },
+            {
+                "sample_id": "SB11_3",
+                "sample_material_type": "Tumor tissue sample",
+                "sample_preservation_mode": "Cryopreservation",
+                "year_of_sample_collection": 1984
+            }
+        ]
+    },
+    {
+        "biobank_name": "SecondBiobank",
+        "biobank_patient_identifier": "SB12",
+        "date_of_birth": "1980-10-08",
+        "country_of_birth": "Germany",
+        "place_of_birth": "Berlin",
+        "sex": "F",
+        "primary_diagnosis": "Breast Cancer",
+        "date_of_diagnosis": "1999-02-09",
+        "age_at_diagnosis": 19,
+        "samples": [
+            {
+                "sample_id": "SB12_1",
+                "sample_material_type": "Tumor tissue sample",
+                "sample_preservation_mode": "FFPE",
+                "year_of_sample_collection": 2008
+            }
+        ]
+    },
+    {
+        "biobank_name": "SecondBiobank",
+        "biobank_patient_identifier": "SB13",
+        "date_of_birth": "1969-08-13",
+        "country_of_birth": "Germany",
+        "place_of_birth": "Berlin",
+        "sex": "F",
+        "primary_diagnosis": "Colorectal Cancer",
+        "date_of_diagnosis": "2012-04-07",
+        "age_at_diagnosis": 43,
+        "samples": [
+            {
+                "sample_id": "SB13_1",
+                "sample_material_type": "Tumor tissue sample",
+                "sample_preservation_mode": "FFPE",
+                "year_of_sample_collection": 2022
+            },
+            {
+                "sample_id": "SB13_2",
+                "sample_material_type": "Tumor tissue sample",
+                "sample_preservation_mode": "Cryopreservation",
+                "year_of_sample_collection": 2021
+            }
+        ]
+    },
+    {
+        "biobank_name": "SecondBiobank",
+        "biobank_patient_identifier": "SB14",
+        "date_of_birth": "2007-12-12",
+        "country_of_birth": "Germany",
+        "place_of_birth": "Hamburg",
+        "sex": "M",
+        "primary_diagnosis": "Lung Cancer",
+        "date_of_diagnosis": "2017-01-01",
+        "age_at_diagnosis": 10,
+        "samples": [
+            {
+                "sample_id": "SB14_1",
+                "sample_material_type": "Tumor tissue sample",
+                "sample_preservation_mode": "FFPE",
+                "year_of_sample_collection": 2023
+            }
+        ]
+    },
+    {
+        "biobank_name": "SecondBiobank",
+        "biobank_patient_identifier": "SB15",
+        "date_of_birth": "1988-03-26",
+        "country_of_birth": "Germany",
+        "place_of_birth": "Leipzig",
+        "sex": "M",
+        "primary_diagnosis": "Lung Cancer",
+        "date_of_diagnosis": "2004-02-17",
+        "age_at_diagnosis": 16,
+        "samples": []
+    },
+    {
+        "biobank_name": "ThirdBiobank",
+        "biobank_patient_identifier": "TB1",
+        "date_of_birth": "2000-12-03",
+        "country_of_birth": "France",
+        "place_of_birth": "Marseille",
+        "sex": "M",
+        "primary_diagnosis": "Lung Cancer",
+        "date_of_diagnosis": "2013-01-06",
+        "age_at_diagnosis": 13,
+        "samples": [
+            {
+                "sample_id": "TB1_1",
+                "sample_material_type": "Tumor tissue sample",
+                "sample_preservation_mode": "Cryopreservation",
+                "year_of_sample_collection": 2022
+            },
+            {
+                "sample_id": "TB1_2",
+                "sample_material_type": "Tumor tissue sample",
+                "sample_preservation_mode": "FFPE",
+                "year_of_sample_collection": 2015
+            }
+        ]
+    },
+    {
+        "biobank_name": "ThirdBiobank",
+        "biobank_patient_identifier": "TB2",
+        "date_of_birth": "1990-11-24",
+        "country_of_birth": "France",
+        "place_of_birth": "Lille",
+        "sex": "M",
+        "primary_diagnosis": "Colorectal Cancer",
+        "date_of_diagnosis": "2013-12-29",
+        "age_at_diagnosis": 23,
+        "samples": [
+            {
+                "sample_id": "TB2_1",
+                "sample_material_type": "Tumor tissue sample",
+                "sample_preservation_mode": "Cryopreservation",
+                "year_of_sample_collection": 2021
+            },
+            {
+                "sample_id": "TB2_2",
+                "sample_material_type": "Tumor tissue sample",
+                "sample_preservation_mode": "Cryopreservation",
+                "year_of_sample_collection": 2020
+            }
+        ]
+    },
+    {
+        "biobank_name": "ThirdBiobank",
+        "biobank_patient_identifier": "TB3",
+        "date_of_birth": "1963-06-17",
+        "country_of_birth": "France",
+        "place_of_birth": "Lille",
+        "sex": "M",
+        "primary_diagnosis": "Lung Cancer",
+        "date_of_diagnosis": "1989-06-17",
+        "age_at_diagnosis": 26,
+        "samples": [
+            {
+                "sample_id": "TB3_1",
+                "sample_material_type": "Tumor tissue sample",
+                "sample_preservation_mode": "Cryopreservation",
+                "year_of_sample_collection": 1999
+            },
+            {
+                "sample_id": "TB3_2",
+                "sample_material_type": "Tumor tissue sample",
+                "sample_preservation_mode": "FFPE",
+                "year_of_sample_collection": 1990
+            }
+        ]
+    },
+    {
+        "biobank_name": "ThirdBiobank",
+        "biobank_patient_identifier": "TB4",
+        "date_of_birth": "1958-08-03",
+        "country_of_birth": "France",
+        "place_of_birth": "Nantes",
+        "sex": "M",
+        "primary_diagnosis": "Lung Cancer",
+        "date_of_diagnosis": "1968-02-23",
+        "age_at_diagnosis": 10,
+        "samples": [
+            {
+                "sample_id": "TB4_1",
+                "sample_material_type": "Tumor tissue sample",
+                "sample_preservation_mode": "FFPE",
+                "year_of_sample_collection": 1977
+            },
+            {
+                "sample_id": "TB4_2",
+                "sample_material_type": "Tumor tissue sample",
+                "sample_preservation_mode": "Cryopreservation",
+                "year_of_sample_collection": 1972
+            },
+            {
+                "sample_id": "TB4_3",
+                "sample_material_type": "Tumor tissue sample",
+                "sample_preservation_mode": "FFPE",
+                "year_of_sample_collection": 1969
+            }
+        ]
+    },
+    {
+        "biobank_name": "ThirdBiobank",
+        "biobank_patient_identifier": "TB5",
+        "date_of_birth": "2009-12-25",
+        "country_of_birth": "France",
+        "place_of_birth": "Toulouse",
+        "sex": "F",
+        "primary_diagnosis": "Colorectal Cancer",
+        "date_of_diagnosis": "2019-04-20",
+        "age_at_diagnosis": 10,
+        "samples": [
+            {
+                "sample_id": "TB5_1",
+                "sample_material_type": "Tumor tissue sample",
+                "sample_preservation_mode": "FFPE",
+                "year_of_sample_collection": 2026
+            }
+        ]
+    },
+    {
+        "biobank_name": "ThirdBiobank",
+        "biobank_patient_identifier": "TB6",
+        "date_of_birth": "1958-02-14",
+        "country_of_birth": "France",
+        "place_of_birth": "Montpellier",
+        "sex": "M",
+        "primary_diagnosis": "Lung Cancer",
+        "date_of_diagnosis": "2011-03-13",
+        "age_at_diagnosis": 53,
+        "samples": [
+            {
+                "sample_id": "TB6_1",
+                "sample_material_type": "Tumor tissue sample",
+                "sample_preservation_mode": "FFPE",
+                "year_of_sample_collection": 2019
+            }
+        ]
+    },
+    {
+        "biobank_name": "ThirdBiobank",
+        "biobank_patient_identifier": "TB7",
+        "date_of_birth": "1990-03-24",
+        "country_of_birth": "France",
+        "place_of_birth": "Lyon",
+        "sex": "M",
+        "primary_diagnosis": "Colorectal Cancer",
+        "date_of_diagnosis": "2001-02-26",
+        "age_at_diagnosis": 11,
+        "samples": []
+    },
+    {
+        "biobank_name": "ThirdBiobank",
+        "biobank_patient_identifier": "TB8",
+        "date_of_birth": "1978-09-22",
+        "country_of_birth": "France",
+        "place_of_birth": "Montpellier",
+        "sex": "F",
+        "primary_diagnosis": "Colorectal Cancer",
+        "date_of_diagnosis": "1988-02-26",
+        "age_at_diagnosis": 10,
+        "samples": [
+            {
+                "sample_id": "TB8_1",
+                "sample_material_type": "Tumor tissue sample",
+                "sample_preservation_mode": "Cryopreservation",
+                "year_of_sample_collection": 1998
+            },
+            {
+                "sample_id": "TB8_2",
+                "sample_material_type": "Tumor tissue sample",
+                "sample_preservation_mode": "Cryopreservation",
+                "year_of_sample_collection": 1997
+            }
+        ]
+    },
+    {
+        "biobank_name": "ThirdBiobank",
+        "biobank_patient_identifier": "TB9",
+        "date_of_birth": "2008-11-19",
+        "country_of_birth": "France",
+        "place_of_birth": "Bordeaux",
+        "sex": "F",
+        "primary_diagnosis": "Colorectal Cancer",
+        "date_of_diagnosis": "2018-01-22",
+        "age_at_diagnosis": 10,
+        "samples": []
+    },
+    {
+        "biobank_name": "ThirdBiobank",
+        "biobank_patient_identifier": "TB10",
+        "date_of_birth": "1981-11-08",
+        "country_of_birth": "France",
+        "place_of_birth": "Montpellier",
+        "sex": "M",
+        "primary_diagnosis": "Colorectal Cancer",
+        "date_of_diagnosis": "2010-05-16",
+        "age_at_diagnosis": 29,
+        "samples": [
+            {
+                "sample_id": "TB10_1",
+                "sample_material_type": "Tumor tissue sample",
+                "sample_preservation_mode": "Cryopreservation",
+                "year_of_sample_collection": 2017
+            }
+        ]
+    }
+]

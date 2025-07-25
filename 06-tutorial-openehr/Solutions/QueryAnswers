@@ -1,0 +1,226 @@
+1.Create a table of composition_id,ehr_id for all the compositions that are stored for the template 'biobank_report_template'
+SELECT c/uid/value,
+e/ehr_id/value
+FROM EHR e
+CONTAINS COMPOSITION c
+WHERE c/archetype_details/template_id/value='biobank_report_template'
+
+Results: (in JSON format in 'rows' field)
+Like this:  50 pairs. I put "..." to indicate continuation
+ [
+    [
+      "9b14f6d2-e31a-401c-b89c-502ac1ddbc73::local.ehrbase.org::1",
+      "6f352f15-e57d-4216-b6de-a99b059154a1"
+    ],
+    [
+      "ed6482c1-8b63-44ff-abd4-5d6ddf5e8da4::local.ehrbase.org::1",
+      "3ca995bb-26e1-40dc-a5e3-b471cbe73339"
+    ],
+    ...
+    [
+      "17992bba-3f70-46b0-a063-abf4cb93bc71::local.ehrbase.org::1",
+      "27e5867a-bf67-4103-9826-5471eef68d60"
+    ]
+  ]
+
+
+2. Count the compositions that have 'biobank_report_template' as template_id
+SELECT count(c/uid/value)
+FROM EHR e
+CONTAINS COMPOSITION c
+WHERE c/archetype_details/template_id/value='biobank_report_template'
+
+Results:
+50
+    
+3. Retrieve all the compositions for a patient given the ehr_id
+SELECT  c/uid/value as uid
+FROM EHR e
+CONTAINS COMPOSITION c
+WHERE e/ehr_id/value = '3ca995bb-26e1-40dc-a5e3-b471cbe73339'  <-substitute with one of your actual ehr_id
+
+Results: (the composition_id, yours will be different)
+	ed6482c1-8b63-44ff-abd4-5d6ddf5e8da4::local.ehrbase.org::1 
+
+
+4. Retrieve the unique biobank name values
+SELECT  DISTINCT k/items[at0001 and name/value='biobank_name']/value/value 
+FROM EHR e
+CONTAINS COMPOSITION c
+CONTAINS CLUSTER k[openEHR-EHR-CLUSTER.organisation.v1]
+
+5. Find how many patients are stored in each biobank
+Unfortunately the GROUP BY clause is not supported in openEHR yet so we have to do it in two steps:
+The step 1 is the previous query.
+The second step is a parametric query where we substitute the biobank name with one of the values from the previous query.
+SELECT COUNT(e/ehr_id/value) AS patient_count
+FROM EHR e
+CONTAINS COMPOSITION c
+CONTAINS CLUSTER k[openEHR-EHR-CLUSTER.organisation.v1]
+WHERE k/items[at0001 and name/value='biobank_name']/value/value = $biobank_name
+
+So running it three times with the parameter: 
+biobank_name = 'FirstBiobank', 
+biobank_name = 'SecondBiobank', 
+biobank_name = 'ThirdBiobank' will give you the number of patients in each biobank.
+25
+15
+10
+
+
+6. Find how many patients have the 'Colorectal Cancer' as Primary diagnosis
+SELECT COUNT(*) 
+FROM COMPOSITION C 
+CONTAINS EVALUATION x[openEHR-EHR-EVALUATION.problem_diagnosis.v1] 
+WHERE x/data[at0001]/items[at0002 and name/value='Primary diagnosis']/value/value='Colorectal Cancer'
+
+Results:
+20
+
+7. Find how many female patients have the 'Colorectal Cancer' as Primary diagnosis in the biobank "FirstBiobank"
+SELECT COUNT(*) 
+FROM COMPOSITION C 
+CONTAINS EVALUATION x[openEHR-EHR-EVALUATION.problem_diagnosis.v1] 
+AND CLUSTER k[openEHR-EHR-CLUSTER.organisation.v1] 
+AND EVALUATION r[openEHR-EHR-EVALUATION.gender.v1]  
+WHERE x/data[at0001]/items[at0002 and name/value='Primary diagnosis']/value/value='Colorectal Cancer' 
+AND  k/items[at0001 and name/value='biobank_name']/value/value='FirstBiobank'
+    AND r/Sex_assigned_at_birth/value='F'
+
+Results:
+4
+
+8. Retrieve the composition_id and sex assigned at birth for the patients in the biobank "ThirdBiobank" ordered by gender
+SELECT c/uid/value AS uid,c/content[openEHR-EHR-SECTION.adhoc.v1 and name/value='Demographics']/items[openEHR-EHR-EVALUATION.gender.v1]/data[at0002]/items[at0019]/value/value AS gender, k/items[at0001 and name/value='biobank_name']/value/value AS biobank_name
+FROM EHR e
+CONTAINS COMPOSITION c CONTAINS  CLUSTER k[openEHR-EHR-CLUSTER.organisation.v1] 
+WHERE k/items[at0001 and name/value='biobank_name']/value/value='ThirdBiobank'
+ORDER BY c/content[openEHR-EHR-SECTION.adhoc.v1 and name/value='Demographics']/items[openEHR-EHR-EVALUATION.gender.v1]/data[at0002]/items[at0019]/value/value
+
+Results:
+[
+    [
+      "aba2274c-fca8-49a9-9801-4ca93af175fb::local.ehrbase.org::1",
+      "F",
+      "ThirdBiobank"
+    ],
+    [
+      "8ba6b797-a837-46b6-9f37-205478f9663b::local.ehrbase.org::1",
+      "F",
+      "ThirdBiobank"
+    ],
+    [
+      "9c93c9b6-5d51-49b7-a8a7-31c242828b57::local.ehrbase.org::1",
+      "F",
+      "ThirdBiobank"
+    ],
+    [
+      "b28f11e2-7c49-4605-8a3c-9051e3b530f1::local.ehrbase.org::1",
+      "M",
+      "ThirdBiobank"
+    ],
+    [
+      "50217845-79e3-4e5b-b66f-26dd3279b664::local.ehrbase.org::1",
+      "M",
+      "ThirdBiobank"
+    ],
+    [
+      "0282c46a-2ccc-4450-82af-db2fa1221419::local.ehrbase.org::1",
+      "M",
+      "ThirdBiobank"
+    ],
+    [
+      "ed6482c1-8b63-44ff-abd4-5d6ddf5e8da4::local.ehrbase.org::1",
+      "M",
+      "ThirdBiobank"
+    ],
+    [
+      "cf899e2f-45fb-4e6b-ba81-945c5bde21a9::local.ehrbase.org::1",
+      "M",
+      "ThirdBiobank"
+    ],
+    [
+      "4fbc4e53-8e35-4a05-921a-67c51df2acd8::local.ehrbase.org::1",
+      "M",
+      "ThirdBiobank"
+    ],
+    [
+      "7a32cc76-41b9-4475-926b-0cf3bd5d4cae::local.ehrbase.org::1",
+      "M",
+      "ThirdBiobank"
+    ]
+  ]
+
+9. The same query as 8 but now show only the results from second to fifth
+SELECT c/uid/value AS uid,c/content[openEHR-EHR-SECTION.adhoc.v1 and name/value='Demographics']/items[openEHR-EHR-EVALUATION.gender.v1]/data[at0002]/items[at0019]/value/value AS gender, k/items[at0001 and name/value='biobank_name']/value/value AS biobank_name
+FROM EHR e
+CONTAINS COMPOSITION c CONTAINS  CLUSTER k[openEHR-EHR-CLUSTER.organisation.v1] 
+WHERE k/items[at0001 and name/value='biobank_name']/value/value='ThirdBiobank'
+ORDER BY c/content[openEHR-EHR-SECTION.adhoc.v1 and name/value='Demographics']/items[openEHR-EHR-EVALUATION.gender.v1]/data[at0002]/items[at0019]/value/value
+OFFSET 1 LIMIT 4
+
+Results:
+[
+    [
+      "8ba6b797-a837-46b6-9f37-205478f9663b::local.ehrbase.org::1",
+      "F",
+      "ThirdBiobank"
+    ],
+    [
+      "9c93c9b6-5d51-49b7-a8a7-31c242828b57::local.ehrbase.org::1",
+      "F",
+      "ThirdBiobank"
+    ],
+    [
+      "b28f11e2-7c49-4605-8a3c-9051e3b530f1::local.ehrbase.org::1",
+      "M",
+      "ThirdBiobank"
+    ],
+    [
+      "50217845-79e3-4e5b-b66f-26dd3279b664::local.ehrbase.org::1",
+      "M",
+      "ThirdBiobank"
+    ]
+  ]
+
+10. Retrieve the sample id, ehr_id, year of sample collection for all the samples collected between 2010-01-01 and 2012-02-01 
+
+SELECT distinct ev/data[at0001]/items[at0002 and name/value='Sample ID']/value/id,e/ehr_id/value,ev/data[at0001]/items[openEHR-EHR-CLUSTER.specimen.v1]/items[at0015 and name/value='year of sample collection']/value/value
+FROM EHR e
+CONTAINS COMPOSITION c CONTAINS EVALUATION ev[openEHR-EHR-EVALUATION.specimen_summary.v1]
+WHERE ev/data[at0001]/items[openEHR-EHR-CLUSTER.specimen.v1]/items[at0015 and name/value='year of sample collection']/value/value>'2010-01-01T00:00:00' and ev/data[at0001]/items[openEHR-EHR-CLUSTER.specimen.v1]/items[at0015 and name/value='year of sample collection']/value/value<'2012-02-01T00:00:00' 
+ORDER BY ev/data[at0001]/items[openEHR-EHR-CLUSTER.specimen.v1]/items[at0015 and name/value='year of sample collection']/value/value
+
+Results:
+ [
+    [
+      "FB22_1",
+      "eb626919-77bf-4667-8e18-84b177b01a5c",
+      "2011-01-01T00:00:00"
+    ],
+    [
+      "FB3_1",
+      "287c9024-9bf3-4de5-a912-cbf51ba6915e",
+      "2011-01-01T00:00:00"
+    ],
+    [
+      "FB6_3",
+      "b8703e64-92a8-4369-a8cf-6d98df38465e",
+      "2011-01-01T00:00:00"
+    ],
+    [
+      "SB6_1",
+      "da60577d-cb30-48b2-9c3e-f3b82d1593a0",
+      "2011-01-01T00:00:00"
+    ],
+    [
+      "FB6_2",
+      "b8703e64-92a8-4369-a8cf-6d98df38465e",
+      "2012-01-01T00:00:00"
+    ],
+    [
+      "SB5_3",
+      "3ef3d4fd-6399-42d5-8950-53cd5cd32a5c",
+      "2012-01-01T00:00:00"
+    ]
+]
