@@ -177,3 +177,188 @@ The validator has several subcommands with many options. You can explore them
 by passing the `--help` option to the top-level `rocrate-validator` command
 and to any of the subcommands. You can also check the full documentation at
 https://rocrate-validator.readthedocs.io/ .
+
+
+## ro-crate-py
+
+The [ro-crate-py](https://github.com/ResearchObject/ro-crate-py) library
+provides a Python API to create and consume RO-Crates. Installation is done
+via pip (note that the package name is `rocrate`):
+
+```bash
+pip install rocrate
+```
+
+This part of the tutorial is based on [RO-Crate in
+Python](https://gxy.io/GTN:T00341), which in turn is based on the ro-crate-py
+documentation.
+
+### Creating an RO-Crate
+
+In its simplest form, an RO-Crate is a directory tree with an
+`ro-crate-metadata.json` file at the top level. This file contains metadata
+about the other files and directories, represented by [data
+entities](https://www.researchobject.org/ro-crate/1.1/data-entities.html). These
+metadata consist both of properties of the data entities themselves and of
+other, non-digital entities called [contextual
+entities](https://www.researchobject.org/ro-crate/1.1/contextual-entities.html). A
+contextual entity can represent, for instance, a person, an organization or an
+event.
+
+Suppose Alice and Bob worked on a research project together, and then wrote a
+paper about it; additionally, Alice prepared a spreadsheet containing
+experimental data, which Bob then used to generate a diagram. For the purpose
+of this tutorial, you can just create empty files for these documents:
+
+```bash
+mkdir exp
+touch exp/paper.pdf
+touch exp/results.csv
+touch exp/diagram.svg
+```
+
+Let's build an RO-Crate to represent this information:
+
+```python
+from rocrate.rocrate import ROCrate
+
+crate = ROCrate()
+paper = crate.add_file("exp/paper.pdf", properties={
+    "name": "manuscript",
+    "encodingFormat": "application/pdf"
+})
+table = crate.add_file("exp/results.csv", properties={
+    "name": "experimental data",
+    "encodingFormat": "text/csv"
+})
+diagram = crate.add_file("exp/diagram.svg", dest_path="images/figure.svg", properties={
+    "name": "bar chart",
+    "encodingFormat": "image/svg+xml"
+})
+```
+
+We've started by adding the data entities. Now we add contextual entities
+representing Alice and Bob:
+
+```python
+from rocrate.model import Person
+
+alice_id = "https://orcid.org/0000-0000-0000-0000"
+bob_id = "https://orcid.org/0000-0000-0000-0001"
+alice = crate.add(Person(crate, alice_id, properties={
+    "name": "Alice Doe",
+    "affiliation": "University of Flatland"
+}))
+bob = crate.add(Person(crate, bob_id, properties={
+    "name": "Bob Doe",
+    "affiliation": "University of Flatland"
+}))
+```
+
+We have created all the entities we need. Now we need to express the
+relationships between them. This is done by adding _properties_ that reference
+other entities:
+
+```python
+paper["author"] = [alice, bob]
+table["author"] = alice
+diagram["author"] = bob
+```
+
+You can also add whole directories together with their contents. In RO-Crate,
+a directory is represented by the `Dataset` entity:
+
+```bash
+mkdir exp/logs
+touch exp/logs/log1.txt
+touch exp/logs/log2.txt
+```
+
+```python
+logs = crate.add_dataset("exp/logs")
+```
+
+Finally, we serialize the crate to disk:
+
+```python
+crate.write("exp_crate")
+```
+
+This should generate an `exp_crate` directory containing copies of all the
+files we added and an `ro-crate-metadata.json` file containing a JSON-LD
+representation of the metadata. Note that we have chosen a different
+destination path for the diagram, while the paper and the spreadsheet have
+been placed at the top level with their names unchanged (the default). The
+resulting directory layout should be as follows:
+
+```
+exp_crate/
+|-- images/
+|   `-- figure.svg
+|-- logs/
+|   |-- log1.txt
+|   `-- log2.txt
+|-- paper.pdf
+|-- results.csv
+`-- ro-crate-metadata.json
+```
+
+Some applications and services support RO-Crates stored as ZIP archives. To
+save the crate in ZIP format, you can use `write_zip`:
+
+```python
+crate.write_zip("exp_crate.zip")
+```
+
+#### Appending elements to property values
+
+What ro-crate-py entities actually store is their JSON representation:
+
+```python
+paper.properties()
+```
+
+```json
+{
+  "@id": "paper.pdf",
+  "@type": "File",
+  "name": "manuscript",
+  "encodingFormat": "application/pdf",
+  "author": [
+    {"@id": "https://orcid.org/0000-0000-0000-0000"},
+    {"@id": "https://orcid.org/0000-0000-0000-0001"},
+  ]
+}
+```
+
+When `paper["author"]` is accessed, a new list containing the `alice` and
+`bob` entities is generated on the fly. For this reason, calling `append` on
+`paper["author"]` will _not_ modify the `paper` entity. To add an author, use
+the `append_to` method instead:
+
+```python
+donald = crate.add(Person(crate, "https://en.wikipedia.org/wiki/Donald_Duck"))
+paper.append_to("author", donald)
+```
+
+#### Adding entities with an arbitrary type
+
+An entity can be of any type listed in the [RO-Crate
+context](https://www.researchobject.org/ro-crate/1.1/context.jsonld). However,
+only a few of them have a counterpart (e.g., `File`) in the library's class
+hierarchy, either because they are very common or because they are associated
+with specific functionality that can be conveniently embedded in the class
+implementation. In other cases, you can explicitly pass the type via the
+`properties` argument:
+
+```python
+from rocrate.model import ContextEntity
+
+hackathon = crate.add(ContextEntity(crate, "#bh2021", properties={
+    "@type": "Hackathon",
+    "name": "Biohackathon 2021",
+    "location": "Barcelona, Spain",
+    "startDate": "2021-11-08",
+    "endDate": "2021-11-12"
+}))
+```
