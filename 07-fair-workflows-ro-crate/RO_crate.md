@@ -179,7 +179,7 @@ and to any of the subcommands. You can also check the full documentation at
 https://rocrate-validator.readthedocs.io/ .
 
 
-## ro-crate-py
+## RO-Crate in Python
 
 The [ro-crate-py](https://github.com/ResearchObject/ro-crate-py) library
 provides a Python API to create and consume RO-Crates. Installation is done
@@ -361,4 +361,78 @@ hackathon = crate.add(ContextEntity(crate, "#bh2021", properties={
     "startDate": "2021-11-08",
     "endDate": "2021-11-12"
 }))
+```
+
+### Consuming an RO-Crate
+
+You can load an RO-Crate from a directory or ZIP file by passing its path to
+the `ROCrate` constructor:
+
+```python
+crate = ROCrate('exp_crate')  # or ROCrate('exp_crate.zip')
+for e in crate.get_entities():
+    print(e.id, e.type)
+```
+
+```
+ro-crate-metadata.json CreativeWork
+./ Dataset
+paper.pdf File
+results.csv File
+images/figure.svg File
+logs/ Dataset
+https://orcid.org/0000-0000-0000-0000 Person
+https://orcid.org/0000-0000-0000-0001 Person
+...
+```
+
+The first two entities shown in the output are the [metadata file
+descriptor](https://www.researchobject.org/ro-crate/1.1/metadata.html) and the
+[root data
+entity](https://www.researchobject.org/ro-crate/1.1/root-data-entity.html),
+respectively. The former represents the metadata file, while the latter
+represents the whole crate. In ro-crate-py, these are special entities created
+and managed by the `ROCrate` object, and are always present. The other
+entities are the ones we added in the [section on RO-Crate
+creation](#creating-an-ro-crate). As shown above, `get_entities` allows to
+iterate over all entities in the crate. You can also access only data entities
+with `crate.data_entities` or only contextual entities with
+`crate.contextual_entities`. For instance:
+
+```python
+for e in crate.data_entities:
+    author = e.get("author")
+    if not author:
+        continue
+    elif isinstance(author, list):
+        print(e.id, [p.get("name") for p in author])
+    else:
+        print(e.id, repr(author.get("name")))
+```
+
+```
+paper.pdf ['Alice Doe', 'Bob Doe']
+results.csv 'Alice Doe'
+images/figure.svg 'Bob Doe'
+```
+
+You can fetch an entity by its `@id` as follows:
+
+```python
+article = crate.get("paper.pdf")
+print([a["name"] for a in article["author"]])
+```
+
+```
+['Alice Doe', 'Bob Doe']
+```
+
+You can also get all entities of a certain type:
+
+```python
+print(crate.get_by_type("File"))
+```
+
+```
+[<paper.pdf File>, <results.csv File>, <images/figure.svg File>]
 ```
