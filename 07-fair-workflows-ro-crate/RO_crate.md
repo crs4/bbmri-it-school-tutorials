@@ -369,7 +369,7 @@ You can load an RO-Crate from a directory or ZIP file by passing its path to
 the `ROCrate` constructor:
 
 ```python
-crate = ROCrate('exp_crate')  # or ROCrate('exp_crate.zip')
+crate = ROCrate("exp_crate")  # or ROCrate("exp_crate.zip")
 for e in crate.get_entities():
     print(e.id, e.type)
 ```
@@ -435,4 +435,28 @@ print(crate.get_by_type("File"))
 
 ```
 [<paper.pdf File>, <results.csv File>, <images/figure.svg File>]
+```
+
+Note that the string representation of an entity is in the `<ID TYPE>` format.
+
+### Command Line Interface
+
+`ro-crate-py` includes a hierarchical CLI: the `rocrate` tool. `rocrate` is
+the top-level command, while specific functionalities are provided via
+sub-commands. Currently, the tool allows to initialize an existing directory
+tree as an RO-Crate (`rocrate init`), to modify the metadata of an existing
+RO-Crate (`rocrate add`) and to save an existing RO-Crate directory as a ZIP
+archive (`rocrate write-zip`).
+
+```console
+$ rocrate --help
+Usage: rocrate [OPTIONS] COMMAND [ARGS]...
+
+Options:
+  --help  Show this message and exit.
+
+Commands:
+  add
+  init
+  write-zip
 ```
