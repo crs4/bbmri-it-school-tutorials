@@ -71,8 +71,7 @@ Archetype ID  [the archetype you are looking for (i.e.,openEHR-EHR-COMPOSITION.r
 | ----------------------  | ----------  | --------------  |
 | openEHR-EHR-CLUSTER.organisation.v1 | organisation | Cluster->Organisation(v1) |
 | openEHR-EHR-CLUSTER.case_identification.v0 | identification | Cluster->Case Identification(v0) |
-| 	
-openEHR-EHR-SECTION.adhoc.v1 | adhoc | Section->Adhoc(v1) |
+| openEHR-EHR-SECTION.adhoc.v1 | adhoc | Section->Adhoc(v1) |
 | openEHR-EHR-EVALUATION.birth_summary.v1 | birth | Entry->Evaluation->Birth_Summary(v1) |
 | openEHR-EHR-EVALUATION.gender.v1 | gender | Entry->Evaluation->Gender(v1) |
 | openEHR-EHR-EVALUATION.problem_diagnosis.v1 | diagnosis | Entry->Evaluation->Problem_Diagnosis(v1) |  
@@ -81,51 +80,57 @@ openEHR-EHR-SECTION.adhoc.v1 | adhoc | Section->Adhoc(v1) |
 | openEHR-EHR-CLUSTER.specimen.v1 | specimen | Cluster->Specimen(v1) |
 
 ### 1.4 Creating the template in Archetype Designer
-1. open the Archetype Designer https://tools.openehr.org/designer/ and log in via github, Google or Microsoft account. 
+1. Open the Archetype Designer https://tools.openehr.org/designer/ and log in via github, Google or Microsoft account. 
 
-2. create a new project
+2. Create a new repository, setting "Local folder" as the type.
 
-3. enter the project
+3. Enter the repository.
 
-4. import all the archetypes. Click "import" button, on top of the page, then "Browse" and choose all the previously downloaded archetypes, then "upload all", and at last push the "close" button.
+4. Import all the archetypes. Click the "Import" button, on top of the page, then "Browse" and choose all the previously downloaded archetypes, then "Upload all", and at last push the "Close" button.
 
-5. Click "New->Template". In the pop up window choose openEHR-EHR-COMPOSITION.report.v1 as the root archetype id and call this new template "biobank_report_template"
+5. Click "New->Template". In the pop-up window, choose _openEHR-EHR-COMPOSITION.report.v1_ as the Root Archetype Id and call this new template "biobank_report_template". This step initialises the template by displaying a tree structure on the left. As individual nodes are selected, the details of each are displayed on the right (node ID, occurrences, description, etc.).
 
-6. click "extension" of other_context and add the Organisation archetype that you find on the bottom right of the page
+6. First, include in the **_context_** the structures needed to contain biobank and participant data:
+	
+	6-1. From the tree view, select the "Extension" SLOT under the "other_context" attribute and add the _Organisation_ archetype from the bottom right of the page.
 
-7. click "additional_details" and add case_identification
+	6-2. Within the SLOT "Additional_details" add the _Case identification_ archetype.
 
-8. click "content" and add openEHR-EHR-SECTION.adhoc.v1 which you rename "Demographics" by clicking twice the old name and typing the new one.
+7. Then structure the **_content_** by organizing it into three sections for demographics, diagnosis and sample information:
 
-9. click "items" and add the following items:
-    - birth_summary
-    - gender
+	7-1. Click "content" to add an _Ad hoc heading_ archetype and rename it to "Demographics" by clicking twice the old name and typing the new one.
+	
+	7-2. Within this section, add the following archetypes by clicking on the "item" element:
+    - Birth summary
+    - Gender
 
-10. click "content" and add openEHR-EHR-SECTION.adhoc.v1 which you rename "Diagnosis" by clicking twice the old name and typing the new one.
+	7-3. Add a second section by clicking the "content" attribute of the root archetype and selecting an _Ad hoc heading_ archetype. Rename it to "Diagnosis".
+	
+	7-4. Within this section, add the _Problem/Diagnosis_archetype by clicking on the "item" element.
+	
+	7-5. In the "Specific details" SLOT,  nest the _Timing - non-daily_ archetype.
+	
+	7-6. Add a third section to the "content" and label it "Sample".
+	
+	7-7. Add the _Specimen summary_ archetype within this section.
+	
+	7-8. Add the _Specimen_ archetype within the "Additional details" SLOT of _Specimen summary_.
 
-11. click "items" and add the following item:
-    - problem_diagnosis
-    
-12. click "specific_details" and add "timing_nondaily"
+8. Rename all the nodes and archetypes that contain the information we are interested in accord with each row of the table reported in section 1.1. That is, find the node original name and change it to the new node name and, if needed, change the corresponding archetype name to the new one.
 
-13. click "content" and add openEHR-EHR-SECTION.adhoc.v1 which you rename "Sample" by clicking twice the old name and typing the new one.
+9. Remove all nodes not mapped to one of the data we want to store. Click the node you need to remove, e.g, Report ID under context->other_context, on the right change the occurrences from 0..1 or 0..* or any other value to 0..0. The first number is the minimum of occurrences, the second one is the maximum, so we are setting to zero the minimum and maximum occurences for each node we are not interest in.
 
-14. add "specimen_summary" to "items"
 
-15. add "specimen" to the "additional_details" section of "specimen_summary"
-
-16. rename all the nodes and archetypes that contain the information we are interested in accord with each row of the table reported in section 1.1. That is, find the node original name and change it to the new node name and, if needed, change the corresponding archetype name to the new one.
-
-17. remove all nodes not mapped to one of the data we want to store. Click the node you need to remove, e.g, Report ID under context->other_context, on the right change the occurrences from 0..1 or 0..* or any other value to 0..0. The first number is the minimum of occurrences, the second one is the maximum, so we are setting to zero the minimum and maximum occurences for each node we are not interest in.
 The final template should look like this:
+
 ![Template Only Selected Nodes](./images/04-template-only-selected-nodes.png)
 
 
-18. set the occurrences for the Samples. Click "Specimen summary" and set the occurrences to "0..*" . Asterisk means any number so now we can attribute any number of samples, include none, to each patient.
+10. Set the occurrences for the Samples. Click "Specimen summary" and set the occurrences to "0..*" . Asterisk means any number so now we can attribute any number of samples, include none, to each patient.
 
-19. click "year of sample collection". On the right remove "Interval:Date Time" from available types and set Pattern dropdown menu to "year only".
+19. Click "Year of sample collection". On the right remove "Interval:Date Time" from available types and set Pattern dropdown menu to "year only".
 
-20. click Save, fill it with the needed version info (your choice), then click "export" and then "export->export to OPT"
+20. Click Save, fill it with the needed version info (your choice), then click "export" and then "export->export to OPT".
 
 ## 2. Upload Template into EHRBase 
 In this section we set up EHRBase and interact with it. The final objectives are the insertion of the template just created and the retrieval of an example composition for that template.
@@ -240,6 +245,7 @@ P = period designator (starts the duration), Y = years, M = months, D = days, T 
 Firstly, we upload only the first compositions so we see the procedure then we make use of a feature of openEHRTool that makes it possible to upload a batch of compositions.
 
 So the steps in openEHRTool are:
+
 1. create an EHR. Click the folder like symbol, choose "Post" type of methods and select "Create EHR with/without EHRid specified". Leave the EHRid blank and click "submit". An EHR will be created, that is the container for patient files, i.e.,compositions. Copy the EHRid on the clipboard.
 
 
@@ -266,8 +272,10 @@ So the steps in openEHRTool are:
 
 ## 5. Query the compositions
 In order to query the compositions we suggest two possible ways:
--continue to use openEHRTool. Section 5.1
--set up and use aqlbetter. Section 5.2
+
+- continue to use openEHRTool (see Section 5.1)
+- set up and use aqlbetter (see Section 5.2)
+
 Section 5.3 contains the tests that you can carry on with either of those tools.
 
 **Note** aqlbetter is an adaptation for EHRBase of AQL Builder, a software written by Better to help in writing queries for their own platform and released open-source. The original software information can be found at [aql builder site]( https://docs.better.care/studio/aql-builder/overview ).
@@ -277,49 +285,60 @@ If you created the template according to chapter 1 skip to the subsection 5.1.2.
 
 ### 5.1.1 Set up Archetype Designer
 
-1. open the Archetype Designer https://tools.openehr.org/designer/ and log in via github, Google or Microsoft account. 
+1. Open the Archetype Designer https://tools.openehr.org/designer/ and log in via github, Google or Microsoft account. 
 
-2. create a new project
+2. Create a new repository
 
-3. enter the project
+3. Enter the repository
 
-4. import the fileset. Click "import" button, on top of the page, then "Browse" and choose "biobank_report_template.zip", then "upload all", and at last push the "close" button.
+4. Import the fileset from the Solution folder. Click "import" button, on top of the page, then "Browse" and choose "biobank_report_template.zip", then "upload all", and at last push the "close" button.
 
-5. click on the template. It will be useful to get the paths needed in the queries
+5. Click on the template. It will be useful to get the paths needed in the queries.
 
 
 ### 5.1.2 Query the compositions
 
-To run a query follow these steps:
-1. click the icon with the magnifying glass and the paper 
-2. click "Run query" method. 
-3. type your query in the "AQL Query" box
-4. optionally use additional filters: fetch (equivalent to SQL LIMIT), offset, and query parameters
-5. the GET and POST methods are available. Use POST when you have a long query that does not fit into the Browsers URL limit or you are sending sensitive data in the query, otherwise GET and POST are equivalent. 
-6. click the "Submit" button. Optionally there are boxes for the additional filters: fetch (equivalent to SQL LIMIT), offset, and query parameters.
+To run a query follow these steps using the openEHRTool:
+
+1. Click the icon with the magnifying glass and the paper.
+2. Click "Run query" method. 
+3. Type your query in the "AQL Query" box.
+4. Optionally use additional filters: fetch (equivalent to SQL LIMIT), offset, and query parameters.
+5. The GET and POST methods are available. Use POST when you have a long query that does not fit into the Browsers URL limit or you are sending sensitive data in the query, otherwise GET and POST are equivalent. 
+6. Click the "Submit" button. Optionally there are boxes for the additional filters: fetch (equivalent to SQL LIMIT), offset, and query parameters.
 
 **Note 1** The path for each node can be retrieved from the Archetype Designer in Details->Resolved Path. You can use absolute paths that start from the composition root or relative paths, that are relative to an element inside the path. 
+
 ```e.g. year of sample collection
 Absolute Path
 c/content[openEHR-EHR-SECTION.adhoc.v1, 'Sample']/items[openEHR-EHR-EVALUATION.specimen_summary.v1]/data[at0001]/items[openEHR-EHR-CLUSTER.specimen.v1]/items[at0015, 'year of sample collection'] 
-where c is the composition symbol in the query, Relative path 
+where c is the composition symbol in the query
+
+Relative path 
 s/items[at0015, 'year of sample collection'] 
 where s is the specimen cluster symbol in the query.
 ```
 
 **Note 2** Remember to add for a node "/value/value" and "/value" to each path found respectevely in Archetype Designer and in aqlbetter. For instance "year of sample collection" in Archetype Designer has a path:
+
 ```
 /content[openEHR-EHR-SECTION.adhoc.v1, 'Sample']/items[openEHR-EHR-EVALUATION.specimen_summary.v1]/data[at0001]/items[openEHR-EHR-CLUSTER.specimen.v1]/items[at0015, 'year of sample collection']
 ```
+
 while in aqlbetter has a path:
+
 ```
 /content[openEHR-EHR-SECTION.adhoc.v1 and name/value='Sample']/items[openEHR-EHR-EVALUATION.specimen_summary.v1]/data[at0001]/items[openEHR-EHR-CLUSTER.specimen.v1]/items[at0015 and name/value='year of sample collection']/value
 ```
+
 The correct path if we want the value of the node is:
+
 ```
 /content[openEHR-EHR-SECTION.adhoc.v1, 'Sample']/items[openEHR-EHR-EVALUATION.specimen_summary.v1]/data[at0001]/items[openEHR-EHR-CLUSTER.specimen.v1]/items[at0015, 'year of sample collection']/value/value
 ```
+
 This is what we find at the path shown by Archetype Designer without our addition:
+
 ```
 {
         "_type": "ELEMENT",
@@ -334,23 +353,29 @@ This is what we find at the path shown by Archetype Designer without our additio
         "archetype_node_id": "at0015"
 }
 ```
+
 and at the path shown by aqlbetter without our addition (that is also at the path shown by Archetype Designer with an addition of only one "value") :
+
 ```
 {
         "_type": "DV_DATE_TIME",
         "value": "2021-01-01T00:00:00"
 }
 ```
+
 Finally with another "value" added:
+
 ```
 "2021-01-01T00:00:00"
 ```
 
 ## 5.2 Set up aqlbetter
 Clone the aqlbetter-dockerized github repository:
+
 ```
 git clone https://github.com/crs4/aqlbetter-dockerized.git
 ```
+
 Follow the instructions to run the dockerized version of the software. Once the container is running, go to http://localhost and type a valid username,password for EHRBase. You will be redirected to a second page where you type the query on the right box, run it with the play button and see the results on the page bottom. The lefthand side of the page allow to see the template and get the path, needed for queries.
 
 ## 5.3 Test your querying skill
