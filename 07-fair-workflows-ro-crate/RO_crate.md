@@ -460,3 +460,87 @@ Commands:
   init
   write-zip
 ```
+
+To try the CLI, get a copy of the ro-crate-py repository:
+
+```bash
+git clone --depth 1 --branch 0.14.0 https://github.com/ResearchObject/ro-crate-py
+cd ro-crate-py/test/test-data/ro-crate-galaxy-sortchangecase
+```
+
+This directory is already an RO-Crate. Delete the metadata file to get a plain
+directory tree:
+
+```bash
+rm ro-crate-metadata.json
+```
+
+Now the directory tree contains several files and directories, including a
+[Galaxy](https://usegalaxy.org/) workflow and a
+[Planemo](https://planemo.readthedocs.io/) test file, but it's not an RO-Crate
+anymore, since there is no metadata file. Initialize the crate:
+
+```bash
+rocrate init
+```
+
+This creates an `ro-crate-metadata.json` file that lists files and directories
+found by recursively walking the current directory tree. Note that the Galaxy
+workflow is listed as a plain `File`:
+
+```json
+{
+  "@id": "sort-and-change-case.ga",
+  "@type": "File"
+}
+```
+
+ro-crate-py has some support for the [Workflow
+RO-Crate](https://w3id.org/workflowhub/workflow-ro-crate/1.0) profile, whose
+main goal is to describe a computational workflow and associated resources.
+We can change the metadata to list the Galaxy file as a computational workflow
+by running the following command:
+
+```bash
+rocrate add workflow -l galaxy sort-and-change-case.ga
+```
+
+If you check `ro-crate-metadata.json` now, you will see that the workflow has
+a type of `["File", "SoftwareSourceCode", "ComputationalWorkflow"]` and has a
+`programmingLanguage` property that points to a `ComputerLanguage` entity that
+represents the Galaxy workflow language. Also, the workflow is linked from the
+RDE via the `mainEntity` property, as prescribed by the profile.
+
+The library also supports adding entities from the [Workflow Testing
+RO-Crate](https://w3id.org/ro/wftest) profile. Workflow Testing RO-Crate is an
+extension of Workflow RO-Crate that contains guidelines on describing tests
+being run for the workflow. The following commands add a test suite, a test
+instance, and a test definition (see the profile for more information on these
+entities).
+
+```bash
+rocrate add test-suite -i test1
+rocrate add test-instance test1 http://example.com -r jobs -i test1_1
+rocrate add test-definition test1 test/test1/sort-and-change-case-test.yml -e planemo -v '>=0.70'
+```
+
+You can get help on using the toolkit by adding the `--help` option to the
+base command or any subcommand. For instance:
+
+```console
+$ rocrate add test-instance --help
+Usage: rocrate add test-instance [OPTIONS] SUITE URL
+
+Options:
+  -r, --resource TEXT
+  -s, --service [jenkins|travis|github]
+  -i, --identifier TEXT
+  -n, --name TEXT
+  -c, --crate-dir PATH            The path to the root data entity of the
+                                  crate. Defaults to the current working
+                                  directory.
+  -P, --property KEY=VALUE        Add an additional property to the metadata
+                                  for this entity. Can be used multiple times
+                                  to set multiple properties.
+  --help                          Show this message and exit.
+```
