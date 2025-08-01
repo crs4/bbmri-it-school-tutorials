@@ -544,3 +544,61 @@ Options:
                                   to set multiple properties.
   --help                          Show this message and exit.
 ```
+
+
+## RO-Crate for best-practice workflow repositories
+
+The [repo2rocrate](https://github.com/crs4/repo2rocrate) software package
+generates a Workflow Testing RO-Crate for a workflow repository that follows
+community best practices. It currently supports Galaxy (based on
+[IWC](https://iwc.galaxyproject.org/) guidelines),
+[Nextflow](https://www.nextflow.io/) and
+[Snakemake](https://snakemake.readthedocs.io/). The tool assumes that the
+workflow repository is structured according to the community guidelines and
+generates the appropriate RO-Crate metadata for the various entities. Several
+command line options allow to specify additional information that cannot be
+automatically detected or needs to be overridden.
+
+To try the software, we'll clone one of the iwc-workflows repositories, whose
+layout is known to respect the IWC guidelines. Since it already contains an
+RO-Crate metadata file, we'll delete it before running the tool.
+
+```
+pip install repo2rocrate
+git clone https://github.com/iwc-workflows/parallel-accession-download
+cd parallel-accession-download/
+rm -fv ro-crate-metadata.json
+repo2rocrate --repo-url https://github.com/iwc-workflows/parallel-accession-download
+```
+
+This adds an `ro-crate-metadata.json` file at the top level with metadata
+generated based on the tool's knowledge of the expected repository layout,
+turning the repository root into a Workflow Testing RO-Crate.
+
+To explore the set of options provided by repo2rocrate, use the `--help`
+option:
+
+```console
+$ repo2rocrate --help
+Usage: repo2rocrate [OPTIONS]
+
+Options:
+  -r, --root DIRECTORY            workflow repository root
+  -l, --lang [nextflow|snakemake|galaxy]
+                                  workflow language (default: auto-detect)
+  -w, --workflow PATH             workflow file (default: auto-detect)
+  -o, --output PATH               output directory or zip file. The default is
+                                  the repository root itself, in which case
+                                  only the metadata file is written
+  --repo-url TEXT                 workflow repository URL
+  --wf-name TEXT                  workflow name
+  --wf-version TEXT               workflow version
+  --lang-version TEXT             workflow language version
+  --license TEXT                  license URL
+  --ci-workflow TEXT              filename (basename) of the GitHub Actions
+                                  workflow that runs the tests for the
+                                  workflow
+  --diagram TEXT                  relative path of the workflow diagram
+  --version                       print version and exit
+  --help                          Show this message and exit.
+---
