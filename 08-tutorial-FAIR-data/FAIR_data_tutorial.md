@@ -21,37 +21,36 @@ sets up four different services:
 - **mongo**: the admin database, containing the metadata of the FDP and settings (users, ecc)
 - **graphdb**: triple store database, containing the (meta)data relates to the Catalog, Dataset, Distrubition that wie'll set up
 
-  1. To run the containers, from the fdp directory, run:
-      ```bash
-      docker compose up -d
-      ```
-      NB: the FDP runs on port 8050 and 8888: be sure to have this ports free. 
-      If not, edit the port in the fdp-client service in the docker-compose.yml and in application.yml 
-      the clientUrl address with the chosen port. Additionally, the docker images in the console are only compatible 
-      with a linyx/amd64 environment. If you are using a different architecture, you will have to build the images from the Dockerfile
-      (see reference implementation documentation at https://github.com/FAIRDataTeam/FAIRDataPoint for more details).
-      Once the containers are up, we have to connect to the graph database and create the repository for the fdp. 
-      Open a browser and go to http://localhost:7200 . This wwill open the GraphDB UI. On the left menu, go to "Setup"
-      and then "Repositories". Click on the "Create repository" button, this will open the page to create the fdp repository. 
-      Click on "Create new repository" and then on "Graph DB Repository":
 
-      ![create_repository](./images/create_repository.png)
+NB: the FDP runs on port 8050 and 8888: be sure to have this ports free. 
+If not, edit the port in the fdp-client service in the docker-compose.yml and in application.yml 
+the clientUrl address with the chosen port. Additionally, the docker images in the console are only compatible 
+with a linyx/amd64 environment. If you are using a different architecture, you will have to build the images from the Dockerfile
+(see reference implementation documentation at https://github.com/FAIRDataTeam/FAIRDataPoint for more details).
+
+1. First, we have to set up only the graphdb container: 
+```bash
+docker compose up -d graphdb
+```
+Once the containers is up, we have to connect to the graph database and create the repository for the fdp. 
+Open a browser and go to http://localhost:7200 . This wwill open the GraphDB UI. On the left menu, go to "Setup"
+and then "Repositories". Click on the "Create repository" button, this will open the page to create the fdp repository. 
+Click on "Create new repository" and then on "Graph DB Repository":
+
+![create_repository](./images/create_repository.png)
   
-      Fill only the Repository ID field as in the picture, then click on "Create" on the bottom right of the page. 
+Fill only the Repository ID field as in the picture, then click on "Create" on the bottom right of the page. 
       If all went well, you should see the new repository in the list of repositories.
     
-      ![repositories](./images/repositories.png)ory, e.g. "Repository for the
+![repositories](./images/repositories.png)ory, e.g. "Repository for the
     
-      Now that we have created the fdp repository properly, we have to restart the fdp in a way that it can 
-      run properly. From shell, do:
-        ```bash
-        docker compose stop fdp
-        ```
-     And then :
-        ```bash
-        docker compose start fdp
-        ```
-     And wait a couple of minutes. 
+Now that we have created the fdp repository properly, we have to start all the containers of the FDP Reference Implementation.
+To do this, go to the fdp directory and run the following command:
+```bash
+docker compose up -d
+```
+This will start all the containers defined in the docker-compose.yml file.
+wait a couple of minutes, ina way that all the services are up and running.
 
    
      
