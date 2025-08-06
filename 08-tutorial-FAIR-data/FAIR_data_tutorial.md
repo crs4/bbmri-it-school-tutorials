@@ -1,4 +1,4 @@
-# FAIR Daya Point Setup (with reference implementation)
+# FAIR Data Point Setup (with reference implementation)
 
 ## Introduction 
 This part of the tutorial aims at showing how it is possible to create Fair Data Point (FDP)
@@ -11,7 +11,7 @@ You will have to set-up a FDP with your own data, describing:
  - the Dataset, that contains metadata about the data in the registry, 
  - the Distribution, that contains metadata about how the data are distributed for the researchers.
 
-## Setup and fill the fdp 
+## Setup and fill the FDP
 In this first part you will fill the hierarchy of the FDP with data representing your data registy.
 You will run the FDP Reference Implementation (RI) in your machine and fill the Resources in the registry.
 The fdp directory contains the configuration files for the FDP app. In particular the docker-compose.yml file 
@@ -84,12 +84,63 @@ wait a couple of minutes, ina way that all the services are up and running.
        3.  Select a language from the “Top Scheme Members”
        4.  From the page get the URI(s)
    - vi.   Add license from Creative Commons licenses (look at Appendix A)
-   - vii   Set the start and end dates
+   - vii   About the start and end dates, leave them blank.
    - viii. Add the language of the UI same as for the point v.
-4. Add one Catalog that describes the Registry of your group. Fill the metadata as done for the FDP
-5. Add one Dataset that describes the tumor cases in your registry. In addition to the common metadata, 
-   for the Dataset you will need to add
+   
+   If all went OK, after having clicked the "Save" button, you will see the updated FDP page:
+   
+   ![fdp_created](./images/fdp_created.png)
+   
+   Now, in our FDP we have to address, with the hyerarchy, the dataset on ./datasets, that is a 
+   csv reporting sample data of patients that had episodes of admission/duscharge in a hospital, with 
+   related diagnosis, tests, etc.
 
+4. First, we have to add a Catalog: in the right bottom of the page. click on the 
+   "Create" button and fill the fields as done for the FDP. Then, click on the "Save" button.
+   You will see that the Catalog has been created, but in a [DRAFT] state. 
+5. Now, let's add one Dataset that describes our case stusy, the dataset that we mentioned above. On the right
+   bottom of the Catalos page, we have the create button to create the dataset by filling the
+   related  information. The crucial thing here is to add one or mote Themes that help to 
+   descriibe what the dataset is about. The concepts must be ontologized and what we will add in the 
+   theme field is are the IRI of the concept. For simplicity, we will use LOINC as the reference ontology and 
+   we will add as themes these concepts:
+
+   - Admission
+   - Discharge
+   - Arthritis
+   - Asthma
+   - Cancer
+   - Obesity
+   - Diabetes
+   - Hypertension
+   
+   You can search for the URIs of the concepts from: https://bioportal.bioontology.org/ontologies/LOINC?p=classes
+   In the "classes" box, type the bame of the concept and click on the result that appear to 
+   look at the details:
+    ![loinc_search](./images/admission_loinc.png)
+   Copy the ID URI and paste it in the theme field of the dataset. Do the same for tall the others.
+   Finally, add a contacr point (fake email i the form of mailto:[email]) and some keywords related to the dataset, and save.
+
+6. Add now a Distribution: the distribution describes how our datasest 
+   can be accessed and the format of the Dataset. In this case we will suppose that 
+   the dataset is available as a CSV file, so we will add the URL of the file in 
+   out own filesystem, in the form ogf file://<path_to_file>. We can enteer this value in the 
+  "Access URL" field. We will instead left blank the "Download URL" field, as we do not have a
+   download URL for the file. We will also set "text/csv" as type. For all the other fields, we will do the same as in the previous pages.
+
+7. Now, from the home page, navigate the hyerarcht of the created FDP and if all is ok, 
+   publish rthe Catalog, Dataset and Distribution by ckicking on the "Publish" button on the upper-right side of each page.
+## Appendix A
+Table of Creative Commons licenses
+
+| License                                            | IRI                                                                                                                                     | Description                                                                                                                                                                                                                                                               |
+|----------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Attribution -  CC BY                               | [Link](https://raw.githubusercontent.com/creativecommons/cc.licenserdf/main/cc/licenserdf/licenses/creativecommons.org_licenses_by_4.0_.rdf)            | It lets others distribute, remix, adapt, and build upon your work, even commercially, as long as they credit you for the original creation                                                                                                                               | 
+| Attribution ShareAlike  - CC BY-SA                 | [Link](https://raw.githubusercontent.com/creativecommons/cc.licenserdf/main/cc/licenserdf/licenses/creativecommons.org_licenses_by-sa_4.0_.rdf)         | It lets others remix, adapt, and build upon your work even for commercial purposes, as long as they credit you and license their new creations under the identical terms                                                                                                 | 
+| Attribution-NoDerivs -  CC BY-ND                   | [Link](https://raw.githubusercontent.com/creativecommons/cc.licenserdf/main/cc/licenserdf/licenses/creativecommons.org_licenses_by-nd_4.0_.rdf)         | This license lets others reuse the work for any purpose, including commercially; however, it cannot be shared with others in adapted form, and credit must be provided to you.                                                                                           | 
+| Attribution-NonCommercial - CC BY-NC               | [Link](https://raw.githubusercontent.com/creativecommons/cc.licenserdf/main/cc/licenserdf/licenses/creativecommons.org_licenses_by-nc_4.0_.rdf)         | This license lets others remix, adapt, and build upon your work non-commercially, and although their new works must also acknowledge you and be non-commercial, they don’t have to license their derivative works on the same terms.                                     | 
+| Attribution-NonCommercial-ShareAlike - CC BY-NC-SA | [Link](https://raw.githubusercontent.com/creativecommons/cc.licenserdf/main/cc/licenserdf/licenses/creativecommons.org_licenses_by-nc-sa_4.0_.rdf)      | This license lets others remix, adapt, and build upon your work non-commercially, as long as they credit you and license their new creations under the identical terms.                                                                                                  | 
+| Attribution-NonCommercial-NoDerivs - CC BY-NC-ND   | [Link](https://raw.githubusercontent.com/creativecommons/cc.licenserdf/main/cc/licenserdf/licenses/creativecommons.org_licenses_by-nc-nd_4.0_.rdf)      | This license is the most restrictive of our six main licenses, only allowing others to download your works and share them with others as long as they credit you, but they can’t change them in any way or use them commercially.                                         |
 
 
 
