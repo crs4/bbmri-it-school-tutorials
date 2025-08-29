@@ -1,0 +1,282 @@
+SSH Tutorial
+
+
+SSH - Install
+Windows
+Since Windows 10 v1803+, OpenSSH client is built in.
+
+If not:
+$ Add-WindowsCapability -Online -Name OpenSSH.Client~~~~0.0.1.0
+
+Or install Git that includes OpenSSH 
+
+
+
+
+SSH - Install
+MacOS
+SSH is pre-installed on all modern macOS versions
+
+If not:
+$ /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)" # (install brew)
+$ brew install openssh
+
+SSH - Install
+Linux
+SSH is usually pre-installed, but if it’s missing:
+
+Debian/Ubuntu:
+$ sudo apt update
+$ sudo apt install openssh-client
+
+Fedora
+$ sudo dnf install openssh-clients
+Arch
+$ sudo pacman -S openssh
+
+
+
+Create your own SSH key pair
+Run ssh-keygen with default parameters .
+Will generate a key of type ed25519
+Keys will be in the files ~/.ssh/id_ed25519 (private key) and ~/.ssh/id_ed25519.pub (public key)
+
+See next slide for sample output
+
+Create your own SSH key pair
+Run ssh-keygen with default parameters.
+Sample output
+$ ssh-keygen
+Generating public/private ed25519 key pair.
+Enter file in which to save the key (/root/.ssh/id_ed25519): 
+Created directory '/root/.ssh'.
+Enter passphrase (empty for no passphrase): 
+Enter same passphrase again: 
+Your identification has been saved in /root/.ssh/id_ed25519
+Your public key has been saved in /root/.ssh/id_ed25519.pub
+The key fingerprint is:
+SHA256:7HpJcDTJ4L1MqN5lbxmoE3vbGYn6efdba8aPy0iPTfU root@1e1ea99d6f5b
+
+Create your own SSH key pair
+The key's randomart image is:
++--[ED25519 256]--+
+|      .o .       |
+|     . o=        |
+|      o.o.       |
+|     ..+.o       |
+|    . .oS .     .|
+|   . . B.o +   ..|
+|    . =.+.* . o E|
+|       =o=.+.B *.|
+|      oo+.o.o.@+o|
++----[SHA256]-----+
+
+
+
+
+
+Launch your own SSH server
+Let’s launch an SSH server in a Docker container.
+
+We have chosen the following image: https://hub.docker.com/r/linuxserver/openssh-server
+
+
+Start by pulling the image
+$ docker pull lscr.io/linuxserver/openssh-server:latest
+
+Read the image’s documentation to figure out how to start the container so that you may log with both with a password and with a key.  The solution is on the next slide…
+
+Launch your own SSH server
+Here is the full command that you should run.  Kill the server with Ctrl+C
+$ docker run --rm -p 2222:2222 -e PASSWORD_ACCESS=true -e USER_NAME=student -e USER_PASSWORD=Password -e PUBLIC_KEY="$(cat ~/.ssh/id_ed25519.key.pub)" lscr.io/linuxserver/openssh-server:latest
+docker run
+Launch container
+–rm
+Delete container after execution
+-p 2222:2222
+Expose container port 2222 on host port 2222. Necessary to allow us to connect to the ssh server from the host
+-e PASSWORD_ACCESS
+-e sets an environment variable. Here we set the env. Var. PASSWORD_ACCESS to “true” to enable password access
+-e USER_NAME
+Configure a user account with name
+-e USER_PASSWORD
+Configure the password for the user account
+-e PUBLIC_KEY
+Read the contents of our public key file into this env variable
+
+SSH - secure shell connection
+Connect to the SSH server:
+$ ssh -p 2222 student@localhost
+
+NB: the default port for SSH is 22; we are using a custom port 2222 to avoid conflicting with any real SSH servers on the same host
+
+Connect to server specifying username via parameter:
+$ ssh -l student -p 2222 localhost
+
+
+
+SSH - Execute command on remote host
+
+Execute “hostname” on the remote server and see the output locally:
+$ ssh -i ~/.ssh/id_ed25519.key student@localhost "hostname"
+6050d9aa15af
+
+$ ssh -i ~/.ssh/id_ed25519.key student@localhost ls
+logs
+ssh_host_keys
+sshd
+sshd.pid
+
+SSH - scp
+
+Transfer files with scp (built on ssh):
+$ scp file.txt student@localhost:/remote/path/
+Inverse direction:
+$ scp student@localhost:/remote/file.txt ./local/
+
+Custom port:
+$ scp -P 2222 file.txt student@localhost:/remote/path/
+Inverse direction:
+$ scp -P 2222 student@localhost:/remote/file.txt ./local/
+
+
+
+
+SSH - sftp
+
+Connect to a remote server with sftp (ssh file transfer protocol) in interactive mode:
+$ sftp student@localhost
+Once inside: you can user ls, cd, get, put, exit, bye
+
+Non interactive download:
+$ sftp student@localhost:/remote/path/file.txt /local/path/
+
+Non interactive upload:
+$ sftp /local/path/file.txt student@localhost:/remote/path/
+
+
+SSH - sftp
+
+Or transfer via batch mode:
+$ sftp -b batch.txt  student@localhost
+Where batch.txt contains:
+cd /remote/path
+put file.txt
+bye
+
+
+
+SSH - ssh passwordless
+~/.ssh/id_ed25519 and ~/.ssh/id_ed25519.pub will be created
+
+Copy the record from id_ed25519.pub  to machine2
+
+For Linux or MacOS
+$ ssh-copy-id student@localhost
+
+
+
+
+
+SSH - ssh passwordless
+Copy it to machine2
+For Windows (but also for Linux,MacOS)
+
+If ~/.ssh/authorized_keys does not exist in the machine2:
+$ scp .ssh/id_ed25519.pub student@localhost:~/.ssh/authorized_keys 
+
+Otherwise you have to append it to it:
+$ scp .ssh/id_ed25519.pub student@localhost:~/.ssh
+From machine2:
+cat ~/.ssh/id_ed25519.pub >> ~/.ssh/authorized_keys
+
+
+
+
+
+SSH - ssh passwordless
+Now you can login without typing the password:$ ssh ubuntu@192.168.1.10
+
+
+
+
+
+
+SSH - ssh config
+If you want to avoid specifying the custom port and a difficult to remember address you can use ~/.ssh/config. For instance:
+Host myserver
+    HostName 123.45.67.89
+    User user
+    Port 2222
+The you can connect more easily:$ ssh myserver
+
+
+
+
+
+
+SSH - ssh config
+Or you need to use another id for your connection:
+Host github.com
+    HostName github.com
+    User git
+    IdentityFile ~/.ssh/id_ed25519_github
+Or set global options for all hosts, e.g., reuse connection:
+Host *
+    ForwardAgent yes
+    ControlMaster auto
+    ControlPath ~/.ssh/sockets/%r@%h:%p
+    ControlPersist 10m
+
+
+
+
+
+
+SSH - SSH Tunneling
+Can be used to:
+Bypass firewalls or NATs
+Secure unencrypted protocols (lke Redis, MySQL)
+Access internal services from outside
+Expose local service to a remote machine (reverse tunnel)
+Create SOCKS proxies for routing traffic like a VPN
+
+Three types of SSH Tunneling:
+Local port forwarding
+Remote port forwarding
+Dynamic port forwarding
+
+SSH - Local port forwarding
+Access a remote service like a db on a private network, but pretend it’s on localhost
+$ ssh -L <local_port>:<remote_host>:<remote_port> user@ssh_host
+
+Example:
+$ ssh -L 5433:db.internal.net:5432 user@bastion.example.com
+$ psql -h localhost -p 5433 -U dbuser -d mydb
+
+
+
+
+
+SSH - Remote port forwarding
+Let remote access to a local service as it was hosted remotely:
+$ ssh -R 9000:localhost:3000 user@remote-server
+
+Example:
+Expose your local flask server to someone on remote-server
+$ ssh -R 8080:localhost:5000 user@remote-server.com
+$ curl http://localhost:8080
+
+
+SSH - Dynamic port forwarding
+Creates a SOCKS proxy over SSH  which lets you route your internet traffic securely through a remote server:
+$ ssh -D 1080 user@your-remote-server.com
+
+Example:
+Run all browser traffic through you home ssh server:
+$ ssh -D 1080 user@your-remote-server.com
+Then in the browser set:
+Manual proxy SOCKS Host: localhost
+                                      Port: 1080
+                                      Type: SOCKS5
+
