@@ -199,9 +199,15 @@ Execute `ls` on the remote server and see the output locally:
     sshd
     sshd.pid
 
-# Github via SSH
+# GitHub via SSH
 
-TODO
+You can use SSH as a transport for Git (i.e., as the channel through which Git transfers data).  Coupled with your SSH key, this strategy allows authenticated passwordless access to repositories.
+
+Enable this feature in GitHub. Point your browser to <https://github.com/settings/keys>
+
+Select "New SSH key" at the top right. Paste the contents of your *public* SSH key file into the appropriate text box, and give it a descriptive name in the "Title" field.  Complete the process by clicking "Add SSH key".
+
+![github-add-key](./images/Screenshot_github-add-key.png)
 
 # SSH Tunneling
 
@@ -211,6 +217,9 @@ SSH tunneling has many possible uses.  E.g.,
 * Access internal services from outside
 * Expose local service to a remote machine (reverse tunnel)
 
+In this tutorial you'll use an SSH tunnel to access a service on a network not directly accessible from your host<sup>1</sup>.
+
+<sup>1</sup>Actually, the service we'll use it technically accessible, but we'll pretend it isn't for the purposes of the exercise.
 
 ## Clean up your previous SSH server
 
@@ -233,7 +242,7 @@ Create a docker-compose containing, on the same network:
 * an NGINX server
 
 
-A sample docker compose is provided in the [ssh](./ssh) directory of this repository.  Download it and customize it for your needs, using what you learned in the containerization seminar.
+A sample docker compose is provided in the [ssh](./ssh/) directory of this repository.  Download it and customize it for your needs, using what you learned in the containerization seminar.
 * Note: in addition to the `docker-compose.yaml` file, there's also a configuration file required to modify the default SSH server configuration.
 * Note: **we're assuming you don't already have a web server running on port 80 on your host**.
 
