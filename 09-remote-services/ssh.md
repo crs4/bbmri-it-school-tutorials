@@ -661,3 +661,82 @@ EOF
 ```
 
 The `README.md` file should no longer be listed in the output.
+
+# Rclone
+
+Rclone is a command-line program to manage files on cloud storage. It supports over 40 different cloud storage providers, including Google Drive, Dropbox, OneDrive, Amazon S3, and many others. Rclone can be used to sync files and directories between your local machine and cloud storage, as well as between different cloud storage providers.
+
+## Installation
+
+To install rclone, you can follow the instructions on the [official rclone website](https://rclone.org/downloads/).
+
+## Configuration
+
+To use rclone, you first need to configure it with your cloud storage provider's credentials. This can be done using the `rclone config` command, which will guide you through the setup process.
+
+### Configure a Google Drive remote
+
+In the following examples, we will use Google Drive as our remote storage provider.
+
+To configure a Google Drive remote, run the following command:
+
+```bash
+rclone config
+```
+
+Follow the prompts to create a new remote and select "Google Drive" as the storage type. You will need to authenticate with your Google account and grant rclone access to your Drive.
+
+## Basic usage
+
+Once configured, you can use rclone commands to perform various file operations. The basic syntax is as follows:
+
+```bash
+rclone <command> <source> <destination>
+```
+
+In the following examples, we assume that you have already configured a Google Drive remote named **"gdrive"**.
+
+### List files in a remote directory
+
+The `ls` command lists the contents of a remote directory. For example:
+
+```bash
+rclone ls gdrive:
+```
+
+### Copy files to a remote directory
+
+Use the `copy` command to transfer files from your local machine to a remote location. The following example uploads a local file to a folder on Google Drive:
+
+```bash
+rclone copy /path/to/local/file.txt gdrive:folder/
+```
+
+### Copy files from a remote directory
+
+To download files, simply reverse the source and destination arguments. This command copies a file from Google Drive to a local directory:
+
+```bash
+rclone copy gdrive:folder/file.txt /path/to/local/
+```
+
+### Synchronize a local directory with a remote directory
+
+The `sync` command makes a remote directory identical to a local one, transferring only the necessary changes.
+
+```bash
+rclone sync /path/to/local/dir gdrive:folder
+```
+
+### Many other commands
+
+Rclone offers a wide range of commands for managing files and directories on cloud storage. Some of the most commonly used commands include:
+
+* `mkdir`: Create a new directory on the remote storage.
+* `delete`: Remove a file or directory from the remote storage.
+* `move`: Move a file or directory from one location to another on the remote storage.
+* `copyto`: Copy a file to a specific location on the remote storage.
+* `lsd`: List directories in a remote path.
+...
+
+You can find a complete list of commands and their usage in the [official rclone documentation](https://rclone.org/commands/).
