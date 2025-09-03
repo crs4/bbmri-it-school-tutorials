@@ -326,22 +326,121 @@ For example, you can clone the course tutorials repository:
 git clone git@github.com:crs4/bbmri-it-school-tutorials.git
 ```
 
-# SSH - scp
+# SSH - scp (Secure Copy Protocol)
 
-**TODO**
+The `scp` command is a simple and secure way to transfer files between your local machine and a remote server, or vice versa. It is built on top of SSH, ensuring that all data is encrypted during transfer.
 
-Transfer files with scp (built on ssh):
-$ scp file.txt student@localhost:/remote/path/
-Inverse direction:
-$ scp student@localhost:/remote/file.txt ./local/
+## Transfer a file to a remote server
 
-Custom port:
-$ scp -P 2222 file.txt student@localhost:/remote/path/
-Inverse direction:
-$ scp -P 2222 student@localhost:/remote/file.txt ./local/
+To copy a file from your local machine to a remote server, use the following command:
 
+```bash
+scp bbmri-it-school-tutorials/README.md student@localhost:/tmp/README.md
+```
 
+where:
 
+* `bbmri-it-school-tutorials/README.md` is the source file on your local machine.
+* `student@localhost:/tmp/README.md` specifies the destination path on the remote server, including the username (`student`), the server address (`localhost`), and the target directory (`/tmp/README.md`).
+
+> **📝 Note**  
+`scp` leverages the SSH configuration defined in the system's `~/.ssh/config` file. If a configuration entry exists for the target machine, it will automatically use the associated username, port, and authentication method (e.g., key). This eliminates the need to specify these parameters manually for each command.
+
+After running this command, the file `README.md` will be securely transferred to the `/tmp` directory on the remote server.
+
+#### Verify the file on the remote server
+
+Once the file is transferred, you can verify its contents by running a remote `cat` command:
+
+```bash
+ssh student@localhost "cat /tmp/README.md"
+```
+
+This command connects to the remote server and displays the contents of the file directly in your terminal.
+
+## Transfer a file from a remote server to your local machine
+
+To copy a file from the remote server back to your local machine, use the following command:
+
+```bash
+scp student@localhost:/tmp/README.md ./tmp/README.md
+```
+
+where:
+
+* `student@localhost:/tmp/README.md`: Specifies the source file on the remote server. It includes the username (`student`), the server address (`localhost`), and the file path (`/tmp/README.md`).
+* `./tmp/README.md`: Specifies the destination path on your local machine.
+
+After running this command, the file `README.md` will be securely transferred to the `./tmp` directory on your local machine.
+
+#### Verify the file on your local machine
+
+Once the file is transferred, you can verify its contents locally by running:
+
+```bash
+cat ./tmp/README.md
+```
+
+This command displays the contents of the file directly in your terminal, confirming that the transfer was successful.
+
+## Transfer a folder from your local machine to a remote server
+
+To copy a folder from your local machine to a remote server, use the `-r` (recursive) option:
+
+```bash
+scp -r bbmri-it-school-tutorials/ student@localhost:/tmp/
+```
+
+This command will securely transfer the entire `bbmri-it-school-tutorials` directory and its contents to the `/tmp` directory on the remote server.
+
+#### Verify the folder on the remote server
+
+Once the folder is transferred, you can verify its contents by running a remote `ls` command:
+
+```bash
+ssh student@localhost "ls -l /tmp/bbmri-it-school-tutorials"
+```
+
+This command connects to the remote server and lists the contents of the transferred directory.
+
+## Additional notes (scp)
+
+Common useful options:
+
+* Non-standard port: `-P 2222` (if you have a host entry in `~/.ssh/config` you do not need to specify it each time)
+* Specific identity file: `-i ~/.ssh/id_ed25519`
+* Compression (useful on slow links / text): `-C`
+* Preserve permissions and timestamps: `-p`
+* Verbose (debug): `-v` (repeatable: `-vv`, `-vvv`)
+* Quiet: `-q`
+* Limit bandwidth: `-l 500` (in Kbit/s)
+
+Examples:
+
+```bash
+# Copy to server on port 2222
+scp -P 2222 file.txt student@localhost:/remote/path/
+
+# Copy a directory preserving permissions and times
+scp -rp dir/ student@localhost:/remote/path/
+
+# Compressed and verbose copy using host defined in ~/.ssh/config (e.g., "myserver")
+scp -Cv dir/file.log myserver:/var/logs/
+
+# Use an alternate key
+scp -i ~/.ssh/id_ed25519_github README.md myserver:/tmp/
+```
+
+Wildcards (expanded locally):
+
+```bash
+scp logs/*.gz myserver:/var/log/archive/
+```
+
+<div class="tip" style="padding: 20px;">
+    <span class="icon" aria-hidden="true">💡</span>
+    <strong>Tip:</strong> For repeated synchronizations or large directory trees prefer <code>rsync -e ssh ...</code> (more efficient: transfers only differences).
+</div>
 
 # SSH - sftp
 
