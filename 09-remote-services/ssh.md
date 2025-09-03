@@ -199,15 +199,6 @@ Execute `ls` on the remote server and see the output locally:
     sshd
     sshd.pid
 
-# GitHub via SSH
-
-You can use SSH as a transport for Git (i.e., as the channel through which Git transfers data).  Coupled with your SSH key, this strategy allows authenticated passwordless access to repositories.
-
-Enable this feature in GitHub. Point your browser to <https://github.com/settings/keys>
-
-Select "New SSH key" at the top right. Paste the contents of your *public* SSH key file into the appropriate text box, and give it a descriptive name in the "Title" field.  Complete the process by clicking "Add SSH key".
-
-![github-add-key](./images/Screenshot_github-add-key.png)
 
 # SSH Tunneling
 
