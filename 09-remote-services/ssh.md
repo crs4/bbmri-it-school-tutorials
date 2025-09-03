@@ -325,6 +325,16 @@ Paste the contents of your *public* SSH key file into the appropriate text box, 
 
 ![github-add-key](./images/Screenshot_github-add-key.png)
 
+## Cloning a repository
+
+Now that you have set up SSH access, you can clone a GitHub repository via SSH.
+
+For example, you can clone the course tutorials repository:
+
+```bash
+git clone git@github.com:crs4/bbmri-it-school-tutorials.git
+```
+
 # SSH - scp
 
 **TODO**
