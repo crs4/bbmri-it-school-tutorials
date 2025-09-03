@@ -615,3 +615,49 @@ sftp> get -r /var/www/html ./site-backup
 sftp> bye
 
 ```
+
+# rsync
+
+Rsync is a powerful tool for synchronizing files and directories between two locations over SSH. It is often faster than SFTP for large transfers because it only transfers the differences between the source and destination.
+
+## Basic usage
+
+To use rsync over SSH, you can use the following command structure:
+
+```bash
+rsync -avz -e "ssh -p <port>" <source> <user>@<host>:<destination>
+```
+
+* `-a`: Archive mode (preserves permissions, timestamps, etc.)
+* `-v`: Verbose output
+* `-z`: Compress file data during transfer
+* `-e`: Specify the remote shell to use (in this case, SSH)
+
+## Example
+
+Suppose you want to synchronize the local git repo `/tmp/bbmri-it-school-tutorials` with the remote git repo `student@localhost:/tmp/bbmri-it-school-tutorials`. You can use the following command:
+
+```bash
+rsync -avz -e "ssh -p 2222" /tmp/bbmri-it-school-tutorials/ student@localhost:/tmp/bbmri-it-school-tutorials/
+```
+
+This command will copy all files from the local git repo to the remote git repo, preserving their attributes and only transferring the differences if the command is run multiple times.
+
+### Delete option
+
+Let's try to delete the `README.md` file from the local repository and then synchronize the changes to the remote repository. If we use the `--delete` option, rsync will remove files from the destination that are no longer present in the source.
+
+```bash
+rm /tmp/bbmri-it-school-tutorials/README.md
+rsync -avz --delete -e "ssh -p 2222" /tmp/bbmri-it-school-tutorials/ student@localhost:/tmp/bbmri-it-school-tutorials/
+```
+
+We can use `sftp` in batch mode to check the remote repository and confirm that the `README.md` file has been deleted:
+
+```bash
+sftp -b - myserver <<EOF
+ls /tmp/bbmri-it-school-tutorials/
+EOF
+```
+
+The `README.md` file should no longer be listed in the output.
