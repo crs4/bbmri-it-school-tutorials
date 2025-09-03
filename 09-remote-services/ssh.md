@@ -442,26 +442,176 @@ scp logs/*.gz myserver:/var/log/archive/
     <strong>Tip:</strong> For repeated synchronizations or large directory trees prefer <code>rsync -e ssh ...</code> (more efficient: transfers only differences).
 </div>
 
-# SSH - sftp
+# SSH - sftp (SSH File Transfer Protocol)
 
-**TODO**
+SFTP (SSH File Transfer Protocol) is a secure file transfer protocol that runs over an SSH session, using the same port, encryption, and authentication (users, keys). It supports both interactive file management and scripted (batch) transfers.
 
-Connect to a remote server with sftp (ssh file transfer protocol) in interactive mode:
-$ sftp student@localhost
-Once inside: you can user ls, cd, get, put, exit, bye
+## When to use sftp vs scp
 
-Non interactive download:
-$ sftp student@localhost:/remote/path/file.txt /local/path/
+Use sftp when you need:
 
-Non interactive upload:
-$ sftp /local/path/file.txt student@localhost:/remote/path/
+* Directory navigation before deciding what to transfer
+* Resumable transfers (reget/reput)
+* Multiple operations over a single persistent session
 
+Use scp for quick single known copy operations.
 
-SSH - sftp
+## Interactive session
 
-Or transfer via batch mode:
-$ sftp -b batch.txt  student@localhost
-Where batch.txt contains:
-cd /remote/path
-put file.txt
+Connect (port from earlier example via config entry myserver, or explicit):
+
+```
+sftp student@localhost
+# or (uses ~/.ssh/config entry)
+sftp myserver
+# or explicit port
+sftp -P 2222 student@localhost
+```
+
+Prompt becomes `sftp>`. Common commands:
+
+Remote vs local:
+
+* `ls` / `pwd` / `cd`: remote listing, working directory change
+* `lls` / `lpwd` / `lcd`: local equivalents
+* `get file`: download file
+* `put file`: upload file
+* `get -r dir`: recursive download
+* `put -r dir`: recursive upload
+* `mget *.log`: multiple download (wildcards expanded remotely)
+* `mput *.txt`: multiple upload
+* `reget file`: resume download (if partially transferred)
+* `reput file`: resume upload
+* `rm` / `rmdir` / `mkdir`: manage remote files and directories
+* `rename old new`: rename a file or directory
+* `chmod 644 file`: change file permissions (server permitting)
+* `help` (or `?`): list available commands
+* `exit` / `bye` / `quit`: leave the session
+
+Example (download then verify locally):
+
+```
+sftp> lcd /tmp
+sftp> get /var/log/ssh.log
+sftp> bye
+cat /tmp/ssh.log
+```
+
+## One‑off (non‑interactive) transfers
+
+Assuming you have already cloned the course repository (see the section [GitHub via SSH](#github-via-ssh)), you can perform one‑off SFTP transfers directly from the terminal without entering the interactive prompt. Below are examples of simple download and upload operations using non‑interactive sftp.
+
+Download:
+
+```
+sftp student@localhost:/tmp/bbmri-it-school-tutorials/README.md /tmp/README.md
+```
+
+Do some changes to the file, e.g. `sed -i 's/BBMRI IT School Tutorials/BBMRI IT School Tutorials 2025/g' /tmp/README.md`
+
+Upload:
+
+```
+sftp /tmp/README.md student@localhost:/tmp/bbmri-it-school-tutorials/README.md
+```
+
+Check the changes:
+
+```bash
+ssh student@localhost "cat /tmp/bbmri-it-school-tutorials/README.md"
+```
+
+## Batch mode (scripted)
+
+For automated or scripted transfers, `sftp` can read commands from a batch file. This is useful for running unattended jobs, such as backups or deployments.
+
+Let's create a simple batch file that uploads a local file, renames it on the remote server, and then downloads it back.
+
+1. **Create a local test file** to upload:
+
+    ```bash
+    echo "This is a test file for SFTP batch mode." > local_test_file.txt
+    ```
+
+2. **Create the batch file** named `sftp_batch_commands.txt` with the following content. This script will upload our test file, rename it, and then download it back to the local machine with a new name.
+
+    ```
+    # sftp_batch_commands.txt: Upload, rename, and download a file.
+    put local_test_file.txt
+    rename local_test_file.txt remote_test_file.txt
+    get remote_test_file.txt downloaded_test_file.txt
+    bye
+    ```
+
+3. **Execute the batch transfer** using the `-b` option. We'll use the `myserver` alias from our SSH config:
+
+    ```bash
+    sftp -b sftp_batch_commands.txt myserver
+    ```
+
+    * The `-b` flag tells `sftp` to read commands from the specified file instead of entering an interactive session.
+    * For debugging, you can add `-v`. To suppress the progress meter and other output, use `-q`.
+
+4. **Verify the result** on both the remote and local machines:
+
+    First, check that the file was uploaded and renamed on the remote server:
+
+    ```bash
+    ssh myserver "ls -l remote_test_file.txt"
+    ```
+
+    You should see the file `remote_test_file.txt` listed.
+
+    Next, verify that the file was downloaded to your local machine:
+
+    ```bash
+    cat downloaded_test_file.txt
+    ```
+
+    This should display the content "This is a test file for SFTP batch mode.", confirming the entire batch process was successful.
+
+## Resuming a large transfer
+
+Inside interactive session:
+
+```
+
+reget bigfile.iso   # resume download
+reput bigfile.iso   # resume upload
+
+```
+
+## Common options
+
+* -P <port>         non-standard port (capital P unlike ssh)
+* -i <identityfile> select key
+* -b <file>         batch mode commands
+* -q                quiet
+* -C                compression
+* -r                recursive (when used with get / put)
+* -v / -vv / -vvv   verbose debug
+
+## Quick examples
+
+Upload recursively:
+
+```
+
+sftp -P 2222 -i ~/.ssh/id_ed25519 -b - student@localhost <<'EOF'
+mkdir /tmp/project
+cd /tmp/project
+put -r ./local-project
 bye
+EOF
+
+```
+
+Download a directory (interactive):
+
+```
+
+sftp myserver
+sftp> get -r /var/www/html ./site-backup
+sftp> bye
+
+```
