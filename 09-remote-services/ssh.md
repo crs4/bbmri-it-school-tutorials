@@ -37,7 +37,9 @@ Debian/Ubuntu:
 Fedora:
 
     $ sudo dnf install openssh-clients
-    Arch
+
+Arch:
+
     $ sudo pacman -S openssh
 
 
@@ -124,18 +126,30 @@ You can also specify the user using the `@` syntax, like this:
 
 # SSH - authenticate with your key
 
-Rather than using password authentication, you can authenticate with the key we created earlier
-* recall: we configured our toy server to recognize the key through the `PUBLIC_KEY` environment variable.
+Rather than using password authentication, you can authenticate with the key we created earlier.
+* Recall: we configured our toy server to recognize the key through the `PUBLIC_KEY` environment variable.
 
 The `-i` switch tells SSH to use the specified key to authenticate. Connect to the SSH server using your key by executing the following command:
 
     $ ssh -i ~/.ssh/id_ed25519.key -p 2222 student@localhost
 
+You just logged in without typing a password!
 
-Note: you just logged in without typing a password!
+**Note**. With this configuration, the private key is the only authentication required to access your server.  Keeping your key secret is as important as keeping a password secret.
 
-Note: if you had used a password to secure (i.e., encrypt) your key when you generated it with `ssh-keygen`, you would normally have to enter the password to use the key to authenticate yourself.
+Key based authentication has many advantages over password-based authentication.  For instance:
+* convenience -- log in without typing a password;
+* not susceptible to dictionary or brute force attacks;
+* automatic log in -- enables automation.
 
+When you generate a key with `ssh-keygen`, you can configure a password to secure it (i.e., encrypt it). Then, your password would protect the key and you would normally have to enter it to decrypt the key and authenticate yourself.  This strategy gives you the security of key-based authentication, but with the inconvenience of having to type a password.
+
+Set the current SSH key aside. Repeat the exercise, this time creating a new SSH key *with a passphrase*.  Notice how you need to unlock the key to use it.
+
+
+For both key-based security and password-less convenience, you can read up on using [`ssh-agent`](https://www.ssh.com/academy/ssh/agent).
+
+After you have finished, you can restart the SSH server with the password-less key, so we can use it for the rest of this tutorial.
 
 # SSH - passwordless logins
 
@@ -146,7 +160,17 @@ A normal server would need to be configured for this to work.  The process is:
 2. add an entry for the public key to authorize
     * format has three whitespace-separated fields, on the same line: key-type pubkey comment
 
-To configure a remote server at `server.com`, you can manually add the entry to `~/.ssh/authorized_keys`, or use the `ssh-copy-id` command to simplify the process:
+So, to configure a hypothetical remote server called `server.com`, you can log into it and manually add the entry to `~/.ssh/authorized_keys`.
+
+Exercise: log into your local SSH server again and check the file `~/.ssh/authorized_keys`.  You should see something like:
+```
+ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOSYgWViDGYUYlVZczHOQd5VQW+rkCthHHWBseoUYns+ root@18bd4c5a056b
+```
+That's because the docker container initialization has automatically created the `authorized_keys` file from the settings we provided through the environment variables.
+
+## ssh-copy-id
+
+To configure the hypothetical `server.com`, an alternative to manually creating the `authorized_keys` file is to use the `ssh-copy-id` command, which partially automates the process:
 
     $ ssh-copy-id -i ~/.ssh/id_ed25519.key student@server.com
 
@@ -162,11 +186,11 @@ Host myserver
     IdentityFile ~/.ssh/id_ed25519.key
 ```
 
-Create a file `~/.ssh/config` with the content above, then connect to the server using the simple command below:
+Create a file `~/.ssh/config` on your computer, with the content above, then connect to the server using the simple command below:
 
     $ ssh myserver
 
-SSH config entries are also useful to specify speific user names for specific servers.  E.g.,
+SSH config entries are also useful to specify specific usernames for specific servers.  E.g.,
 ```
 Host github.com
     HostName github.com
@@ -184,7 +208,7 @@ Host *
 
 # SSH - Execute command on remote host
 
-In addition to opening a remote shell, you can use SSH to remotely execute commands.
+With SSH, in addition to opening a remote shell, you can remotely execute commands.
 
 Execute `hostname` on the remote server and see the output locally:
 
@@ -202,15 +226,17 @@ Execute `ls` on the remote server and see the output locally:
 
 # SSH Tunneling
 
+Recall: SSH tunneling is a way to use SSH to create a "general purpose" secure network communication channel, that you can use to send data for another application (e.g., a web server, database server).
+
 SSH tunneling has many possible uses.  E.g.,
-* Bypass firewalls or NATs
-* Secure unencrypted protocols (e.g., Redis, MySQL)
-* Access internal services from outside
-* Expose local service to a remote machine (reverse tunnel)
+* Bypass firewalls or NATs;
+* Secure unencrypted protocols (e.g., Redis, MySQL);
+* Access internal services from outside the LAN;
+* Expose local service to a remote machine (reverse tunnel).
 
 In this tutorial you'll use an SSH tunnel to access a service on a network not directly accessible from your host<sup>1</sup>.
 
-<sup>1</sup>Actually, the service we'll use it technically accessible, but we'll pretend it isn't for the purposes of the exercise.
+<sup>1</sup>Actually, since the service we'll use will be running as a local Docker container, technically it is accessible, but we'll pretend it isn't for the purposes of the exercise.
 
 ## Clean up your previous SSH server
 
@@ -225,6 +251,12 @@ We're going to use docker-compose to create a new test scenario where:
 * we have an SSH server and a web server
 * we have direct access to the SSH server, but the web server is only accessible *through* the SSH server.
 
+```mermaid
+graph LR;
+  client --> SSH_server
+  SSH_server --> web_server
+```
+
 This scenario is similar to what you might expect to find when you have a computing infrastructure accessible through a single SSH bastion server, with no application ports being accessible from the outside world.
 
 
@@ -235,7 +267,7 @@ Create a docker-compose containing, on the same network:
 
 A sample docker compose is provided in the [ssh](./ssh/) directory of this repository.  Download it and customize it for your needs, using what you learned in the containerization seminar.
 * Note: in addition to the `docker-compose.yaml` file, there's also a configuration file required to modify the default SSH server configuration.
-* Note: **we're assuming you don't already have a web server running on port 80 on your host**.
+* Note: we're assuming you **don't already have a web server running** on port 80 on your host.
 
 Once your docker compose file is ready, you can launch it with
 
@@ -249,13 +281,21 @@ Confirm the presence of the new Docker network with
 
     docker network ls
 
-In the list you should see one called `ssh_tutorial`.
+You should see a list that looks something like this:
+```
+NETWORK ID     NAME           DRIVER    SCOPE
+8f4282727b32   bridge         bridge    local
+47df747da497   host           host      local
+21d20fa76914   none           null      local
+ee15781bb7d6   ssh_tutorial   bridge    local
+```
+In the list you should see a network called `ssh_tutorial`.
 
 Look at the network more closely.  Docker subcommands generally support the verb `inspect` to provide detailed information.  You can inspect your network with:
 
-    docker network inspectr ssh_tutorial
+    docker network inspect ssh_tutorial
 
-That will print out some detailed JSON.  You can use *Go templates* directly (or the [jq command](https://jqlang.org/manual/)) to query the JSON and extract information.
+That will print out some detailed JSON.  You can use *Go templates* directly (or the [`jq` command](https://jqlang.org/manual/)) to query the JSON and extract information.
 
 Here we use a Go template, specified with the `-f` option, to see the IP addresses assigned to our containers:
 ```
@@ -265,13 +305,13 @@ web-server      172.18.0.3/16
 ```
 Try the command on your own system and see what you get.  Also, look through the other data available through `inspect`.
 
-Notice that our containers have been assigned addresses from the `172.18.0.0/16` subnet.  This is a private IP subnet.  These addresses are thus accessible from your host, but they are not routable on the internet and generally would not be accessible from other computers on your LAN.
+Notice that our containers have been assigned addresses from the `172.18.0.0/16` subnet.  This is a [private IP](https://ipcisco.com/lesson/private-ip-address-ranges/) subnet.  These addresses are thus accessible from your host, but they are not routable on the internet and generally would not be accessible from other computers on your LAN.
 
 
 ## Accessing your web server
 
 Open your browser.  Try to access your web server through `http://localhost`.  You should get an error message, like "Unable to connect".
-* Reason: the web server is not connected to the host's "main" network.  It's thus not accessible through `localhost`, nor would it be accessible through its public IP address
+* Reason: while the web server is running, it is not connected to the host's "main" network.  It's thus not accessible through `localhost`, nor would it be accessible through its public IP address
 
 Test your SSH server.  Connect to it as we did before.  If you have properly customized the docker compose your previous SSH config entry should still work:
 
@@ -279,9 +319,9 @@ Test your SSH server.  Connect to it as we did before.  If you have properly cus
     Welcome to OpenSSH Server
     57f581289a1a:~$
 
-Once you have confirmed that's working, exit the shell.  Notice that, in this case, we accessed the server through the `localhost` network device (which we were unable to do with the web server).  If you have another node on the same LAN as your host, you should also be able to contact the SSH server from it, using the host's LAN IP address.
+Once you have confirmed that's working, exit the shell.  Notice that, in this case, we accessed the SSH server through the `localhost` network device (which we were unable to do with the web server).  If you have another node on the same LAN as your host, you should also be able to contact the SSH server from it, using the host's LAN IP address.
 
-Now, let's get access to the web server.  Let's create an *SSH tunnel* to allow access to our web server *through* the SSH server.
+Now, let's get access to the web server.  Create an SSH tunnel to allow access to our web server *through* the SSH server.
 
 Run this command:
 
@@ -291,23 +331,26 @@ Command breakdown:
 | | |
 | --- | --- |
 | `-L` | Forward a local port |
-| `8000:` | Forward loca port 8000 |
+| `8000:` | Local port to be forwarded |
 | `web:80` | Destination: connections to the selected local port will be forwarded to a server called `web` on its port `80` |
-| `myserver` | That's the entry in our SSH config |
-| `-N` | Rather than opening a shell, just run the tunnel.  **Close the tunnel with `Ctrl+C` |
+| `myserver` | SSH server. That's the entry in our SSH config |
+| `-N` | Rather than opening a shell, just run the tunnel.  **Close the tunnel with `Ctrl+C`** |
 
 
-Now the tunnel should be active, any connections to port `8000` on your host should be forwarded to the service called `web` in our docker compose (because the SSH server sees it with that name, as it's defined in the `docker-compose.yaml` file).
+You should see that the SSH command just seems to hang, but it's actually active and the tunnel should be open.  Therefore, any connections to port `8000` on your host machine should be forwarded to port 80 of the service called `web` in our docker compose (because the SSH server sees it with that name, as it's defined in the `docker-compose.yaml` file).
 
 Test it out.  Open your browser and point it to `http://localhost:8000`.  You should see a web page like this one:
 
 ![nginx welcome](./images/Screenshot_nginx.png)
 
+If you see this screen, you have successfully completed the exercise.
+
+
 # GitHub via SSH
 
-You can use SSH as a transport for Git (i.e., as the channel through which Git transfers data).  Coupled with your SSH key, this strategy allows authenticated passwordless access to repositories.
+You can use SSH as a transport for Git (i.e., as the channel through which Git transfers data).  Coupled with your SSH key, this strategy allows for key-based authenticated access to repositories (potentially password-less).
 
-Enable this feature in GitHub. Point your browser to <https://github.com/settings/keys>
+Enable this feature for your GitHub account. Point your browser to <https://github.com/settings/keys> (log in if you haven't already).
 
 ![github-keys](./images/Screenshot_github-keys.png)
 
@@ -343,7 +386,7 @@ where:
 * `bbmri-it-school-tutorials/README.md` is the source file on your local machine.
 * `student@localhost:/tmp/README.md` specifies the destination path on the remote server, including the username (`student`), the server address (`localhost`), and the target directory (`/tmp/README.md`).
 
-> **📝 Note**  
+> **📝 Note**
 `scp` leverages the SSH configuration defined in the system's `~/.ssh/config` file. If a configuration entry exists for the target machine, it will automatically use the associated username, port, and authentication method (e.g., key). This eliminates the need to specify these parameters manually for each command.
 
 After running this command, the file `README.md` will be securely transferred to the `/tmp` directory on the remote server.
