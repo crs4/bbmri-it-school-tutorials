@@ -50,7 +50,7 @@ Run ssh-keygen with default parameters to create a new SSH public/private key pa
 * Keys will be in the files `~/.ssh/id_ed25519` (private key) and `~/.ssh/id_ed25519.pub` (public key)
 
 Example:
-```
+```bash
 $ ssh-keygen
 Generating public/private ed25519 key pair.
 Enter file in which to save the key (/root/.ssh/id_ed25519):
@@ -298,7 +298,7 @@ Look at the network more closely.  Docker subcommands generally support the verb
 That will print out some detailed JSON.  You can use *Go templates* directly (or the [`jq` command](https://jqlang.org/manual/)) to query the JSON and extract information.
 
 Here we use a Go template, specified with the `-f` option, to see the IP addresses assigned to our containers:
-```
+```bash
 docker network inspect -f '{{range $id, $c := .Containers}}{{printf "%s\t%s\n" $c.Name $c.IPv4Address}}{{end}}' ssh_tutorial
 openssh-server  172.18.0.2/16
 web-server      172.18.0.3/16
@@ -363,100 +363,119 @@ Paste the contents of your *public* SSH key file into the appropriate text box, 
 
 Now that you have set up SSH access, you can clone a GitHub repository via SSH.
 
-For example, you can clone the course tutorials repository:
+Try it.  Clone the course tutorials repository:
 
 ```bash
 git clone git@github.com:crs4/bbmri-it-school-tutorials.git
 ```
 
-# SSH - scp (Secure Copy Protocol)
+You'll use the local copy of the repository in the following exercises.
+
+# Copying files over SSH
+
+As you saw during our lecture, a secure communication channel established via SSH can be used to transfer any kind of data.  In fact, it can also be used to trasfer files.   There are several file copy and file management tools/protocols that work over SSH.
+
+## `scp` (Secure Copy Protocol)
 
 The `scp` command is a simple and secure way to transfer files between your local machine and a remote server, or vice versa. It is built on top of SSH, ensuring that all data is encrypted during transfer.
 
-## Transfer a file to a remote server
+**Note**.  `scp` is pervasive, but it is deprecated.  It has security problems and lacks modern features.  You should know what it is and how to use it because you may find it in your work, but **prefer other tools such as `sftp`** whenever you have the option.
 
-To copy a file from your local machine to a remote server, use the following command:
 
+The `scp` command looks a bit like the `cp` Unix utility.  The command synopsis is:
 ```bash
-scp bbmri-it-school-tutorials/README.md student@localhost:/tmp/README.md
+  scp [options] SOURCE DESTINATION
 ```
 
-where:
 
-* `bbmri-it-school-tutorials/README.md` is the source file on your local machine.
-* `student@localhost:/tmp/README.md` specifies the destination path on the remote server, including the username (`student`), the server address (`localhost`), and the target directory (`/tmp/README.md`).
+Perform the following tasks to familiarize yourself with it.
+
+### Transfer a file to a remote server
+
+Copy the `README.md` file from the clone repository on your local machine to our SSH server. Use the following command:
+
+```bash
+scp bbmri-it-school-tutorials/README.md myserver:/tmp/README.md
+```
+Command breakdown:
+| | |
+| --- | --- |
+| `bbmri-it-school-tutorials/README.md` | the source file on your local machine |
+| `myserver:/tmp/README.md` | the destination on the remote server |
+
+The destination is is composed of two parts, separated by the `:`
+1. `myserver`: SSH server -- same syntax as for the `ssh` command;
+2. `/tmp/README.md`: destination path on the server.
 
 > **📝 Note**
-`scp` leverages the SSH configuration defined in the system's `~/.ssh/config` file. If a configuration entry exists for the target machine, it will automatically use the associated username, port, and authentication method (e.g., key). This eliminates the need to specify these parameters manually for each command.
+`scp` uses your SSH config just like the normal `ssh` command. Therefore, you can use the name `myserver` which we created earlier.
 
-After running this command, the file `README.md` will be securely transferred to the `/tmp` directory on the remote server.
+> **📝 Note**
+The `:` syntax is used by many commands to identify remote paths.  Just as in `scp`, the part before the `:` is generally the hostname (optionally when a `username@` part); the part after the `:` is the remote path.
+
+After running this command, the file `README.md` will be securely transferred to the `/tmp` directory on the SSH server.
 
 #### Verify the file on the remote server
 
-Once the file is transferred, you can verify its contents by running a remote `cat` command:
+Once the file is transferred, verify its contents by *remotely* running a remote `cat` command:
 
 ```bash
-ssh student@localhost "cat /tmp/README.md"
+ssh myserver "cat /tmp/README.md"
 ```
 
-This command connects to the remote server and displays the contents of the file directly in your terminal.
+This command connects to the remote SSH server and runs `cat`, dumping the contents of the `README.md` file to `stdout` and therefore to your terminal.
 
-## Transfer a file from a remote server to your local machine
+### Transfer a file from a remote server to your local machine
 
-To copy a file from the remote server back to your local machine, use the following command:
+Copy a file from the remote server back to your local machine. Use the following command:
 
 ```bash
-scp student@localhost:/tmp/README.md ./tmp/README.md
+scp myserver:/tmp/README.md ./tmp/README.md
 ```
 
-where:
+In this case, the source is on the remote server and the destination is local.
+* As before, the remote part is identified by the `:` syntax.
 
-* `student@localhost:/tmp/README.md`: Specifies the source file on the remote server. It includes the username (`student`), the server address (`localhost`), and the file path (`/tmp/README.md`).
-* `./tmp/README.md`: Specifies the destination path on your local machine.
-
-After running this command, the file `README.md` will be securely transferred to the `./tmp` directory on your local machine.
+By running this command, the file `README.md` will be securely transferred from the SSH server to the local `./tmp/` directory on your local machine.
 
 #### Verify the file on your local machine
 
-Once the file is transferred, you can verify its contents locally by running:
+Once the file is transferred, verify its contents locally by running:
 
 ```bash
 cat ./tmp/README.md
 ```
 
-This command displays the contents of the file directly in your terminal, confirming that the transfer was successful.
-
 ## Transfer a folder from your local machine to a remote server
 
-To copy a folder from your local machine to a remote server, use the `-r` (recursive) option:
+Copy a directory from your local machine to a remote server. This action requires a recursive copy, which needs to be enabled with the `-r` option:
 
 ```bash
-scp -r bbmri-it-school-tutorials/ student@localhost:/tmp/
+scp -r bbmri-it-school-tutorials/ myserver:/tmp/
 ```
 
 This command will securely transfer the entire `bbmri-it-school-tutorials` directory and its contents to the `/tmp` directory on the remote server.
 
 #### Verify the folder on the remote server
 
-Once the folder is transferred, you can verify its contents by running a remote `ls` command:
+Once the folder is transferred, verify its contents by remotely running the `ls` command, like this:
 
 ```bash
-ssh student@localhost "ls -l /tmp/bbmri-it-school-tutorials"
+ssh myserver "ls -lR /tmp/bbmri-it-school-tutorials"
 ```
 
-This command connects to the remote server and lists the contents of the transferred directory.
+### Additional notes (scp)
 
-## Additional notes (scp)
-
-Common useful options:
+Common useful options (many, but not all, are identical to `ssh`):
 
 * Non-standard port: `-P 2222` (if you have a host entry in `~/.ssh/config` you do not need to specify it each time)
-* Specific identity file: `-i ~/.ssh/id_ed25519`
-* Compression (useful on slow links / text): `-C`
+* Specific key file: `-i ~/.ssh/id_ed25519`
+* Enable compression (useful on slow links / text): `-C`
 * Preserve permissions and timestamps: `-p`
 * Verbose (debug): `-v` (repeatable: `-vv`, `-vvv`)
 * Quiet: `-q`
 * Limit bandwidth: `-l 500` (in Kbit/s)
+
 
 Examples:
 
@@ -467,53 +486,56 @@ scp -P 2222 file.txt student@localhost:/remote/path/
 # Copy a directory preserving permissions and times
 scp -rp dir/ student@localhost:/remote/path/
 
-# Compressed and verbose copy using host defined in ~/.ssh/config (e.g., "myserver")
+# Enable compression (data compressed on-the-fly prior to being trasmitted) and verbose output
 scp -Cv dir/file.log myserver:/var/logs/
 
 # Use an alternate key
 scp -i ~/.ssh/id_ed25519_github README.md myserver:/tmp/
 ```
 
-Wildcards (expanded locally):
-
+Wildcards (expanded remotely):
 ```bash
-scp logs/*.gz myserver:/var/log/archive/
+scp myserver:/var/log/* /tmp/server-logs/
 ```
+(don't actually run that...there are no logs in that directory).
 
 <div class="tip" style="padding: 20px;">
     <span class="icon" aria-hidden="true">💡</span>
-    <strong>Tip:</strong> For repeated synchronizations or large directory trees prefer <code>rsync -e ssh ...</code> (more efficient: transfers only differences).
+    <strong>Remember:</strong> scp is deprecated. Prefer other tools!
 </div>
 
-# SSH - sftp (SSH File Transfer Protocol)
+## sftp (SSH File Transfer Protocol)
 
-SFTP (SSH File Transfer Protocol) is a secure file transfer protocol that runs over an SSH session, using the same port, encryption, and authentication (users, keys). It supports both interactive file management and scripted (batch) transfers.
+SFTP (SSH File Transfer Protocol) is a secure file transfer protocol that runs over an SSH channel, using the same port, encryption, and authentication (users, keys). It supports both interactive file management (similar to interactive FTP clients) and scripted (batch) transfers.
 
-## When to use sftp vs scp
+There is a strong analogy between FTP and SFTP.  If you're already familiar with FTP, you'll find SFTP quite intuitive.
 
-Use sftp when you need:
+**Important**:  remember that SFTP is a subsystem of SSH.  Unless the functionality has been explicitly disabled, every SSH server supports SFTP connections.
 
-* Directory navigation before deciding what to transfer
-* Resumable transfers (reget/reput)
-* Multiple operations over a single persistent session
+### When to use sftp vs scp
 
-Use scp for quick single known copy operations.
+Ideally always.  `sftp` is secure and should always be preferred to `scp`.
 
-## Interactive session
+### Interactive session
 
-Connect (port from earlier example via config entry myserver, or explicit):
+Open an interfactive SFTP session to your SSH server.
 
-```
-sftp student@localhost
-# or (uses ~/.ssh/config entry)
-sftp myserver
-# or explicit port
+You can explicitly specify all your server connection parameters:
+```bash
 sftp -P 2222 student@localhost
 ```
+Or, you can make use of your SSH config entry:
+```bash
+sftp myserver
+```
 
-Prompt becomes `sftp>`. Common commands:
+You should see the prompt `sftp>`.
 
-Remote vs local:
+The prompt supports a number of commands. Get the list by running `help`:
+```bash
+sftp> help
+```
+Here's a list of the main commands for you to study:
 
 * `ls` / `pwd` / `cd`: remote listing, working directory change
 * `lls` / `lpwd` / `lcd`: local equivalents
@@ -531,52 +553,52 @@ Remote vs local:
 * `help` (or `?`): list available commands
 * `exit` / `bye` / `quit`: leave the session
 
-Example (download then verify locally):
+**📝 Tip**: commands normally act on the remote server, but most commands that start with `l` act on the local file system.
+* e.g., `lcd`, `lls`, `lpwd`
 
-```
+Download the remote file `/keygen.sh` to your local `/tmp/` directory:
+```bash
 sftp> lcd /tmp
-sftp> get /var/log/ssh.log
+sftp> get /keygen.sh
 sftp> bye
 cat /tmp/ssh.log
 ```
 
-## One‑off (non‑interactive) transfers
+### One‑off (non‑interactive) transfers
 
-Assuming you have already cloned the course repository (see the section [GitHub via SSH](#github-via-ssh)), you can perform one‑off SFTP transfers directly from the terminal without entering the interactive prompt. Below are examples of simple download and upload operations using non‑interactive sftp.
+Perform a one‑off SFTP transfer directly from the terminal, without entering the interactive prompt.
 
-Download:
-
-```
-sftp student@localhost:/tmp/bbmri-it-school-tutorials/README.md /tmp/README.md
+Use the course repository that your copied to the server earlier in the `scp` section.  Download the `README.md` file from the server to the local `/tmp` directory:
+```bash
+sftp myserver:/tmp/bbmri-it-school-tutorials/README.md /tmp/README.md
 ```
 
 Do some changes to the file, e.g. `sed -i 's/BBMRI IT School Tutorials/BBMRI IT School Tutorials 2025/g' /tmp/README.md`
 
-Upload:
-
+Now upload it to the server:
+```bash
+sftp /tmp/README.md myserver:/tmp/bbmri-it-school-tutorials/README.md
 ```
-sftp /tmp/README.md student@localhost:/tmp/bbmri-it-school-tutorials/README.md
-```
 
-Check the changes:
+Verify that the changes are on the server:
 
 ```bash
-ssh student@localhost "cat /tmp/bbmri-it-school-tutorials/README.md"
+ssh myserver "grep 'BBMRI IT School Tutorials 2025' /tmp/bbmri-it-school-tutorials/README.md"
 ```
 
-## Batch mode (scripted)
+### Batch mode (scripted)
 
 For automated or scripted transfers, `sftp` can read commands from a batch file. This is useful for running unattended jobs, such as backups or deployments.
 
-Let's create a simple batch file that uploads a local file, renames it on the remote server, and then downloads it back.
+Create a simple batch file that uploads a local file, renames it on the remote server, and then downloads it back.
 
-1. **Create a local test file** to upload:
+1. **Create the local test file** to be uploaded:
 
     ```bash
     echo "This is a test file for SFTP batch mode." > local_test_file.txt
     ```
 
-2. **Create the batch file** named `sftp_batch_commands.txt` with the following content. This script will upload our test file, rename it, and then download it back to the local machine with a new name.
+2. **Create the batch file**. Call it `sftp_batch_commands.txt`. Insert the following content:
 
     ```
     # sftp_batch_commands.txt: Upload, rename, and download a file.
@@ -585,8 +607,8 @@ Let's create a simple batch file that uploads a local file, renames it on the re
     get remote_test_file.txt downloaded_test_file.txt
     bye
     ```
-
-3. **Execute the batch transfer** using the `-b` option. We'll use the `myserver` alias from our SSH config:
+    SFTP batch files contain a sequence of SFTP commands, that will be executed sequentially (plus comments, starting with `#`). This script will upload our test file, rename it (remotely), then download it back to the local machine with a new name, and then disconnect.
+3. **Execute the batch transfer** on `myserver` with `sftp -b`:
 
     ```bash
     sftp -b sftp_batch_commands.txt myserver
@@ -613,113 +635,197 @@ Let's create a simple batch file that uploads a local file, renames it on the re
 
     This should display the content "This is a test file for SFTP batch mode.", confirming the entire batch process was successful.
 
-## Resuming a large transfer
+### Resuming a large transfer
 
-Inside interactive session:
-
-```
-
+If a `get` download or a `put` upload was interrupted, you can use `reget` and `reput` to resume them.  E.g.,
+```bash
 reget bigfile.iso   # resume download
 reput bigfile.iso   # resume upload
-
 ```
 
-## Common options
+### Common options
 
-* -P <port>         non-standard port (capital P unlike ssh)
-* -i <identityfile> select key
-* -b <file>         batch mode commands
-* -q                quiet
-* -C                compression
-* -r                recursive (when used with get / put)
-* -v / -vv / -vvv   verbose debug
+| Option | Description |
+| --- | --- |
+| `-P <port>`         | non-standard port (capital P unlike ssh) |
+| `-i <identityfile>` | select key |
+| `-b <file>`         | batch mode commands |
+| `-q`                | quiet |
+| `-C`                | compression |
+| `-r`                | recursive (when used with get / put) |
+| `-v / -vv / -vvv`   | verbose debug |
 
-## Quick examples
+### Quick examples
 
-Upload recursively:
+Provide a batch script via standard input by specify `-b -`.  Here we recursively upload `./local-project` to the remote directory `/tmp/project`, after creating with `mkdir`:
 
-```
-
-sftp -P 2222 -i ~/.ssh/id_ed25519 -b - student@localhost <<'EOF'
+```bash
+sftp  -b - myserver <<'EOF'
 mkdir /tmp/project
 cd /tmp/project
 put -r ./local-project
 bye
 EOF
-
 ```
 
 Download a directory (interactive):
-
-```
-
+```bash
 sftp myserver
 sftp> get -r /var/www/html ./site-backup
 sftp> bye
-
 ```
 
 # rsync
 
-Rsync is a powerful tool for synchronizing files and directories between two locations over SSH. It is often faster than SFTP for large transfers because it only transfers the differences between the source and destination.
+Rsync is a powerful tool for synchronizing files and directories between two locations.  It can be used for local copies and remote copies (i.e., between nodes).  Normally, remote copies with Rsync are best done over SSH -- i.e., rsync establishes a secure communication channel over SSH and uses it to transfer data between the local Rsync process and a remote Rsync process, automatically launched via SSH.
+
+Rsync is more flexible (and complex) than SFTP and is faster for repeat copies of files or entire directory trees, because it only transfers the differences between the source and destination.
 
 ## Basic usage
 
-To use rsync over SSH, you can use the following command structure:
-
+`rsync` has a command structure similar to the previous commands we already saw:
 ```bash
-rsync -avz -e "ssh -p <port>" <source> <user>@<host>:<destination>
+rsync [options] SOURCE DESTINATION
 ```
 
-* `-a`: Archive mode (preserves permissions, timestamps, etc.)
-* `-v`: Verbose output
-* `-z`: Compress file data during transfer
-* `-e`: Specify the remote shell to use (in this case, SSH)
+`rsync` uses the same `:` syntax to specify remote services.  Moreover, the default protocol for accessing remote services *is SSH*.  Therefore, copy a simple local file to our SSH server, like this:
+```bash
+rsync ./bbmri-it-school-tutorials/09-remote-services/ssh.md myserver:/tmp/
+```
+
+You should see an error like this:
+```bash
+bash: line 1: rsync: command not found
+rsync: connection unexpectedly closed (0 bytes received so far) [sender]
+```
+
+**Lesson 1**:  Using `rsync` requires having the binary installed on both client *and server*.
+
+### Install rsync on the server
+
+Use your Docker knowledge to install `rsync` inside your SSH server container.  `cd` to your docker compose directory and execute a shell *inside* the running container:
+```bash
+docker compose exec ssh /bin/bash
+root@5c39c5b6f3e7:/#
+```
+You should be root within that shell.
+
+The server image is based on [Alpine Linux](https://www.alpinelinux.org/), which is a "security-oriented, lightweight Linux distribution based on musl libc and busybox".  Its simplicity and light weight make it an ideal base for container images.  The official Alpine Linux image is [on Docker Hub](https://hub.docker.com/_/alpine/) and it is often an excellent choice of base image.
+
+To install `rsync` within the server, use Alpine's `apk` package manager.  In your open container shell, run the command
+```bash
+apk add rsync
+```
+It should like something like this:
+
+```bash
+root@5c39c5b6f3e7:/# apk add rsync
+fetch http://dl-cdn.alpinelinux.org/alpine/v3.22/main/x86_64/APKINDEX.tar.gz
+fetch http://dl-cdn.alpinelinux.org/alpine/v3.22/community/x86_64/APKINDEX.tar.gz
+(1/3) Installing lz4-libs (1.10.0-r0)
+(2/3) Installing libxxhash (0.8.3-r0)
+(3/3) Installing rsync (3.4.1-r0)
+Executing busybox-1.37.0-r19.trigger
+OK: 29 MiB in 65 packages
+root@5c39c5b6f3e7:/#
+```
+
+Now exit the shell.  Your SSH server now has `rsync`.  Run this command and verify that it works:
+```bash
+rsync ./bbmri-it-school-tutorials/09-remote-services/ssh.md myserver:/tmp/
+```
+
+**📝 Note**:  if you delete and recreate your container (e.g., bring down your docker compose), the container image will be restored to its original state (so it will no longer have `rsync`).
+
+## Rsync over SSH -- custom SSH options
+
+By default, `rsync` invokes `ssh` without any special arguments.  To provide your own invocation of `ssh` (e.g., to specify custom connection options), use the `-e` option.
+
+Perform an `rsync` copy between your local file system and your SSH server without using your pre-configured SSH config
+```bash
+rsync -e "ssh -p 2222" student@localhost:/tmp/ssh.md /tmp/ssh.md
+```
+It should ask you for the password to establish the connection and then copy the remote `ssh.md` file to your local `/tmp/` directory.
+
+To tell `rsync` over SSH, you can use the following command structure:
+
+## Rsync - common options
+
+| Option | Description |
+| --- | --- |
+| `-a` | Archive mode (recursive, preserves permissions, timestamps, etc.) |
+| `-v` | Verbose output |
+| `-z` | Compress file data during transfer (like `ssh -C`)|
+| `-e` | Specify the remote shell to use (in this case, SSH) |
 
 ## Example
 
-Suppose you want to synchronize the local git repo `/tmp/bbmri-it-school-tutorials` with the remote git repo `student@localhost:/tmp/bbmri-it-school-tutorials`. You can use the following command:
+Suppose you want to synchronize the local git repo `/tmp/bbmri-it-school-tutorials` with the remote git repo `myserver:/tmp/bbmri-it-school-tutorials`. You can use the following command:
 
 ```bash
-rsync -avz -e "ssh -p 2222" /tmp/bbmri-it-school-tutorials/ student@localhost:/tmp/bbmri-it-school-tutorials/
+rsync -avz ./bbmri-it-school-tutorials/ myserver:/tmp/bbmri-it-school-tutorials/
 ```
 
-This command will copy all files from the local git repo to the remote git repo, preserving their attributes and only transferring the differences if the command is run multiple times.
+This command will copy all files inside the local git repo directory to the remote git repo, preserving their attributes and only transferring the differences if the command is run multiple times.
 
-### Delete option
+Run the `rsync` copy command **again**.  It should be faster than the first time (since it didn't actually have to copy anything).
+```bash
+ rsync -avz ./bbmri-it-school-tutorials/ myserver:/tmp/bbmri-it-school-tutorials/
+sending incremental file list
 
-Let's try to delete the `README.md` file from the local repository and then synchronize the changes to the remote repository. If we use the `--delete` option, rsync will remove files from the destination that are no longer present in the source.
+sent 17,575 bytes  received 165 bytes  5,068.57 bytes/sec
+total size is 29,531,878  speedup is 1,664.71
+```
+Compare the bytes sent this time to the bytes sent reported at the end of the first copy.
+
+## Delete option
+
+Delete the `README.md` file from the local repository and then synchronize the changes to the remote repository.
+```bash
+rm bbmri-it-school-tutorials/README.md
+rsync -az ./bbmri-it-school-tutorials/ myserver:/tmp/bbmri-it-school-tutorials/
+```
+Check whether the remote `README.md` file exists:
+```bash
+ssh myserver "ls /tmp/bbmri-it-school-tutorials/README.md"
+```
+
+You should find that the file *still exists* -- i.e., `ls` does not report an error.  `rsync` by default doesn't propagate file deletions.  To synchronize directories, including deletions, specify the `--delete` option. Then, `rsync` will remove files from the destination that are not present in the source.
 
 ```bash
-rm /tmp/bbmri-it-school-tutorials/README.md
-rsync -avz --delete -e "ssh -p 2222" /tmp/bbmri-it-school-tutorials/ student@localhost:/tmp/bbmri-it-school-tutorials/
+rsync -avz --delete /tmp/bbmri-it-school-tutorials/ myserver:/tmp/bbmri-it-school-tutorials/
 ```
 
-We can use `sftp` in batch mode to check the remote repository and confirm that the `README.md` file has been deleted:
-
+Now check whether it exists:
 ```bash
-sftp -b - myserver <<EOF
-ls /tmp/bbmri-it-school-tutorials/
-EOF
+ssh myserver "ls /tmp/bbmri-it-school-tutorials/README.md"
 ```
+The `ls` command should report "No such file or directory".
 
-The `README.md` file should no longer be listed in the output.
+## Advanced usage
+
+`rsync` is the Swiss army knife of file copying.  It can copy anything (e.g., special device files, symbolic links).  It can copy parts of directory trees, filtering the contents by file name (see `--include`, `--exclude`, `--filter`).  Take a few minutes to look over its option list.  Don't try to learn it all, but it's good to have an idea of what it can do.
+
 
 # Rclone
 
-Rclone is a command-line program to manage files on cloud storage. It supports over 40 different cloud storage providers, including Google Drive, Dropbox, OneDrive, Amazon S3, and many others. Rclone can be used to sync files and directories between your local machine and cloud storage, as well as between different cloud storage providers.
+[Rclone](https://rclone.org/) is a command-line program to manage/copy files on cloud storage. It supports over 40 different cloud storage providers, including Google Drive, Dropbox, OneDrive, Amazon S3, and many others. It also supports transferring data to/from non-cloud services such as `ftp`, `http`, `sftp` and the local file system.
+
+Rclone can be used to access, copy, sync or manage files and directories between your local machine and cloud storage, or between different any two supported storage providers.
 
 ## Installation
 
-To install rclone, you can follow the instructions on the [official rclone website](https://rclone.org/downloads/).
+To install `rclone`, you can follow the instructions on the [official rclone website](https://rclone.org/downloads/).
 
 ## Configuration
 
-To use rclone, you first need to configure it with your cloud storage provider's credentials. This can be done using the `rclone config` command, which will guide you through the setup process.
+To use `rclone`, you first need to configure a *remote* -- i.e., remote storage service.  Because cloud storage providers often have complex authentication and configuration mechanisms, the configuration cannot be provided directly on command invocation.  Instead, we first have to configure the remote storage source or destination, and then we can use it in an operation.
+
+Remote configuration is done with the `rclone config` command. It will guide you step-by-step through the setup process.
 
 ### Configure a Google Drive remote
 
-In the following examples, we will use Google Drive as our remote storage provider.
+We assume you have a Google account.  Configure your Google Drive space as an `rclone` remote.
 
 To configure a Google Drive remote, run the following command:
 
@@ -727,59 +833,62 @@ To configure a Google Drive remote, run the following command:
 rclone config
 ```
 
-Follow the prompts to create a new remote and select "Google Drive" as the storage type. You will need to authenticate with your Google account and grant rclone access to your Drive.
+Follow the prompts to create a new remote. Select "Google Drive" as the storage type. Call your new remote `gdrive`. You will need to authenticate with your Google account and grant `rclone` access to your Drive.
+
+**📝 Tip**: when prompted, you should choose to encrypt your `rclone` configuration.  It will contain authentication credentials, and choosing to encrypt the configuration will keep them safer.
 
 ## Basic usage
 
-Once configured, you can use rclone commands to perform various file operations. The basic syntax is as follows:
-
+Once configured, you can use `rclone` commands to perform various file operations. The basic syntax is the usual:
 ```bash
 rclone <command> <source> <destination>
 ```
 
-In the following examples, we assume that you have already configured a Google Drive remote named **"gdrive"**.
-
 ### List files in a remote directory
 
-The `ls` command lists the contents of a remote directory. For example:
-
+List the commands in your `gdrive` from the CLI, with `rclone`.  Use the `ls` command, like this:
 ```bash
 rclone ls gdrive:
 ```
 
 ### Copy files to a remote directory
 
-Use the `copy` command to transfer files from your local machine to a remote location. The following example uploads a local file to a folder on Google Drive:
+Use the `rclone copy` command to transfer files from your local machine to your `gdrive`:
 
 ```bash
-rclone copy /path/to/local/file.txt gdrive:folder/
+rclone copy /local/file/of/your/choice.txt gdrive:your-destination/
 ```
 
 ### Copy files from a remote directory
 
-To download files, simply reverse the source and destination arguments. This command copies a file from Google Drive to a local directory:
+To download files, simply reverse the source and destination arguments.
+Copy the file you uploaded in the previous step into your `/tmp` directory:
 
 ```bash
-rclone copy gdrive:folder/file.txt /path/to/local/
+rclone copy gdrive:your-destination/choice.txt /tmp/
 ```
 
 ### Synchronize a local directory with a remote directory
 
-The `sync` command makes a remote directory identical to a local one, transferring only the necessary changes.
+The `rclone sync` command makes a remote directory identical to a local one, transferring only the necessary changes.
 
 ```bash
 rclone sync /path/to/local/dir gdrive:folder
 ```
 
+**📝 Tip**: depending on the type of storage provider, `rclone` may deem files identical only based on matching file size and modification time.
+
 ### Many other commands
 
 Rclone offers a wide range of commands for managing files and directories on cloud storage. Some of the most commonly used commands include:
 
-* `mkdir`: Create a new directory on the remote storage.
-* `delete`: Remove a file or directory from the remote storage.
-* `move`: Move a file or directory from one location to another on the remote storage.
-* `copyto`: Copy a file to a specific location on the remote storage.
-* `lsd`: List directories in a remote path.
-...
+| Command | Description |
+| --- | --- |
+| `mkdir` |  Create a new directory on the remote storage. |
+| `delete` |  Remove a file or directory from the remote storage. |
+| `move` |  Move a file or directory from one location to another on the remote storage. |
+| `copyto` |  Copy a file to a specific location on the remote storage. |
+| `lsd` |  List directories in a remote path. |
+...and many more
 
-You can find a complete list of commands and their usage in the [official rclone documentation](https://rclone.org/commands/).
+Look over the complete list of commands and their usage in the [official rclone documentation](https://rclone.org/commands/).
