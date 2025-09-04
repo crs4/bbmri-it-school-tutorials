@@ -1,4 +1,4 @@
-# SSH Tutorial
+# Tutorial: SSH and Data Transfer
 
 Prerequisites: install Docker on your system.
 
