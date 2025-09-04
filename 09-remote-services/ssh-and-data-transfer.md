@@ -892,3 +892,7 @@ Rclone offers a wide range of commands for managing files and directories on clo
 ...and many more
 
 Look over the complete list of commands and their usage in the [official rclone documentation](https://rclone.org/commands/).
+
+# Clean up
+
+You have completed this tutorial.  Remember to clean up your computer by shutting down the docker compose you started and deleting any undesidered files you created.
