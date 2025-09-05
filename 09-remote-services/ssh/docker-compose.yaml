@@ -1,0 +1,39 @@
+
+# We define a docker network dedicated to our two services.
+# Both the SSH server and the web server will be connected to this network.
+networks:
+  tutorial:
+
+services:
+  ssh:
+    image: lscr.io/linuxserver/openssh-server:latest
+    container_name: openssh-server
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - PUBLIC_KEY=yourpublickey #optional
+      # If you have registered your public SSH key on github,
+      # you can specify your keys URL here to auto-register it.
+      #- PUBLIC_KEY_URL=https://github.com/username.keys #optional
+      - PASSWORD_ACCESS=true
+      - USER_NAME=student
+      - USER_PASSWORD=Password
+      - LOG_STDOUT= #optional
+    ports:
+      # port 2222 exposed on host
+      - 2222:2222
+    volumes:
+      # This is required to customize the SSH server configuration
+      - ./sshd_config.d/custom.conf:/config/sshd/sshd_config.d/custom.conf
+    networks:
+      # connect service to `tutorial` network
+      tutorial:
+
+  web:
+    image: nginx
+    container_name: web-server
+    ports:
+      - 80 # notice -- port not exposed on host
+    networks:
+      # connect service to `tutorial` network
+      tutorial:
