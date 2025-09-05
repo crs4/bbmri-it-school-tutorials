@@ -1,6 +1,6 @@
 # Tutorial: SSH and Data Transfer
 
-Prerequisites: install Docker on your system.
+Prerequisites: Docker, git, SSH.
 
 
 # Installing SSH
