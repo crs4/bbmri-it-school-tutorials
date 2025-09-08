@@ -48,6 +48,8 @@ Version control is crucial for maintaining reproducibility and tracking changes 
     git push
     ```
 
+> 💡 There are different conventions on how to structure the repository layout. In the Galaxy world, a valid and frequently used layout is the IWC (<https://github.com/galaxyproject/iwc>). This is what we assume to use in this tutorial.
+
 ### Versioning best practices
 
 1. **Use Semantic Versioning**: Adopt [Semantic Versioning](https://semver.org/) (e.g., MAJOR.MINOR.PATCH) to clearly communicate changes in your workflows.
