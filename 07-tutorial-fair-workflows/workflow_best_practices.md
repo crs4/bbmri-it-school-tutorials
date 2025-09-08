@@ -109,3 +109,43 @@ For a real-world example, take a look at the [parallel-accession-download](https
 
 ---
 
+## 3. Enrich your workflows with metadata
+
+Adding metadata to your workflows can greatly enhance their usability and maintainability. It's good practice to document your workflow thoroughly to improve understanding, reusability, and FAIRness of your research. A particularly valuable descriptive model is provided by the [Workflow Testing RO-Crate](https://crs4.github.io/workflow-testing-ro-crate/) standard.
+
+> 📚 **Workflow Testing RO-Crate**
+>
+> The Workflow Testing RO-Crate is a metadata standard designed to improve the reproducibility and usability of workflows. It provides a structured way to describe the components and dependencies of a workflow, making it easier for others to understand and reuse. See the reference model specification at <https://crs4.github.io/workflow-testing-ro-crate/>
+
+If your workflow repository is structured according to the IWC layout mentioned earlier, you can use the **`repo2crate`** tool to automatically generate a metadata skeleton for your workflow, which follows the RO-Crate standard.
+
+> 📚 **`repo2crate`**
+>
+> The `repo2crate` tool helps automate the process of creating RO-Crate metadata for your workflow repository. It analyzes your repository structure and generates the necessary metadata files, making it easier to comply with the RO-Crate standard.
+> For more information, visit the [repo2crate GitHub repository](https://github.com/crs4/repo2crate).
+
+To use `repo2crate`, follow these steps:
+
+1. Install `repo2crate` using pip:
+
+   ```bash
+   pip install repo2crate
+   ```
+
+2. Run `repo2crate` in the root of your workflow repository:
+
+   ```bash
+   repo2crate --repo-url=<your-repo-url>
+   ```
+
+This adds an `ro-crate-metadata.json` file at the top level with metadata generated based on the tool's knowledge of the expected repository layout. Additionally, it creates a file containing the *workflow's test data*, which includes both *input data* and *expected outputs* for validation purposes. With the addition of these metadata files, your workflow becomes a full **Workflow Testing RO-Crate**.
+
+> 📚 **The `-o` option**
+>
+> The `-o` option allows you to specify the output directory and filename for the generated RO-Crate ZIP file. This is useful for organizing your metadata files and ensuring they are easily accessible.
+
+   ```bash
+   repo2crate --repo-url=<your-repo-url> -o <output-directory>/my-workflow.crate.zip
+   ```
+
+---
