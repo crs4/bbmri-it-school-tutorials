@@ -71,3 +71,41 @@ Version control is crucial for maintaining reproducibility and tracking changes 
 ---
 
 ## 2. Test your workflows
+
+Testing is a crucial part of workflow development. It ensures that your workflow behaves as expected and continues to work over time despite tool updates or other changes.
+
+### Generate tests for your workflow
+
+Galaxy workflows can be tested using the Planemo tool, which provides a convenient way to create and run tests for your workflows.
+
+> 📚 **Planemo Documentation**
+>
+> Planemo is a command-line tool that assists in building and testing Galaxy tools and workflows. For detailed information about Planemo's features and usage, visit the [Planemo Documentation](https://planemo.readthedocs.io/en/latest/index.html).
+
+After familiarizing yourself with Planemo, you can follow the tutorial at
+[Hands On: Generate Workflow Tests With Planemo](https://training.galaxyproject.org/training-material/topics/fair/tutorials/ro-crate-galaxy-best-practices/tutorial.html#hands-on-generate-workflow-tests-with-planemo-1) as a guideline for adding tests to your workflow.
+
+#### Workflow repository layout example
+
+Once tests are generated with Planemo, your repository should follow a structured organization. A typical workflow repository layout includes:
+
+```
+my-galaxy-workflow/
+├── workflows/
+│   └── my_workflow.ga        # The Galaxy workflow definition
+├── test-data/                # Directory containing test inputs and expected outputs
+│   ├── input1.fastq
+│   ├── input2.fastq
+│   └── expected_output.txt
+└── .github/
+    └── workflows/
+        └── test-workflow.yml  # GitHub Actions CI configuration
+```
+
+For a real-world example, take a look at the [parallel-accession-download](https://github.com/iwc-workflows/parallel-accession-download) repository.
+
+> ⚠️ WARNING
+> Make sure to add all test cases and test data to your repository through git to ensure they are versioned along with your workflow.
+
+---
+
