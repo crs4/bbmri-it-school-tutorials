@@ -150,7 +150,7 @@ This adds an `ro-crate-metadata.json` file at the top level with metadata genera
 
 ---
 
-## 4. Automated test execution
+## 4. Automate test execution
 
 Creating tests for your workflows is just the first step towards ensuring reliability. It's equally important to run these tests systematically whenever changes are made to detect issues early. This is where automation becomes essential.
 
@@ -228,7 +228,7 @@ For successful implementation of continuous testing in your workflow, it is *rec
 </p>
 <p align="center"><em>Example of GitHub Actions workflow runs showing test execution results</em></p>
 
-## Maintenance automation
+## Automate maintenance
 
 Maintaining workflows over time can be challenging. LifeMonitor is a service that helps you monitor the health of your workflows and notifies you when issues arise.
 
