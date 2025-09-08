@@ -16,7 +16,7 @@ Galaxy embraces the FAIR (Findable, Accessible, Interoperable, Reusable) princip
 
 ### Workflow Run RO-Crates in Galaxy
 
-Since version 22.01, Galaxy has introduced the ability to export workflows as **Workflow Run RO-Crates**. These standardized packages capture not just the workflow definition but also its execution details, inputs, outputs, and their relationships in a structured, machine-readable format while maintaining human readability. This feature significantly enhances workflow FAIRness by:
+Since version 23.00, Galaxy has introduced the ability to export workflows as **Workflow Run RO-Crates**. These standardized packages capture not just the workflow definition but also its execution details, inputs, outputs, and their relationships in a structured, machine-readable format while maintaining human readability. This feature significantly enhances workflow FAIRness by:
 
 - **Findability**: Including rich metadata and unique identifiers
 - **Accessibility**: Packaging all workflow components together
