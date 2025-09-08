@@ -228,3 +228,68 @@ For successful implementation of continuous testing in your workflow, it is *rec
 </p>
 <p align="center"><em>Example of GitHub Actions workflow runs showing test execution results</em></p>
 
+## Maintenance automation
+
+Maintaining workflows over time can be challenging. LifeMonitor is a service that helps you monitor the health of your workflows and notifies you when issues arise.
+
+> ⚠️ **Development vs. Production Instances**
+>
+> LifeMonitor provides two different instances:
+>
+> - **Development instance**: <https://api.dev.lifemonitor.eu> - Recommended for tutorials, learning, and experimentation
+> - **Production instance**: <https://lifemonitor.eu> - For monitoring production-ready workflows
+>
+> For the purposes of this tutorial and to experiment with LifeMonitor's features, we strongly recommend using the **development instance** (<https://dev.lifemonitor.eu>). This will allow you to freely test the platform without affecting production environments.
+
+### Step 1: Register with LifeMonitor
+
+1. Go to [LifeMonitor](https://app.dev.lifemonitor.eu/)
+2. Sign up for an account if you don't already have one
+3. Follow the instructions to set up your profile
+
+### Step 2: Install the LifeMonitor GitHub App
+
+1. Go to the [LifeMonitor GitHub App](https://github.com/apps/lifemonitor)
+2. Click "Install"
+3. Choose whether to install LifeMonitor on all repositories or select specific ones
+4. Complete the installation
+
+> 📚 **Galaxy Tutorial for LifeMonitor Integration**
+>
+> For a comprehensive, step-by-step guide on how to register your workflow with LifeMonitor, follow the Galaxy tutorial:
+> [Submitting Workflow Testing RO-Crates to LifeMonitor](https://training.galaxyproject.org/training-material/topics/fair/tutorials/ro-crate-submitting-life-monitor/tutorial.html#submitting-workflows-to-lifemonitor)
+>
+> This tutorial provides detailed instructions on:
+>
+> - Preparing your workflow for submission
+> - Creating and validating the Workflow Testing RO-Crate
+> - Registering and configuring your workflow in LifeMonitor
+> - Setting up automated monitoring
+
+### Step 3: Implement LifeMonitor suggestions
+
+After installing the LifeMonitor GitHub App:
+
+1. The app will analyze your workflows and create issues for potential improvements
+2. It may also create pull requests with automatic fixes for certain issues
+3. Review these suggestions and implement them as appropriate:
+    - Address broken dependencies
+    - Fix outdated tool versions
+    - Update workflow documentation
+
+### Step 4: Monitor workflow health
+
+1. Visit your dashboard on LifeMonitor at <https://app.dev.lifemonitor.eu/> to check the status of your workflows
+2. Set up notifications to be alerted when a workflow fails tests
+3. Regularly review and address any new issues that arise
+
+## Conclusion
+
+By following these best practices, you can ensure that your Galaxy workflows remain functional, reproducible, and maintainable over time. Testing workflows, automating these tests with GitHub Actions, and using services like LifeMonitor help you catch issues early and keep your workflows in good working order.
+
+## Additional Resources
+
+- [Galaxy Training Network](https://training.galaxyproject.org/)
+- [GitHub Actions Documentation](https://docs.github.com/en/actions)
+- [Planemo Documentation](https://planemo.readthedocs.io/)
+- [LifeMonitor Documentation](https://lifemonitor.eu/documentation)
