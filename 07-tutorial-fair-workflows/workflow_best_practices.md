@@ -12,6 +12,8 @@ Workflows are a powerful way to encapsulate complex data analyses in a reproduci
 >
 > For more information about best practices for Galaxy workflows, you can follow this link: [Best Practices for Maintaining Galaxy Workflows](https://planemo.readthedocs.io/en/latest/best_practices_workflows.html)
 
+---
+
 ## 1. Keep workflows versioned
 
 Version control is crucial for maintaining reproducibility and tracking changes in your workflows over time. Let's set up a GitHub repository to properly version your Galaxy workflows.
@@ -66,3 +68,6 @@ Version control is crucial for maintaining reproducibility and tracking changes 
 
 3. **Maintain a Changelog**: Create a CHANGELOG.md file to document changes, improvements, and fixes for each version.
 
+---
+
+## 2. Test your workflows
