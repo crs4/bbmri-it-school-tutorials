@@ -5,3 +5,4 @@ This tutorial provides guidance on implementing FAIR principles (Findable, Acces
 * [Galaxy FAIR workflows](galaxy_workflows.md) - Creating and sharing reproducible workflows using the Galaxy platform
 * [RO-Crate](RO_crate.md) - Understanding the Research Object Crate standard for packaging research data
 * [Workflow Best Practices](workflow_best_practices.md) - Guidelines for designing clear, maintainable, and reusable workflows
+* [Apache Airflow](apache_airflow.md) - Introduction to workflow orchestration and management with Apache Airflow
