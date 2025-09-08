@@ -149,3 +149,82 @@ This adds an `ro-crate-metadata.json` file at the top level with metadata genera
    ```
 
 ---
+
+## 4. Automated test execution
+
+Creating tests for your workflows is just the first step towards ensuring reliability. It's equally important to run these tests systematically whenever changes are made to detect issues early. This is where automation becomes essential.
+
+A powerful and de facto standard in testing on GitHub is represented by GitHub Workflows. GitHub Workflows offer a complete continuous integration and continuous deployment (CI/CD) platform that automates your build, test, and deployment pipeline. These workflows are highly configurable, support parallel job execution, and provide detailed feedback on test results, making them an ideal choice for automated workflow testing.
+
+### Step 1: Understand GitHub Actions basics
+
+GitHub Actions is a CI/CD platform that allows you to automate your workflows. Key concepts include:
+
+- **Workflows**: Automated processes defined in YAML files in the `.github/workflows` directory
+- **Events**: Actions that trigger a workflow (e.g., push, pull request)
+- **Jobs**: Sets of steps that execute on the same runner
+- **Steps**: Individual tasks within a job
+- **Actions**: Reusable units of code
+
+For successful implementation of continuous testing in your workflow, it is *recommended* to understand GitHub Actions fundamentals. Please take the time to complete the [GitHub Actions Quickstart](https://docs.github.com/en/actions/get-started/quickstart) tutorial before proceeding. This is not optional - the knowledge from this tutorial will be essential for the next steps.
+
+### Step 2: Create a workflow file for testing your workflow
+
+1. Create a `.github/workflows` directory in your repository:
+
+    ```bash
+    mkdir -p .github/workflows
+    ```
+
+2. Create a file named `test-workflow.yml` with the following content:
+
+    ```yaml
+    name: Test Galaxy Workflow
+
+    on:
+      push:
+         branches: [ main ]
+      pull_request:
+         branches: [ main ]
+
+    jobs:
+      test:
+         runs-on: ubuntu-latest
+         steps:
+            - uses: actions/checkout@v3
+
+            - name: Set up Python
+              uses: actions/setup-python@v4
+              with:
+                 python-version: '3.9'
+
+            - name: Install Planemo
+              run: pip install planemo
+
+            - name: Test workflow
+              run: planemo test [OPTIONS] workflows/*.ga
+    ```
+
+> 📚 **See the Planemo documentation**
+>
+> For more information on the available options for the `planemo test` command, check the [Planemo documentation](https://planemo.readthedocs.io/en/latest/).
+
+> 📚 **See the tutorial [Adding a Github workflow for running tests automatically](https://training.galaxyproject.org/training-material/topics/fair/tutorials/ro-crate-galaxy-best-practices/tutorial.html#adding-a-github-workflow-for-running-tests-automatically)**
+>
+> For more information on the available options for the `planemo test` command, check the [Planemo documentation](https://planemo.readthedocs.io/en/latest/).
+
+3. Commit and push your workflow file:
+
+    ```bash
+    git add .github/workflows/
+    git commit -m "Add GitHub Actions workflow for testing"
+    git push
+    ```
+
+4. Go to your GitHub repository, click on the "Actions" tab, and you should see your workflow running.
+
+<p align="center">
+    <img src="images/screenshot_workflow_runs.png" alt="Screenshot of workflow runs in GitHub Actions">
+</p>
+<p align="center"><em>Example of GitHub Actions workflow runs showing test execution results</em></p>
+
