@@ -8,6 +8,10 @@ Workflows are a powerful way to encapsulate complex data analyses in a reproduci
 >
 > While this tutorial primarily focuses on Galaxy workflows, it's important to note that the best practices discussed here—testing, continuous integration, and maintenance automation—apply to workflows developed with any workflow management system. The specific tools and commands may differ (e.g., replacing `Planemo` with the appropriate testing framework for your workflow manager), but the core principles remain the same. You can adapt these practices to `NextFlow`, `Snakemake`, `CWL`, or any other workflow system by substituting the appropriate tools and commands for your platform.
 
+> 📚 **Galaxy Workflow Best Practices**
+>
+> For more information about best practices for Galaxy workflows, you can follow this link: [Best Practices for Maintaining Galaxy Workflows](https://planemo.readthedocs.io/en/latest/best_practices_workflows.html)
+
 ## 1. Keep workflows versioned
 
 Version control is crucial for maintaining reproducibility and tracking changes in your workflows over time. Let's set up a GitHub repository to properly version your Galaxy workflows.
