@@ -601,4 +601,122 @@ Options:
   --diagram TEXT                  relative path of the workflow diagram
   --version                       print version and exit
   --help                          Show this message and exit.
----
+```
+
+
+## Exploring Workflow Run RO-Crates
+
+[Workflow Run RO-Crate](https://w3id.org/ro/wfrun) is a set of three RO-Crate
+profiles for describing provenance information related to the execution of a
+computational workflow:
+
+* [Process Run Crate](https://w3id.org/ro/wfrun/process) describes the
+  execution of an "implicit workflow", where one or more tools contributed to
+  the same computation;
+* [Workflow Run Crate](https://w3id.org/ro/wfrun/workflow) is similar to
+  Process Run Crate, but assumes that the execution is orchestrated by a
+  workflow manager;
+* [Provenance Run Crate](https://w3id.org/ro/wfrun/provenance) extends
+  Workflow Run Crate with specifications for describing the execution of each
+  step of the workflow.
+
+An example of a Provenance Run Crate can be found at
+https://doi.org/10.5281/zenodo.7774351: scroll down to the "Files" section and
+click on the `ml-predict-pipeline-cwltool-runcrate.crate.zip` link to download
+it.
+
+Unpack the crate into a `ml-predict-pipeline-cwltool-runcrate` directory:
+
+```
+unzip -d ml-predict-pipeline-cwltool-runcrate{,.crate.zip}
+```
+
+In addition to the RO-Crate metadata file, the directory contains the workflow
+file `packed.cwl`, a `README.md` file, and input/output files involved in the
+computation. The metadata file contains a detailed description of the entities
+involved in the execution, down to the level of individual steps: this can
+make it hard to focus on the most important items, i.e., the process
+executions and related input and output parameters. A tool that helps with
+this is [runcrate](https://github.com/ResearchObject/runcrate):
+
+```
+pip install runcrate
+runcrate report ml-predict-pipeline-cwltool-runcrate
+```
+
+After running the above commands, you should see the following output:
+
+```
+action: #5d08a759-9b0e-434f-a5f0-ac95dc0ad619
+  instrument: packed.cwl (['File', 'SoftwareSourceCode', 'ComputationalWorkflow', 'HowTo'])
+  started: 2023-02-21T12:44:53.363530
+  ended: 2023-02-21T12:45:11.260305
+  inputs:
+    tissue_low>0.9 <- packed.cwl#main/tissue-high-filter
+    tissue_high <- packed.cwl#main/tissue-high-label
+    4 <- packed.cwl#main/tissue-high-level
+    tissue_low <- packed.cwl#main/tissue-low-label
+    9 <- packed.cwl#main/tissue-low-level
+    tissue_low>0.99 <- packed.cwl#main/tumor-filter
+    tumor <- packed.cwl#main/tumor-label
+    1 <- packed.cwl#main/tumor-level
+    #b6b5f30b-d459-4b37-ad6c-3cab115d138d <- packed.cwl#main/slide
+  outputs:
+    254eb2d60fd6705c88a6b7746336ba86e09e23c7 <- packed.cwl#main/tissue
+    a1e03e58562319274d4ff792d2090763b7926d72 <- packed.cwl#main/tumor
+
+action: #cf0a0a63-5eb2-4f3d-8c62-7a575aab0799
+  step: packed.cwl#main/extract-tissue-low
+  instrument: packed.cwl#extract_tissue.cwl (SoftwareApplication)
+  started: 2023-02-21T12:44:54.774746
+  ended: 2023-02-21T12:44:56.740995
+  inputs:
+    tissue_low <- packed.cwl#extract_tissue.cwl/label
+    9 <- packed.cwl#extract_tissue.cwl/level
+    #b6b5f30b-d459-4b37-ad6c-3cab115d138d <- packed.cwl#extract_tissue.cwl/src
+  outputs:
+    8cdd835383bcc344a0dbc6892ac6949765400b5c <- packed.cwl#extract_tissue.cwl/tissue
+
+action: #21ca24a9-66a9-4c3a-911c-51c235bcd2ed
+  step: packed.cwl#main/extract-tissue-high
+  instrument: packed.cwl#extract_tissue.cwl (SoftwareApplication)
+  started: 2023-02-21T12:44:56.753244
+  ended: 2023-02-21T12:44:58.538525
+  inputs:
+    tissue_low>0.9 <- packed.cwl#extract_tissue.cwl/filter
+    8cdd835383bcc344a0dbc6892ac6949765400b5c <- packed.cwl#extract_tissue.cwl/filter_slide
+    tissue_high <- packed.cwl#extract_tissue.cwl/label
+    4 <- packed.cwl#extract_tissue.cwl/level
+    #b6b5f30b-d459-4b37-ad6c-3cab115d138d <- packed.cwl#extract_tissue.cwl/src
+  outputs:
+    254eb2d60fd6705c88a6b7746336ba86e09e23c7 <- packed.cwl#extract_tissue.cwl/tissue
+
+action: #db496cbd-3e6d-4c6a-8766-acc7d6a6bd3f
+  step: packed.cwl#main/classify-tumor
+  instrument: packed.cwl#classify_tumor.cwl (SoftwareApplication)
+  started: 2023-02-21T12:44:58.553005
+  ended: 2023-02-21T12:45:11.256012
+  inputs:
+    tissue_low>0.99 <- packed.cwl#classify_tumor.cwl/filter
+    8cdd835383bcc344a0dbc6892ac6949765400b5c <- packed.cwl#classify_tumor.cwl/filter_slide
+    tumor <- packed.cwl#classify_tumor.cwl/label
+    1 <- packed.cwl#classify_tumor.cwl/level
+    #b6b5f30b-d459-4b37-ad6c-3cab115d138d <- packed.cwl#classify_tumor.cwl/src
+  outputs:
+    a1e03e58562319274d4ff792d2090763b7926d72 <- packed.cwl#classify_tumor.cwl/tumor
+```
+
+The report contains a section for every _action_ (process execution), showing
+its _instrument_ (the software that was executed), starting and ending times,
+and input and output parameters. Parameter lines are in the form:
+
+```
+actual_value <- formal_parameter
+```
+
+Where the formal parameter represents a sort of logical "slot" that can be
+filled by different actual values at runtime.
+
+The first action corresponds to the execution of the whole workflow, while the
+others correspond to the execution of individual steps (note they have a line
+that reports the step's identifier).
