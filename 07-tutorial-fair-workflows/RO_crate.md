@@ -1,12 +1,10 @@
 # RO-Crate tutorial
 
-[RO-Crate](https://w3id.org/ro/crate/) is a method for aggregating data
-together with their metadata. This tutorial will help you get familiar with
-it.
+This tutorial will help you get familiar with the [RO-Crate](https://w3id.org/ro/crate/) model.
 
-## Creating a simple RO-Crate
+## Manually creating a simple RO-Crate
 
-You can turn any folder in your computer into an RO-Crate by adding a
+You can turn any folder in your computer into an RO-Crate by adding to it a
 [JSON-LD](https://json-ld.org/) metadata file named
 `ro-crate-metadata.json`. Create a new folder named `sample-crate` and add a
 `data.csv` file to it:
@@ -55,7 +53,7 @@ disk:
 ```
 
 The first line sets the JSON-LD _context_ for the rest of the file. The
-context maps shortcut terms to their full URIs, allowing to keep the file
+context maps shortcut terms to their full URIs; shortcuts can be used to keep the expressions
 concise. For instance, without the context, we'd have to write
 `http://schema.org/CreativeWork` instead of simply `CreativeWork`. The
 `@graph` section contains four entities:
@@ -100,38 +98,38 @@ rocrate-validator -y validate -v -w 79 -o err.txt sample-crate
 The `err.txt` file should contain the following output:
 
 ```
-                                                                               
- ╭────────────────────────── - Validation Report - ──────────────────────────╮ 
- │                                                                           │ 
- │                                                                           │ 
- │  RO-Crate: sample-crate                                                   │ 
- │  Target Profile: ro-crate-1.1 (autodetected)                              │ 
- │  Validation Severity: REQUIRED                                            │ 
- │                                                                           │ 
- │  ╭────────────────── Requirements Checks Validation ───────────────────╮  │ 
- │  │                                                                     │  │ 
- │  │ ╭─ Severity: REQUIRE─╮╭─ Severity: RECOMME─╮╭─ Severity: OPTIONAL─╮ │  │ 
- │  │ │                    ││                    ││                     │ │  │ 
- │  │ │         39         ││         0          ││          0          │ │  │ 
- │  │ │                    ││                    ││                     │ │  │ 
- │  │ ╰────────────────────╯╰────────────────────╯╰─────────────────────╯ │  │ 
- │  │ ╭──────── PASSED Checks ────────╮╭──────── FAILED Checks ─────────╮ │  │ 
- │  │ │                               ││                                │ │  │ 
- │  │ │              39               ││               0                │ │  │ 
- │  │ │                               ││                                │ │  │ 
- │  │ ╰───────────────────────────────╯╰────────────────────────────────╯ │  │ 
- │  │                                                                     │  │ 
- │  ╰─────────────────────────────────────────────────────────────────────╯  │ 
- │  ╭───────────────────────── Overall Progress ──────────────────────────╮  │ 
- │  │ Profiles            ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 1/1   0:00:02 │  │ 
- │  │ Requirements        ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 16/16 0:00:02 │  │ 
- │  │ Requirements Checks ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 39/39 0:00:02 │  │ 
- │  ╰─────────────────────────────────────────────────────────────────────╯  │ 
- │                                                                           │ 
- ╰───────────────────────────────────────────────────────────────────────────╯ 
-                                                                               
+
+ ╭────────────────────────── - Validation Report - ──────────────────────────╮
+ │                                                                           │
+ │                                                                           │
+ │  RO-Crate: sample-crate                                                   │
+ │  Target Profile: ro-crate-1.1 (autodetected)                              │
+ │  Validation Severity: REQUIRED                                            │
+ │                                                                           │
+ │  ╭────────────────── Requirements Checks Validation ───────────────────╮  │
+ │  │                                                                     │  │
+ │  │ ╭─ Severity: REQUIRE─╮╭─ Severity: RECOMME─╮╭─ Severity: OPTIONAL─╮ │  │
+ │  │ │                    ││                    ││                     │ │  │
+ │  │ │         39         ││         0          ││          0          │ │  │
+ │  │ │                    ││                    ││                     │ │  │
+ │  │ ╰────────────────────╯╰────────────────────╯╰─────────────────────╯ │  │
+ │  │ ╭──────── PASSED Checks ────────╮╭──────── FAILED Checks ─────────╮ │  │
+ │  │ │                               ││                                │ │  │
+ │  │ │              39               ││               0                │ │  │
+ │  │ │                               ││                                │ │  │
+ │  │ ╰───────────────────────────────╯╰────────────────────────────────╯ │  │
+ │  │                                                                     │  │
+ │  ╰─────────────────────────────────────────────────────────────────────╯  │
+ │  ╭───────────────────────── Overall Progress ──────────────────────────╮  │
+ │  │ Profiles            ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 1/1   0:00:02 │  │
+ │  │ Requirements        ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 16/16 0:00:02 │  │
+ │  │ Requirements Checks ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 39/39 0:00:02 │  │
+ │  ╰─────────────────────────────────────────────────────────────────────╯  │
+ │                                                                           │
+ ╰───────────────────────────────────────────────────────────────────────────╯
+
   ─────────────── [OK] RO-Crate is a valid ro-crate-1.1 !!!   ────────────────
-                                                                               
+
 ```
 
 Let's break down the output:
