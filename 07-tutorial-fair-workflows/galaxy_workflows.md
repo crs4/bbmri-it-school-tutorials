@@ -1,31 +1,24 @@
-# Galaxy & FAIR Workflows
+# Introduction to the Galaxy workflow manager
 
-## Galaxy Introduction
+Galaxy is a web-based platform that enables accessible, reproducible, and collaborative biomedical data analyses through workflows.  In this section, you'll get to familiarize yourself with the usage of Galaxy and how to extract provenance data from the analyses executed on the platform.
 
-Galaxy is a web-based platform that enables accessible, reproducible, and collaborative biomedical data analyses through workflows.  
-For a detailed introduction, see the Galaxy Training Network tutorial:  
+## A short introduction to Galaxy
 
-- [A short introduction to Galaxy](https://training.galaxyproject.org/training-material/topics/introduction/tutorials/galaxy-intro-short/tutorial.html)
+Complete this tutorial from the Galaxy Training Network: [A short introduction to Galaxy](https://training.galaxyproject.org/training-material/topics/introduction/tutorials/galaxy-intro-short/tutorial.html).  Don't abandon your work environment on the Galaxy server as we'll keep using it in later steps of this tutorial.
 
 ## Galaxy and FAIR Workflows
 
-Galaxy embraces the FAIR (Findable, Accessible, Interoperable, Reusable) principles, providing robust support for creating and sharing reproducible workflows. For more information on Galaxy's implementation of FAIR workflows, please refer to:
+Galaxy embraces the FAIR (Findable, Accessible, Interoperable, Reusable) principles, providing robust support for creating and sharing reproducible workflows.  Also, the Galaxy community has created a very extensive body of training material.
 
-- [Galaxy Training Network - FAIR Training Materials](https://training.galaxyproject.org/training-material/topics/fair/)
-- [FAIR Data Principles](https://www.go-fair.org/fair-principles/)
+If you're interested in studying this topic further, feel free to explore the Galaxy Training Network's section on [FAIR Data, Workflows, and Research](https://training.galaxyproject.org/training-material/topics/fair/).
 
 ### Workflow Run RO-Crates in Galaxy
 
-Since version 23.00, Galaxy has introduced the ability to export workflows as **Workflow Run RO-Crates**. These standardized packages capture not just the workflow definition but also its execution details, inputs, outputs, and their relationships in a structured, machine-readable format while maintaining human readability. This feature significantly enhances workflow FAIRness by:
+Since version 23.00, Galaxy has introduced the ability to export workflows as **Workflow Run RO-Crates** (WRROC). As we saw during the lecture, WRROC packages can capture workflow execution details, including inputs, outputs, parameters, etc. in a structured, machine-readable format, while also maintaining some degree of human readability.
 
-- **Findability**: Including rich metadata and unique identifiers
-- **Accessibility**: Packaging all workflow components together
-- **Interoperability**: Using standardized formats and vocabularies
-- **Reusability**: Documenting provenance and execution context
+### Export a Workflow Run RO-Crate from Galaxy
 
-### How to Export a Workflow Run RO-Crate
-
-To export a workflow as an RO-Crate in Galaxy:
+Export a workflow as an RO-Crate in Galaxy:
 
 #### 1(a): execute your workflow in Galaxy
 
