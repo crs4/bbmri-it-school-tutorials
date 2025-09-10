@@ -80,8 +80,10 @@ concise. For instance, without the context, we'd have to write
 How can we check that an RO-Crate conforms to the specifications? The
 [RO-Crate Validator](https://github.com/crs4/rocrate-validator) has been
 developed for this purpose. It provides a Command Line Interface (CLI) and a
-Python API for programmatic usage. Move back to the directory that contains
-`sample-crate` and install the validator:
+Python API for programmatic usage.
+
+Switch back to the directory that contains `sample-crate` and install the
+validator in a dedicated virtualenv:
 
 ```bash
 python3 -m venv .venv
@@ -159,9 +161,14 @@ Let's break down the output:
   "OPTIONAL" and "MAY" are also checked.
 
 Our RO-Crate satisfies all "REQUIRED" constraints, so the rest of the output
-reports that there was no violation and the RO-Crate is valid. But does it
-also satisfy all "RECOMMENDED" constraints? You can verify this by checking
-the output of:
+reports that there was no violation and the RO-Crate is valid.
+
+**📝 Note.**  If the validator reports that your RO-Crate is invalid, read the
+error carefully and compare the problematic lines against the example provided
+to fix the problem.
+
+Question: does the RO-Crate also satisfy all "RECOMMENDED" constraints? You can
+verify this by checking the output of:
 
 ```bash
 rocrate-validator -y validate -l RECOMMENDED -v -w 79 -o err.txt sample-crate
@@ -174,21 +181,21 @@ summary, the validator writes detailed information on every check that failed.
 The validator has several subcommands with many options. You can explore them
 by passing the `--help` option to the top-level `rocrate-validator` command
 and to any of the subcommands. You can also check the full documentation at
-https://rocrate-validator.readthedocs.io/ .
+<https://rocrate-validator.readthedocs.io/>.
 
 
 ## RO-Crate in Python
 
 The [ro-crate-py](https://github.com/ResearchObject/ro-crate-py) library
-provides a Python API to create and consume RO-Crates. Installation is done
-via pip (note that the package name is `rocrate`):
+provides a Python API to create and consume RO-Crates. It can be installed
+via pip; its package name is `rocrate`:
 
 ```bash
 pip install rocrate
 ```
 
 This part of the tutorial is based on [RO-Crate in
-Python](https://gxy.io/GTN:T00341), which in turn is based on the ro-crate-py
+Python](https://gxy.io/GTN:T00341), which in turn is based on the `ro-crate-py`
 documentation.
 
 ### Creating an RO-Crate
@@ -493,7 +500,7 @@ workflow is listed as a plain `File`:
 }
 ```
 
-ro-crate-py has some support for the [Workflow
+`ro-crate-py` has some support for the [Workflow
 RO-Crate](https://w3id.org/workflowhub/workflow-ro-crate/1.0) profile, whose
 main goal is to describe a computational workflow and associated resources.
 We can change the metadata to list the Galaxy file as a computational workflow
@@ -619,7 +626,7 @@ computational workflow:
   step of the workflow.
 
 An example of a Provenance Run Crate can be found at
-https://doi.org/10.5281/zenodo.7774351: scroll down to the "Files" section and
+<https://doi.org/10.5281/zenodo.7774351>: scroll down to the "Files" section and
 click on the `ml-predict-pipeline-cwltool-runcrate.crate.zip` link to download
 it.
 
