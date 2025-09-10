@@ -628,28 +628,78 @@ computational workflow:
   Workflow Run Crate with specifications for describing the execution of each
   step of the workflow.
 
-An example of a Provenance Run Crate can be found at
-<https://doi.org/10.5281/zenodo.7774351>: scroll down to the "Files" section and
-click on the `ml-predict-pipeline-cwltool-runcrate.crate.zip` link to download
+
+### Explore your Workflow Run RO-Crate
+
+Earlier in the [*Introduction to Galaxy*](galaxy_workflows.md) part of this
+tutorial you executed a workflow and downloaded from Galaxy a Workflow Run
+RO-Crate (WRROC) documenting the work done.
+
+Let's examine the contents of that WRROC archive. We assume it's called `galaxy-runcrate.crate.zip`.
+
+Unpack the file into a directory `galaxy-runcrate`:
+
+```
+unzip -d galaxy-runcrate{,.crate.zip}
+```
+
+Check the contents.  You'll see it's a standard RO-Crate.  However, it also
+includes the datasets relevant to the workflow invocation. The directory
+contains the workflow file `packed.cwl`, a `README.md` file, and input/output
+files involved in the computation.
+
+In addition, the metadata in `ro-crate-metadata.json` is more extensive, with
+respect to a basic RO-Crate or even a Workflow RO-Crate. It contains a
+description of the workflow invocation.  The
+[`runcrate`](https://github.com/ResearchObject/runcrate) tool helps explore and
+query this metadata.
+
+Install `runcrate` in the same venv you've been using for this tutorial:
+
+    ```bash
+    pip install runcrate
+    ```
+
+Now you can run `runcrate report` on the unzipped crate:
+
+    ```bash
+    runcrate report galaxy-runcrate
+    ```
+
+After running the command, you should see the following output:
+```console
+action: #29a668ab-04d1-4db7-b6d0-2f31f5e1042b
+  instrument: workflows/8cbbea7a6a3bfa9c.gxwf.yml (['File', 'SoftwareSourceCode', 'ComputationalWorkflow'])
+  started: 2022-07-18T13:41:20.387592
+  ended: 2022-07-18T13:41:20.387601
+  inputs:
+    datasets/long-doc.txt_0a8d5244b05fb530401ac2891d3925d8.flowtext <- e350ff99-c803-4464-9b8c-09a9f4e97b9c
+  outputs:
+    datasets/output_file_0a8d5244b05fb5302483c6b819d4294d.txt <- db34d7bd-3e93-4040-bb99-22a73f71f2f3
+```
+From the output you can see the details of the action node documenting how and
+when the workflow was invoked.
+
+
+### Explore a Provenance Run Crate
+
+As we previously mentioned, a Provenance Run Crate describes the execution of
+each step of the workflow.  You can see this in practice by exploring an example
+crate which is available on Zenodo: <https://doi.org/10.5281/zenodo.7774351>.
+
+Access the [Zenodo page](https://doi.org/10.5281/zenodo.7774351), scroll down to
+the "Files" section and click on the
+`ml-predict-pipeline-cwltool-runcrate.crate.zip` link to download
 it.
 
-Unpack the crate into a `ml-predict-pipeline-cwltool-runcrate` directory:
-
-```
-unzip -d ml-predict-pipeline-cwltool-runcrate{,.crate.zip}
-```
-
-In addition to the RO-Crate metadata file, the directory contains the workflow
-file `packed.cwl`, a `README.md` file, and input/output files involved in the
-computation. The metadata file contains a detailed description of the entities
+In the Provenance Run crate, the JSON metadata file contains a detailed description of the entities
 involved in the execution, down to the level of individual steps: this can
 make it hard to focus on the most important items, i.e., the process
-executions and related input and output parameters. A tool that helps with
-this is [runcrate](https://github.com/ResearchObject/runcrate):
+executions and related input and output parameters. You can, again, use
+`runcrate` to extract just the execution details:
 
 ```
-pip install runcrate
-runcrate report ml-predict-pipeline-cwltool-runcrate
+runcrate report ml-predict-pipeline-cwltool-runcrate.crate.zip
 ```
 
 After running the above commands, you should see the following output:
