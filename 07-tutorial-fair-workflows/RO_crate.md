@@ -1,12 +1,10 @@
 # RO-Crate tutorial
 
-[RO-Crate](https://w3id.org/ro/crate/) is a method for aggregating data
-together with their metadata. This tutorial will help you get familiar with
-it.
+This tutorial will help you get familiar with the [RO-Crate](https://w3id.org/ro/crate/) model.
 
-## Creating a simple RO-Crate
+## Manually creating a simple RO-Crate
 
-You can turn any folder in your computer into an RO-Crate by adding a
+You can turn any folder in your computer into an RO-Crate by adding to it a
 [JSON-LD](https://json-ld.org/) metadata file named
 `ro-crate-metadata.json`. Create a new folder named `sample-crate` and add a
 `data.csv` file to it:
@@ -55,7 +53,7 @@ disk:
 ```
 
 The first line sets the JSON-LD _context_ for the rest of the file. The
-context maps shortcut terms to their full URIs, allowing to keep the file
+context maps shortcut terms to their full URIs; shortcuts can be used to keep the expressions
 concise. For instance, without the context, we'd have to write
 `http://schema.org/CreativeWork` instead of simply `CreativeWork`. The
 `@graph` section contains four entities:
@@ -82,8 +80,10 @@ concise. For instance, without the context, we'd have to write
 How can we check that an RO-Crate conforms to the specifications? The
 [RO-Crate Validator](https://github.com/crs4/rocrate-validator) has been
 developed for this purpose. It provides a Command Line Interface (CLI) and a
-Python API for programmatic usage. Move back to the directory that contains
-`sample-crate` and install the validator:
+Python API for programmatic usage.
+
+Switch back to the directory that contains `sample-crate` and install the
+validator in a dedicated virtualenv:
 
 ```bash
 python3 -m venv .venv
@@ -100,39 +100,42 @@ rocrate-validator -y validate -v -w 79 -o err.txt sample-crate
 The `err.txt` file should contain the following output:
 
 ```
-                                                                               
- ╭────────────────────────── - Validation Report - ──────────────────────────╮ 
- │                                                                           │ 
- │                                                                           │ 
- │  RO-Crate: sample-crate                                                   │ 
- │  Target Profile: ro-crate-1.1 (autodetected)                              │ 
- │  Validation Severity: REQUIRED                                            │ 
- │                                                                           │ 
- │  ╭────────────────── Requirements Checks Validation ───────────────────╮  │ 
- │  │                                                                     │  │ 
- │  │ ╭─ Severity: REQUIRE─╮╭─ Severity: RECOMME─╮╭─ Severity: OPTIONAL─╮ │  │ 
- │  │ │                    ││                    ││                     │ │  │ 
- │  │ │         39         ││         0          ││          0          │ │  │ 
- │  │ │                    ││                    ││                     │ │  │ 
- │  │ ╰────────────────────╯╰────────────────────╯╰─────────────────────╯ │  │ 
- │  │ ╭──────── PASSED Checks ────────╮╭──────── FAILED Checks ─────────╮ │  │ 
- │  │ │                               ││                                │ │  │ 
- │  │ │              39               ││               0                │ │  │ 
- │  │ │                               ││                                │ │  │ 
- │  │ ╰───────────────────────────────╯╰────────────────────────────────╯ │  │ 
- │  │                                                                     │  │ 
- │  ╰─────────────────────────────────────────────────────────────────────╯  │ 
- │  ╭───────────────────────── Overall Progress ──────────────────────────╮  │ 
- │  │ Profiles            ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 1/1   0:00:02 │  │ 
- │  │ Requirements        ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 16/16 0:00:02 │  │ 
- │  │ Requirements Checks ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 39/39 0:00:02 │  │ 
- │  ╰─────────────────────────────────────────────────────────────────────╯  │ 
- │                                                                           │ 
- ╰───────────────────────────────────────────────────────────────────────────╯ 
-                                                                               
+
+ ╭────────────────────────── - Validation Report - ──────────────────────────╮
+ │                                                                           │
+ │                                                                           │
+ │  RO-Crate: sample-crate                                                   │
+ │  Target Profile: ro-crate-1.1 (autodetected)                              │
+ │  Validation Severity: REQUIRED                                            │
+ │                                                                           │
+ │  ╭────────────────── Requirements Checks Validation ───────────────────╮  │
+ │  │                                                                     │  │
+ │  │ ╭─ Severity: REQUIRE─╮╭─ Severity: RECOMME─╮╭─ Severity: OPTIONAL─╮ │  │
+ │  │ │                    ││                    ││                     │ │  │
+ │  │ │         39         ││         0          ││          0          │ │  │
+ │  │ │                    ││                    ││                     │ │  │
+ │  │ ╰────────────────────╯╰────────────────────╯╰─────────────────────╯ │  │
+ │  │ ╭──────── PASSED Checks ────────╮╭──────── FAILED Checks ─────────╮ │  │
+ │  │ │                               ││                                │ │  │
+ │  │ │              39               ││               0                │ │  │
+ │  │ │                               ││                                │ │  │
+ │  │ ╰───────────────────────────────╯╰────────────────────────────────╯ │  │
+ │  │                                                                     │  │
+ │  ╰─────────────────────────────────────────────────────────────────────╯  │
+ │  ╭───────────────────────── Overall Progress ──────────────────────────╮  │
+ │  │ Profiles            ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 1/1   0:00:02 │  │
+ │  │ Requirements        ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 16/16 0:00:02 │  │
+ │  │ Requirements Checks ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 39/39 0:00:02 │  │
+ │  ╰─────────────────────────────────────────────────────────────────────╯  │
+ │                                                                           │
+ ╰───────────────────────────────────────────────────────────────────────────╯
+
   ─────────────── [OK] RO-Crate is a valid ro-crate-1.1 !!!   ────────────────
-                                                                               
+
 ```
+
+**📝 Note.** In this and in the following steps, if you prefer you can omit
+`-o err.txt` to print the validation output directly to the console.
 
 Let's break down the output:
 
@@ -161,9 +164,14 @@ Let's break down the output:
   "OPTIONAL" and "MAY" are also checked.
 
 Our RO-Crate satisfies all "REQUIRED" constraints, so the rest of the output
-reports that there was no violation and the RO-Crate is valid. But does it
-also satisfy all "RECOMMENDED" constraints? You can verify this by checking
-the output of:
+reports that there was no violation and the RO-Crate is valid.
+
+**📝 Note.**  If the validator reports that your RO-Crate is invalid, read the
+error carefully and compare the problematic lines against the example provided
+to fix the problem.
+
+Question: does the RO-Crate also satisfy all "RECOMMENDED" constraints? You can
+verify this by checking the output of:
 
 ```bash
 rocrate-validator -y validate -l RECOMMENDED -v -w 79 -o err.txt sample-crate
@@ -176,21 +184,21 @@ summary, the validator writes detailed information on every check that failed.
 The validator has several subcommands with many options. You can explore them
 by passing the `--help` option to the top-level `rocrate-validator` command
 and to any of the subcommands. You can also check the full documentation at
-https://rocrate-validator.readthedocs.io/ .
+<https://rocrate-validator.readthedocs.io/>.
 
 
 ## RO-Crate in Python
 
 The [ro-crate-py](https://github.com/ResearchObject/ro-crate-py) library
-provides a Python API to create and consume RO-Crates. Installation is done
-via pip (note that the package name is `rocrate`):
+provides a Python API to create and consume RO-Crates. It can be installed
+via pip; its package name is `rocrate`:
 
 ```bash
 pip install rocrate
 ```
 
 This part of the tutorial is based on [RO-Crate in
-Python](https://gxy.io/GTN:T00341), which in turn is based on the ro-crate-py
+Python](https://gxy.io/GTN:T00341), which in turn is based on the `ro-crate-py`
 documentation.
 
 ### Creating an RO-Crate
@@ -495,7 +503,7 @@ workflow is listed as a plain `File`:
 }
 ```
 
-ro-crate-py has some support for the [Workflow
+`ro-crate-py` has some support for the [Workflow
 RO-Crate](https://w3id.org/workflowhub/workflow-ro-crate/1.0) profile, whose
 main goal is to describe a computational workflow and associated resources.
 We can change the metadata to list the Galaxy file as a computational workflow
@@ -601,4 +609,173 @@ Options:
   --diagram TEXT                  relative path of the workflow diagram
   --version                       print version and exit
   --help                          Show this message and exit.
----
+```
+
+
+## Exploring Workflow Run RO-Crates
+
+[Workflow Run RO-Crate](https://w3id.org/ro/wfrun) is a set of three RO-Crate
+profiles for describing provenance information related to the execution of a
+computational workflow:
+
+* [Process Run Crate](https://w3id.org/ro/wfrun/process) describes the
+  execution of an "implicit workflow", where one or more tools contributed to
+  the same computation;
+* [Workflow Run Crate](https://w3id.org/ro/wfrun/workflow) is similar to
+  Process Run Crate, but assumes that the execution is orchestrated by a
+  workflow manager;
+* [Provenance Run Crate](https://w3id.org/ro/wfrun/provenance) extends
+  Workflow Run Crate with specifications for describing the execution of each
+  step of the workflow.
+
+
+### Explore your Workflow Run RO-Crate
+
+Earlier in the [*Introduction to Galaxy*](galaxy_workflows.md) part of this
+tutorial you executed a workflow and downloaded from Galaxy a Workflow Run
+RO-Crate (WRROC) documenting the work done.
+
+Let's examine the contents of that WRROC archive. We assume it's called `galaxy-runcrate.crate.zip`.
+
+Unpack the file into a directory `galaxy-runcrate`:
+
+```
+unzip -d galaxy-runcrate{,.crate.zip}
+```
+
+Check the contents.  You'll see it's a standard RO-Crate.  However, it also
+includes the datasets relevant to the workflow invocation. The directory
+contains the workflow file and input/output
+files involved in the computation.
+
+In addition, the metadata in `ro-crate-metadata.json` is more extensive, with
+respect to a basic RO-Crate or even a Workflow RO-Crate. It contains a
+description of the workflow invocation.  The
+[`runcrate`](https://github.com/ResearchObject/runcrate) tool helps explore and
+query this metadata.
+
+Install `runcrate` in the same venv you've been using for this tutorial:
+
+```bash
+pip install runcrate
+```
+
+Now you can run `runcrate report` on the unzipped crate:
+
+```bash
+runcrate report galaxy-runcrate
+```
+
+After running the command, you should see the following output:
+
+```console
+action: #29a668ab-04d1-4db7-b6d0-2f31f5e1042b
+  instrument: workflows/8cbbea7a6a3bfa9c.gxwf.yml (['File', 'SoftwareSourceCode', 'ComputationalWorkflow'])
+  started: 2022-07-18T13:41:20.387592
+  ended: 2022-07-18T13:41:20.387601
+  inputs:
+    datasets/long-doc.txt_0a8d5244b05fb530401ac2891d3925d8.flowtext <- e350ff99-c803-4464-9b8c-09a9f4e97b9c
+  outputs:
+    datasets/output_file_0a8d5244b05fb5302483c6b819d4294d.txt <- db34d7bd-3e93-4040-bb99-22a73f71f2f3
+```
+From the output you can see the details of the action node documenting how and
+when the workflow was invoked.
+
+
+### Explore a Provenance Run Crate
+
+As we previously mentioned, a Provenance Run Crate describes the execution of
+each step of the workflow.  You can see this in practice by exploring an example
+crate which is available on Zenodo: <https://doi.org/10.5281/zenodo.7774351>.
+
+Access the [Zenodo page](https://doi.org/10.5281/zenodo.7774351), scroll down to
+the "Files" section and click on the
+`ml-predict-pipeline-cwltool-runcrate.crate.zip` link to download
+it.
+
+In the Provenance Run crate, the JSON metadata file contains a detailed description of the entities
+involved in the execution, down to the level of individual steps: this can
+make it hard to focus on the most important items, i.e., the process
+executions and related input and output parameters. You can, again, use
+`runcrate` to extract just the execution details:
+
+```
+runcrate report ml-predict-pipeline-cwltool-runcrate.crate.zip
+```
+
+After running the above commands, you should see the following output:
+
+```
+action: #5d08a759-9b0e-434f-a5f0-ac95dc0ad619
+  instrument: packed.cwl (['File', 'SoftwareSourceCode', 'ComputationalWorkflow', 'HowTo'])
+  started: 2023-02-21T12:44:53.363530
+  ended: 2023-02-21T12:45:11.260305
+  inputs:
+    tissue_low>0.9 <- packed.cwl#main/tissue-high-filter
+    tissue_high <- packed.cwl#main/tissue-high-label
+    4 <- packed.cwl#main/tissue-high-level
+    tissue_low <- packed.cwl#main/tissue-low-label
+    9 <- packed.cwl#main/tissue-low-level
+    tissue_low>0.99 <- packed.cwl#main/tumor-filter
+    tumor <- packed.cwl#main/tumor-label
+    1 <- packed.cwl#main/tumor-level
+    #b6b5f30b-d459-4b37-ad6c-3cab115d138d <- packed.cwl#main/slide
+  outputs:
+    254eb2d60fd6705c88a6b7746336ba86e09e23c7 <- packed.cwl#main/tissue
+    a1e03e58562319274d4ff792d2090763b7926d72 <- packed.cwl#main/tumor
+
+action: #cf0a0a63-5eb2-4f3d-8c62-7a575aab0799
+  step: packed.cwl#main/extract-tissue-low
+  instrument: packed.cwl#extract_tissue.cwl (SoftwareApplication)
+  started: 2023-02-21T12:44:54.774746
+  ended: 2023-02-21T12:44:56.740995
+  inputs:
+    tissue_low <- packed.cwl#extract_tissue.cwl/label
+    9 <- packed.cwl#extract_tissue.cwl/level
+    #b6b5f30b-d459-4b37-ad6c-3cab115d138d <- packed.cwl#extract_tissue.cwl/src
+  outputs:
+    8cdd835383bcc344a0dbc6892ac6949765400b5c <- packed.cwl#extract_tissue.cwl/tissue
+
+action: #21ca24a9-66a9-4c3a-911c-51c235bcd2ed
+  step: packed.cwl#main/extract-tissue-high
+  instrument: packed.cwl#extract_tissue.cwl (SoftwareApplication)
+  started: 2023-02-21T12:44:56.753244
+  ended: 2023-02-21T12:44:58.538525
+  inputs:
+    tissue_low>0.9 <- packed.cwl#extract_tissue.cwl/filter
+    8cdd835383bcc344a0dbc6892ac6949765400b5c <- packed.cwl#extract_tissue.cwl/filter_slide
+    tissue_high <- packed.cwl#extract_tissue.cwl/label
+    4 <- packed.cwl#extract_tissue.cwl/level
+    #b6b5f30b-d459-4b37-ad6c-3cab115d138d <- packed.cwl#extract_tissue.cwl/src
+  outputs:
+    254eb2d60fd6705c88a6b7746336ba86e09e23c7 <- packed.cwl#extract_tissue.cwl/tissue
+
+action: #db496cbd-3e6d-4c6a-8766-acc7d6a6bd3f
+  step: packed.cwl#main/classify-tumor
+  instrument: packed.cwl#classify_tumor.cwl (SoftwareApplication)
+  started: 2023-02-21T12:44:58.553005
+  ended: 2023-02-21T12:45:11.256012
+  inputs:
+    tissue_low>0.99 <- packed.cwl#classify_tumor.cwl/filter
+    8cdd835383bcc344a0dbc6892ac6949765400b5c <- packed.cwl#classify_tumor.cwl/filter_slide
+    tumor <- packed.cwl#classify_tumor.cwl/label
+    1 <- packed.cwl#classify_tumor.cwl/level
+    #b6b5f30b-d459-4b37-ad6c-3cab115d138d <- packed.cwl#classify_tumor.cwl/src
+  outputs:
+    a1e03e58562319274d4ff792d2090763b7926d72 <- packed.cwl#classify_tumor.cwl/tumor
+```
+
+The report contains a section for every _action_ (process execution), showing
+its _instrument_ (the software that was executed), starting and ending times,
+and input and output parameters. Parameter lines are in the form:
+
+```
+actual_value <- formal_parameter
+```
+
+Where the formal parameter represents a sort of logical "slot" that can be
+filled by different actual values at runtime.
+
+The first action corresponds to the execution of the whole workflow, while the
+others correspond to the execution of individual steps (note they have a line
+that reports the step's identifier).

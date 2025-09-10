@@ -10,4 +10,5 @@ Here is a list of tutorials
 - [HL7 V2 e CDA](./04-tutorial-hl7v2-cda-ihe/HL7v2-CDA-IHE_tutorial.md)
 - [HL7 FHIR](./05-tutorial-fhir/FHIR_tutorial.md)
 - [OpenEHR](./06-tutorial-openehr/openEHR_Tutorial.md)
-- [RO Crate](./07-fair-workflows-ro-crate/RO_crate.md)
+- [FAIR workflows and RO-Crate](./07-tutorial-fair-workflows/README.md)
+- [Remote services](./09-remote-services/README.md)
