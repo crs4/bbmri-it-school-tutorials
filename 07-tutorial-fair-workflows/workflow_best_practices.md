@@ -3,7 +3,7 @@
 ## Introduction
 
 Workflows are a powerful way to encapsulate complex data analyses in a
-reproducible manner. However, to help make works more easily discoverable and
+reproducible manner. However, to help make workflows more easily discoverable and
 reusable over time, it's essential to follow best practices for testing,
 continuous integration, and maintenance. This tutorial will guide you through
 setting up tests for workflows -- using the Galaxy workflow you ran earlier as
@@ -41,7 +41,7 @@ version your Galaxy workflows.
 
 ### Add your workflow to the repository
 
-1. In Galaxy, navigate to the workflow you want to version
+1. In Galaxy, navigate to the workflow you want to add
 2. Click on the workflow menu (⋮) and select "Download" or "Export"
 3. Save the workflow as a file called `workflow.ga` on your computer
 4. Clone your GitHub repository locally:
@@ -67,7 +67,7 @@ version your Galaxy workflows.
 
 > 💡 There are different conventions on how to structure the repository layout,
 > often specific to the particular workflow type. In the Galaxy world, a
-> valid and frequently used layout is the IWC
+> valid and frequently used layout is the IWC one
 > (<https://github.com/galaxyproject/iwc>). This is what we assume to use in
 > this tutorial.
 
@@ -135,7 +135,7 @@ repository.
 
 ## 3. Enrich your workflows with metadata
 
-Adding structureed metadata is an important part of applying the FAIR principles
+Adding structured metadata is an important part of applying the FAIR principles
 to your workflows. It's good practice to document your workflow thoroughly to
 improve understanding, reusability, and FAIRness of your research. A
 particularly valuable descriptive metadata model is the [Workflow Testing
@@ -169,7 +169,7 @@ To use `repo2crate`, follow these steps:
 
 1. Install `repo2crate` using pip:
    You already did this in the [RO-Crate part of the tutorial](./RO_crate.md),
-so you can skip the step if you activatf the appropriate venv.
+so you can skip the step if you activate the appropriate venv.
 
    ```bash
    pip install repo2crate
@@ -337,7 +337,7 @@ be propagated to European data indexing services.
 2. Sign up for an account if you don't already have one. For this tutorial *we
    recommend using your GitHub identity* for this tutorial.
     * ⚠️ **Note**. You can also use your institutional identify (it it is linked with eduGAIN and thus works with [LS AAI / LS Login](https://lifescience-ri.eu/ls-login/)), but
-    you'll then have to explicitly link your account with your GitHub identify
+    you'll then have to explicitly link your account with your GitHub identity
     to complete the next part of the tutorial.
 3. Follow the instructions to set up your profile
 
@@ -377,8 +377,8 @@ published on the WorkflowHub dev instance.
 
 ## Conclusion
 
-By following these best practices, you can help you to make your workflows more
-findable and to keep them functional, reproducible, and maintainable over time.
+By following these best practices, you can make your workflows more
+findable and keep them functional, reproducible, and maintainable over time.
 Testing workflows, automating these tests with GitHub Actions, and using
 services like LifeMonitor help you to automate maintenance operations,
 detect problems early and keep your workflows in good working order over the

@@ -645,7 +645,7 @@ unzip -d galaxy-runcrate{,.crate.zip}
 
 Check the contents.  You'll see it's a standard RO-Crate.  However, it also
 includes the datasets relevant to the workflow invocation. The directory
-contains the workflow file `packed.cwl`, a `README.md` file, and input/output
+contains the workflow file and input/output
 files involved in the computation.
 
 In addition, the metadata in `ro-crate-metadata.json` is more extensive, with
@@ -656,17 +656,18 @@ query this metadata.
 
 Install `runcrate` in the same venv you've been using for this tutorial:
 
-    ```bash
-    pip install runcrate
-    ```
+```bash
+pip install runcrate
+```
 
 Now you can run `runcrate report` on the unzipped crate:
 
-    ```bash
-    runcrate report galaxy-runcrate
-    ```
+```bash
+runcrate report galaxy-runcrate
+```
 
 After running the command, you should see the following output:
+
 ```console
 action: #29a668ab-04d1-4db7-b6d0-2f31f5e1042b
   instrument: workflows/8cbbea7a6a3bfa9c.gxwf.yml (['File', 'SoftwareSourceCode', 'ComputationalWorkflow'])

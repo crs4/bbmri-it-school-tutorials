@@ -5,6 +5,6 @@ This tutorial includes the practical exercises to accompany the FAIR workflows l
 Go through these steps in order.
 
 1. [Introduction to the Galaxy workflow manager](galaxy_workflows.md) - Creating and sharing reproducible workflows using the Galaxy platform
-2. [RO-Crate](RO_crate.md) - Understanding the Research Object Crate standard for packaging research data
+2. [RO-Crate](RO_crate.md) - Understanding the Research Object Crate model for packaging research data
 3. [Workflow Best Practices](workflow_best_practices.md) - Guidelines for designing clear, maintainable, and reusable workflows
 4. [Apache Airflow](apache_airflow.md) - Introduction to workflow orchestration and management with Apache Airflow

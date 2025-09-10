@@ -19,11 +19,11 @@ Since version 23.00, Galaxy has introduced the ability to export workflows as **
 
 ### Export a Workflow Run RO-Crate from Galaxy
 
-#### 1. Select the workflow invecation in Galaxy
+#### 1. Select the workflow invocation in Galaxy
 
 In the first step on this page -- the Short Introduction to Galaxy -- you executed a workflow on the Galaxy instance.
 
-If you need to do so (e.g., if you changed the Galaxy view since you finished executing the workflow), select the workflow invocation from the workflow invocation list (you can find it by clicking on the *Workflow Invocations* on left menu).
+If you need to do so (e.g., if you changed the Galaxy view since you finished executing the workflow), select the workflow invocation from the workflow invocation list (you can find it by clicking on the *Workflow Invocations* on the left menu).
 
 ![Selecting a workflow invocation from the Galaxy interface](images/screenshot_select-workflow-invocation.png)
 *Figure: Selecting a workflow invocation from the list of executed workflows in Galaxy*
