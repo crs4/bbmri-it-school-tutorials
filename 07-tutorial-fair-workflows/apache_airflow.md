@@ -2,7 +2,15 @@
 
 ## Introduction to Apache Airflow
 
-Apache Airflow is an open-source platform for creating, scheduling, and monitoring workflows programmatically. Developed by Airbnb in 2014 and later donated to the Apache Software Foundation, Airflow allows you to define workflows as code using Python, making them more maintainable, versionable, and dynamic.
+Apache Airflow is an open-source platform for creating, scheduling, and
+monitoring workflows programmatically. Developed by Airbnb in 2014 and later
+donated to the Apache Software Foundation, Airflow allows you to define
+workflows as code using Python, making them more maintainable, versionable, and
+dynamic.
+
+Airflow is widely used for automating ETL processes in industry.  There are also
+other comparably valid alternative (e.g., if you're curious, see the [Awesome
+ETL page](https://github.com/pawl/awesome-etl?tab=readme-ov-file#workflow-managementengines)).
 
 ### Key Features
 
@@ -31,36 +39,18 @@ Airflow follows a modular architecture with several key components:
 - **Executor**: Defines how tasks are executed
 - **Metadata Database**: Stores state information
 
-For a comprehensive understanding of the architecture, refer to the [official documentation](https://airflow.apache.org/docs/apache-airflow/stable/core-concepts/overview.html).
+For a comprehensive understanding of the architecture, refer to the [official
+documentation](https://airflow.apache.org/docs/apache-airflow/stable/core-concepts/overview.html).
 
 ## Installing Airflow
 
-You have two main options for installing Airflow:
+### Option 1: Deploy with Docker Compose
 
-### Option 1: Install with pip in a virtual environment
+Using Docker Compose is the easiest way to get started with a complete Airflow environment.  It is a good basis for a production environment, though there are some security issues that need to be considered.
 
-```bash
-# Create a virtual environment
-python -m venv airflow-venv
+For the full procedure deployment, see the [official tutorial](https://airflow.apache.org/docs/apache-airflow/stable/howto/docker-compose/index.html).
 
-# Activate the virtual environment
-source airflow-venv/bin/activate  # Unix/MacOS
-# or
-.\airflow-venv\Scripts\activate    # Windows
-
-# Install Airflow (constrain to a specific version for stability)
-AIRFLOW_VERSION=2.7.3
-PYTHON_VERSION="$(python --version | cut -d " " -f 2 | cut -d "." -f 1-2)"
-CONSTRAINT_URL="https://raw.githubusercontent.com/apache/airflow/constraints-${AIRFLOW_VERSION}/constraints-${PYTHON_VERSION}.txt"
-pip install "apache-airflow==${AIRFLOW_VERSION}" --constraint "${CONSTRAINT_URL}"
-```
-
-For detailed installation instructions, refer to the [official documentation](https://airflow.apache.org/docs/apache-airflow/stable/installation/installing-from-pypi.html).
-
-### Option 2: Deploy with Docker Compose (Recommended)
-
-Using Docker Compose is the easiest way to get started with a fully functional Airflow environment:
-
+TL;DR:
 ```bash
 # Create directories for DAGs, logs, and plugins
 mkdir -p ./dags ./logs ./plugins ./config
@@ -81,6 +71,20 @@ Access the Airflow UI at `http://localhost:8080` with default credentials:
 - Password: `airflow`
 
 For more details, follow the [official Docker Compose guide](https://airflow.apache.org/docs/apache-airflow/stable/howto/docker-compose/index.html).
+
+
+### Option 2: Standalone Airflow in pip in a uv virtual environment
+
+This is a good option for a simple deployment for learning and experimenting,
+but it requires using [`uv`](https://docs.astral.sh/uv/getting-started/installation/).
+
+Refer to the [official documentation](https://airflow.apache.org/docs/apache-airflow/stable/start.html) for the full installation procedure.
+
+Access the Airflow UI at `http://localhost:8080` with default credentials:
+
+- Username: `airflow`
+- Password: `airflow`
+
 
 ## Airflow 101: Basic Concepts
 
