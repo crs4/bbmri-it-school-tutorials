@@ -134,6 +134,9 @@ The `err.txt` file should contain the following output:
 
 ```
 
+**📝 Note.** In this and in the following steps, if you prefer you can omit
+`-o err.txt` to print the validation output directly to the console.
+
 Let's break down the output:
 
 * The first line reports the path of the processed RO-Crate, in this case

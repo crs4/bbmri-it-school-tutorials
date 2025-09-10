@@ -75,4 +75,4 @@ Now, on your system, you should have a [Workflow Run RO-Crate](https://www.resea
 
 The exported RO-Crate package contains metadata describing the workflow execution, including the workflow definition (as it extends the [Workflow RO-Crate profile](https://w3id.org/workflowhub/workflow-ro-crate/)). It is as a FAIR digital object that can be shared, cited, and reused across different platforms.
 
-You'll get to experiment with this and other RO-Crates in the [RO-Crate section](RO_crate.md) of the tutorial.
+You'll get to experiment with this and other RO-Crates in the [RO-Crate section](./RO_crate.md) of the tutorial.
