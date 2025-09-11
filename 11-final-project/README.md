@@ -66,7 +66,7 @@ infrastructure.
 Open [this dedicated page](./task-3.1/README.md) for complete instructions.
 
 
-## Task 3.2: Verify connection between Locator and Bridgehead
+## Task 3.2: verify connection between Locator and Bridgehead
 
 At this point, verify that the Sample Locator and your Bridgehead are
 communicating.
@@ -74,30 +74,57 @@ communicating.
 Open [this dedicated page](./task-3.2/README.md) for complete instructions.
 
 
-## Task 3.3: Extract organization data from Directory
+## Task 3.3: extract organization data from Directory
 
 Now you need to implement a script to extract organization data from Directory.
 
 Open [this dedicated page](./task-3.3/README.md) for complete instructions.
 
 
-## Task 3.4: Extract data from your BIMS and transform it to FHIR
+## Task 3.4: extract data from your BIMS and transform it to FHIR
 
 Implement a script to extract data from your BIMS and transform it to FHIR,
 serialized as JSON.
 
 Open [this dedicated page](./task-3.4/README.md) for complete instructions.
 
-## Task 3.5: Import JSON FHIR into BlazeStore
+## Task 3.5: import JSON FHIR into BlazeStore
 
 At this stage, import your FHIR data into the BlazeStore, where the Bridgehead
 can access it and query it.
 
 Open [this dedicated page](./task-3.5/README.md) for complete instructions.
 
-## Task 3.6: Execute test query
+## Task 3.6: execute test query
 
-Your integration should be complete and operational now.  Let's run some queries
+Your integration should be complete and operational now, with the full ETL
+proceess loading sample metadata into the BlazeStore and making it accessible to
+the Bridgehead and thus the Sample Locator.  Let's run some queries
 to see how it works.
 
 Open [this dedicated page](./task-3.6/README.md) for complete instructions.
+
+## Task 3.7: dealing with updates
+
+Extend your ETL to deal with updates to your collections.
+
+Open [this dedicated page](./task-3.7/README.md) for complete instructions.
+
+
+# Automation
+
+So far you have implemented your integration as plain scripts.  work on making
+it more portable and automated.
+
+## Task 4.1: docker container images
+
+Package your integration scripts as Docker images.
+
+Open [this dedicated page](./task-4.1/README.md) for complete instructions.
+
+## Task 4.2: automated execution
+
+Implement a solution to orchestrate and automatically execute the various steps
+of your ETL.
+
+Open [this dedicated page](./task-4.2/README.md) for complete instructions.
