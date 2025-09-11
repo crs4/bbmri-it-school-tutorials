@@ -1,0 +1,4 @@
+code,description,ontology_code,ontology_name,mg_draft
+M,Male,,,false
+F,Female,,,false
+U,Unknown,,,false

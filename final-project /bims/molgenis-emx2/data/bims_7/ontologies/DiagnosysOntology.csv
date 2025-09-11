@@ -1,0 +1,9 @@
+code,description,ontology_code,ontology_name
+COVID-19-VIR,COVID-19 identified virus,NCIT,Local
+COVID-19-UNK,COVID-19 with unknown virus variant,NCIT,Local
+COVID-19-DISEASE,Disease caused by COVID-19 virus,NCIT,Local
+CYSTIC-FIBROSIS,Cystic fibrosis,NCIT,Local
+SPM-ARTR,Spinal muscolar artrophy,NCIT,Local
+DM-DIST,Duchenne muscular dystrophy,NCIT,Local
+XL-SPI,X-linked spinal muscular atrophy type 2 (SMAX2),NCIT,Local
+PRX-SPI,Proximal spinal muscular atrophy type 2 (SMA II),NCIT,Local
