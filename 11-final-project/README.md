@@ -46,7 +46,7 @@ Open [this dedicated page](./task-2.2/README.md) for complete instructions.
 
 ## Task 2.3: execute test query
 
-Now your biobank and it's collections should be fully integrated in the
+Now your biobank and its collections should be fully integrated in the
 Directory.  It's time to query the catalogue to see if you can find your
 metadata.
 
@@ -98,7 +98,7 @@ Open [this dedicated page](./task-3.5/README.md) for complete instructions.
 ## Task 3.6: execute test query
 
 Your integration should be complete and operational now, with the full ETL
-proceess loading sample metadata into the BlazeStore and making it accessible to
+process loading sample metadata into the BlazeStore and making it accessible to
 the Bridgehead and thus the Sample Locator.  Let's run some queries
 to see how it works.
 
