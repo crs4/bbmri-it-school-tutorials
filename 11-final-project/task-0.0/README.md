@@ -2,14 +2,23 @@
 
 ## Your task objective
 
-1. Get your computer connected to the VM dedicated to your biobank.  Customize the
-VM to your liking.
-2. Connect to the mock Directory and Sample Locator services that have been
-   created for these exercises.
+1. Pair-up with someone
+2. Get a *mock biobank* assigned from the instructors
+3. Get your computer connected to the VM dedicated to your biobank.  Customize the VM to your liking.
+4. Connect to the mock services that have been created for these exercises.
+
+
 
 ## Instructions
 
 ### Part 1
+The instructors will assign to each pair of participants a "mock biobank".  A VM
+will be associated with the biobank.
+
+Pair-up with someone and get your biobank assignment from the instructors.
+
+
+### Part 2
 1. Install an SSH client on your computer, if you don't already have one.
 2. Generate an SSH key.  Pass the public key to the instructors.
 3. Get the public IP address and hostname of your dedicated VM from the
@@ -40,7 +49,11 @@ useful.
 * You have `sudo` power (no password needed)
 
 
-### Part 2
+### Part 3
+
+We have deployed mock Directory and Sample Locator services for the exercises
+you're going to be conducting over next next couple of days. Test your
+connection and ensure you can access them.
 
 1. Visit the Directory:
     * Open your browser and visit the web site <https://directory.bbmri-school.cloud-ip.cc>.
@@ -49,4 +62,4 @@ useful.
     * Open your browser and visit the web site <https://locator.bbmri-school.cloud-ip.cc>.
     * Browse and/or query it to see what's in it.
 
-In both cases, you should see that the platform is empty.
+In both cases, you should see that the mock Federated Platform is empty.
