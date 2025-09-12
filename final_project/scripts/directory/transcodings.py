@@ -79,7 +79,7 @@ bims_diseases_collections = {
     'NCIT:C120083': 'Collection 2 Colon Carcinoma',
 
     },
-'bims_6':
+'bims_2':
 {'NCIT:C7772': 'Collection 1 Gastric Carcinome',
  'NCIT:C7773': 'Collection 1 Gastric Carcinome',
  'NCIT:C7774': 'Collection 1 Gastric Carcinome',
@@ -92,7 +92,7 @@ bims_diseases_collections = {
 
  },
 
-'bims_2':
+'bims_3':
     {'COVID-19-VIR' : 'Collection 1 COVID-19 ',
         'COVID-19-UNK' : 'Collection 1 COVID-19 ',
         'COVID-19-DISEASE' : 'Collection 1 COVID-19 ',
@@ -103,7 +103,7 @@ bims_diseases_collections = {
         'PRX-SPI' : 'Collection 2 Rare Diseases'
     },
 
-'bims_7':
+'bims_4':
     {'COVID-19-VIR' : 'Collection 1 COVID-19 ',
         'COVID-19-UNK' : 'Collection 1 COVID-19 ',
         'COVID-19-DISEASE' : 'Collection 1 COVID-19 ',
@@ -114,7 +114,7 @@ bims_diseases_collections = {
         'PRX-SPI' : 'Collection 2 Rare Diseases'
     },
 
-'bims:3': {
+'bims:5': {
     'NCIT:C12345': 'Collection 1 Autoimmune and Genetic Diseases',
     'NCIT:C12346': 'Collection 1 Autoimmune and genetic Diseases',
     'NCIT:C12347': 'Collection 1 Autoimmune and genetic Diseases',
@@ -125,7 +125,7 @@ bims_diseases_collections = {
     'NCIT:C12353': 'Collection 2 Rare Diseases',
     'NCIT:C12354': 'Collection 2 Rare Diseases',
 }  ,
-    'bims:8': {
+    'bims:6': {
     'NCIT:C12345': 'Collection 1 Autoimmune and Genetic Diseases',
     'NCIT:C12346': 'Collection 1 Autoimmune and genetic Diseases',
     'NCIT:C12347': 'Collection 1 Autoimmune and genetic Diseases',
@@ -136,7 +136,7 @@ bims_diseases_collections = {
     'NCIT:C12353': 'Collection 2 Rare Diseases',
     'NCIT:C12354': 'Collection 2 Rare Diseases',
 },
-    'bims_4' : {
+    'bims_7' : {
     'NCIT:C195126': 'Collection 1 Diabetes',
     'NCIT:C99532': 'Collection 1 Diabetes',
     'NCIT:C129739': 'Collection 1 Diabetes',
@@ -147,7 +147,7 @@ bims_diseases_collections = {
     'NCIT:C3096': 'Collection 2 Hepatitis',
     'NCIT:C194020': 'Collection 2 Hepatitis'
     },
-    'bims_9' : {
+    'bims_8' : {
     'NCIT:C195126': 'Collection 1 Diabetes',
     'NCIT:C99532': 'Collection 1 Diabetes',
     'NCIT:C129739': 'Collection 1 Diabetes',
@@ -158,7 +158,7 @@ bims_diseases_collections = {
     'NCIT:C3096': 'Collection 2 Hepatitis',
     'NCIT:C194020': 'Collection 2 Hepatitis'
     },
-    'bims_5': {
+    'bims_9': {
                'NCIT:C4872': 'Collection 1 Breast Carcinoma',
                 'NCIT:C116977': 'Collection 1 Breast Carcinoma',
                 'NCIT:C138986': 'Collection 1 Breast Carcinoma',
@@ -184,35 +184,35 @@ bims_biobanks = {
         'biobank_id': 'Sun',
         'biobank_name': 'Colon and Gastrc carcinoma Biobank - Sun'
                },
-    'bims_2' : {
+    'bims_3' : {
         'biobank_id': 'Mercury',
         'biobank_name': 'Rare Diseases and COVID-19 Biobank - Mercury'
                 },
-    'bims_3' : {
+    'bims_5' : {
         'biobank_id': 'Venus',
         'biobank_name': 'Autoimmune Genetic Diseases and Rare Diseases Biobank - Venus'
                 },
-    'bims_4' : {
+    'bims_7' : {
         'biobank_id': 'Earth',
         'biobank_name': 'Diabetes and Hepatitis Biobank - Earth'
                 },
-    'bims_5' : {
+    'bims_9' : {
         'biobank_id': 'Moon',
         'biobank_name': 'Breast and Ovarian Cancer Biobank - Moon'
                 },
-    'bims_6' : {
+    'bims_2' : {
         'biobank_id': 'Mars',
         'biobank_name': 'Colon and Gastrc carcinoma Biobank - Mars'
                 },
-    'bims_7' : {
+    'bims_4' : {
         'biobank_id': 'Jupiter',
         'biobank_name': 'Rare Diseases and COVID-19 Biobank - Jupiter'
                 },
-    'bims_8' : {
+    'bims_6' : {
         'biobank_id': 'Saturn',
         'biobank_name': 'Autoimmune Genetic Diseases and Rare Diseases Biobank - Saturn'
                 },
-    'bims_9' : {
+    'bims_8' : {
         'biobank_id': 'Uranus',
         'biobank_name': 'Diabetes and Hepatitis Biobank - Uranus'
                 },
@@ -228,35 +228,35 @@ bims_collections_diseases = {
         'Collection 1 Gastric Carcinome': ['NCIT:C7772', 'NCIT:C7773', 'NCIT:C7774', 'NCIT:C9036'],
         'Collection 2 Colon Carcinoma': ['NCIT:C4910', 'NCIT:C2955', 'NCIT:C4349', 'NCIT:C43590', 'NCIT:C120083']
     },
-    'bims_6': {
+    'bims_2': {
         'Collection 1 Gastric Carcinome': ['NCIT:C7772', 'NCIT:C7773', 'NCIT:C7774', 'NCIT:C9036'],
         'Collection 2 Colon Carcinoma': ['NCIT:C4910', 'NCIT:C2955', 'NCIT:C4349', 'NCIT:C43590', 'NCIT:C120083']
     },
-    'bims_2': {
-        'Collection 1 COVID-19 ': ['COVID-19-VIR', 'COVID-19-UNK', 'COVID-19-DISEASE'],
-        'Collection 2 Rare Diseases': ['CYSTIC-FIBROSIS', 'SPM-ARTR', 'DM-DIST', 'XL-SPI', 'PRX-SPI']
-    },
-    'bims_7': {
-        'Collection 1 COVID-19 ': ['COVID-19-VIR', 'COVID-19-UNK', 'COVID-19-DISEASE'],
-        'Collection 2 Rare Diseases': ['CYSTIC-FIBROSIS', 'SPM-ARTR', 'DM-DIST', 'XL-SPI', 'PRX-SPI']
-    },
     'bims_3': {
-        'Collection 1 Autoimmune and Genetic Diseases': ['NCIT:C12345', 'NCIT:C12346', 'NCIT:C12347', 'NCIT:C12348', 'NCIT:C12349'],
-        'Collection 2 Rare Diseases': ['NCIT:C12351', 'NCIT:C12352', 'NCIT:C12353', 'NCIT:C12354']
-    },
-    'bims_8': {
-        'Collection 1 Autoimmune and Genetic Diseases': ['NCIT:C12345', 'NCIT:C12346', 'NCIT:C12347', 'NCIT:C12348', 'NCIT:C12349'],
-        'Collection 2 Rare Diseases': ['NCIT:C12351', 'NCIT:C12352', 'NCIT:C12353', 'NCIT:C12354']
+        'Collection 1 COVID-19 ': ['COVID-19-VIR', 'COVID-19-UNK', 'COVID-19-DISEASE'],
+        'Collection 2 Rare Diseases': ['CYSTIC-FIBROSIS', 'SPM-ARTR', 'DM-DIST', 'XL-SPI', 'PRX-SPI']
     },
     'bims_4': {
+        'Collection 1 COVID-19 ': ['COVID-19-VIR', 'COVID-19-UNK', 'COVID-19-DISEASE'],
+        'Collection 2 Rare Diseases': ['CYSTIC-FIBROSIS', 'SPM-ARTR', 'DM-DIST', 'XL-SPI', 'PRX-SPI']
+    },
+    'bims_5': {
+        'Collection 1 Autoimmune and Genetic Diseases': ['NCIT:C12345', 'NCIT:C12346', 'NCIT:C12347', 'NCIT:C12348', 'NCIT:C12349'],
+        'Collection 2 Rare Diseases': ['NCIT:C12351', 'NCIT:C12352', 'NCIT:C12353', 'NCIT:C12354']
+    },
+    'bims_6': {
+        'Collection 1 Autoimmune and Genetic Diseases': ['NCIT:C12345', 'NCIT:C12346', 'NCIT:C12347', 'NCIT:C12348', 'NCIT:C12349'],
+        'Collection 2 Rare Diseases': ['NCIT:C12351', 'NCIT:C12352', 'NCIT:C12353', 'NCIT:C12354']
+    },
+    'bims_7': {
+        'Collection 1 Diabetes': ['NCIT:C195126', 'NCIT:C99532', 'NCIT:C129739', 'NCIT:C26747'],
+        'Collection 2 Hepatitis': ['NCIT:C212171', 'NCIT:C144153', 'NCIT:C35124', 'NCIT:C3096', 'NCIT:C194020']
+    },
+    'bims_8': {
         'Collection 1 Diabetes': ['NCIT:C195126', 'NCIT:C99532', 'NCIT:C129739', 'NCIT:C26747'],
         'Collection 2 Hepatitis': ['NCIT:C212171', 'NCIT:C144153', 'NCIT:C35124', 'NCIT:C3096', 'NCIT:C194020']
     },
     'bims_9': {
-        'Collection 1 Diabetes': ['NCIT:C195126', 'NCIT:C99532', 'NCIT:C129739', 'NCIT:C26747'],
-        'Collection 2 Hepatitis': ['NCIT:C212171', 'NCIT:C144153', 'NCIT:C35124', 'NCIT:C3096', 'NCIT:C194020']
-    },
-    'bims_5': {
         'Collection 1 Breast Carcinoma': ['NCIT:C4872', 'NCIT:C116977', 'NCIT:C138986'],
         'Collection 2 Ovarian Cancer': ['NCIT:C60893', 'NCIT:C60895']
     },

@@ -1,6 +1,11 @@
 code,description,ontology_code,ontology_name
-NCIT:C4872,Breast carcinoma,NCIT,Thesaurus
-NCIT:C116977,Breast Cancer – In Situ Sub-Category Terminology,NCIT,Thesaurus
-NCIT:C138986,Pathological prognostic factors in breast cancer,NCIT,Thesaurus
-NCIT:C60893,Ovarian Cancer pM0 TNM Finding, NCIT,Thesaurus
-NCIT:C60895,Ovarian Cancer pM1 TNM Finding v6,NCIT,Thesaurus
+NCIT:C12345,Rheumatoid Arthritis,NCIT,Thesaurus
+NCIT:C12346,Systemic Lupus Erythematosus,NCIT,Thesaurus
+NCIT:C12347,Multiple Sclerosis,NCIT,Thesaurus
+NCIT:C12348,Type 1 Diabetes Mellitus,NCIT,Thesaurus
+NCIT:C12349,Graves' Disease,NCIT,Thesaurus
+NCIT:C12350,Cystic Fibrosis,NCIT,Thesaurus
+NCIT:C12351,Duchenne Muscular Dystrophy,NCIT,Thesaurus
+NCIT:C12352,Huntington's Disease,NCIT,Thesaurus
+NCIT:C12353,Marfan Syndrome,NCIT,Thesaurus
+NCIT:C12354,Neurofibromatosis Type 1,NCIT,Thesaurus

@@ -36,7 +36,7 @@ diseases = {
     'label':'Lynch Syndrome (Hereditary Colorectal Cancer Syndrome)'
 }
 ],
-'bims_6': [{
+'bims_2': [{
     'id':'NCIT:C7772',
     'label':'Stage I Gastric Cancer AJCC v6'
 },
@@ -73,7 +73,7 @@ diseases = {
     'label':'Lynch Syndrome (Hereditary Colorectal Cancer Syndrome)'
 }
 ],
-    'bims_2': [{
+    'bims_3': [{
     'id': 'COVID-19-VIR',
     'label': 'COVID-19 identified virus'
 },
@@ -106,7 +106,7 @@ diseases = {
     'label': 'Proximal spinal muscular atrophy type 2 (SMA II)'
 },
 ],
-'bims_7': [{
+'bims_4': [{
     'id': 'COVID-19-VIR',
     'label': 'COVID-19 identified virus'
 },
@@ -139,7 +139,7 @@ diseases = {
     'label': 'Proximal spinal muscular atrophy type 2 (SMA II)'
 },
 ],
-    'bims_3': [
+    'bims_5': [
     #autoimmune diseases
     {"id": "NCIT:C12345", "label": "Rheumatoid Arthritis"},
     {"id": "NCIT:C12346", "label": "Systemic Lupus Erythematosus"},
@@ -153,7 +153,7 @@ diseases = {
     {"id": "NCIT:C12353", "label": "Marfan Syndrome"},
     {"id": "NCIT:C12354", "label": "Neurofibromatosis Type 1"}
 ],
- 'bims_8': [
+ 'bims_6': [
     #autoimmune diseases
     {"id": "NCIT:C12345", "label": "Rheumatoid Arthritis"},
     {"id": "NCIT:C12346", "label": "Systemic Lupus Erythematosus"},
@@ -167,7 +167,7 @@ diseases = {
     {"id": "NCIT:C12353", "label": "Marfan Syndrome"},
     {"id": "NCIT:C12354", "label": "Neurofibromatosis Type 1"}
 ],
-    'bims_4': [
+    'bims_7': [
     # Diabetes
     {"id": "NCIT:C195126", "label": "Diabetes Mellitus due to Underlying Condition"},
     {"id": "NCIT:C99532", "label": "Diabetes Therapy"},
@@ -180,7 +180,7 @@ diseases = {
     {"id": "NCIT:C3096", "label": "Hepatitis A Infection"},
     {"id": "NCIT:C194020", "label": "Unspecified Viral Hepatitis without Hepatic Coma"}
 ],
-'bims_9': [
+'bims_8': [
     # Diabetes
     {"id": "NCIT:C195126", "label": "Diabetes Mellitus due to Underlying Condition"},
     {"id": "NCIT:C99532", "label": "Diabetes Therapy"},
@@ -193,7 +193,7 @@ diseases = {
     {"id": "NCIT:C3096", "label": "Hepatitis A Infection"},
     {"id": "NCIT:C194020", "label": "Unspecified Viral Hepatitis without Hepatic Coma"}
 ],
-'bims_5': [{
+'bims_9': [{
     'id':'NCIT:C4872',
     'label':'Breast carcinoma'
 },

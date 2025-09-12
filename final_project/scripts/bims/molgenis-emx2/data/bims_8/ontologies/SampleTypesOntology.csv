@@ -2,5 +2,5 @@ code,description,ontology_code,ontology_name
 NCIT:C41067,Whole Blood,NCIT,Thesaurus
 NCIT:C13283,Urine,NCIT,Thesaurus
 NCIT:C13356,Plasma,NCIT,Thesaurus
-NCIT:C154905,RNA-based Molecule,NCIT,Thesaurus
-NCIT:C449,DNA,NCIT,Thesaurus
+NCIT:C12801,Tissue,NCIT,Thesaurus
+NCIT:C13234,Feces,NCIT,Thesaurus

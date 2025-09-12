@@ -1,10 +1,6 @@
 code,description,ontology_code,ontology_name
-NCIT:C195126,Diabetes Mellitus due to Underlying Condition,NCIT,Thesaurus
-NCIT:C99532,Diabetes Therapy,NCIT,Thesaurus
-NCIT:C129739,Type 1 Diabetes Mellitus,NCIT,Thesaurus
-NCIT:C26747,Type 2 Diabetes Mellitus,NCIT,Thesaurus
-NCIT:C212171,Chronic Hepatitis B,NCIT,Thesaurus
-NCIT:C144153,Grade 1 Hepatitis Viral, CTCAE,NCIT,Thesaurus
-NCIT:C35124,Viral Hepatitis,NCIT,Thesaurus
-NCIT:C3096,Hepatitis A Infection,NCIT,Thesaurus
-NCIT:C194020,Unspecified Viral Hepatitis without Hepatic Coma,NCIT,Thesaurus
+NCIT:C4872,Breast carcinoma,NCIT,Thesaurus
+NCIT:C116977,Breast Cancer – In Situ Sub-Category Terminology,NCIT,Thesaurus
+NCIT:C138986,Pathological prognostic factors in breast cancer,NCIT,Thesaurus
+NCIT:C60893,Ovarian Cancer pM0 TNM Finding, NCIT,Thesaurus
+NCIT:C60895,Ovarian Cancer pM1 TNM Finding v6,NCIT,Thesaurus

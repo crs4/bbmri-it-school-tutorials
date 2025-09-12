@@ -1,10 +1,9 @@
 code,description,ontology_code,ontology_name
-NCIT:C195126,Diabetes Mellitus due to Underlying Condition,NCIT,Thesaurus
-NCIT:C99532,Diabetes Therapy,NCIT,Thesaurus
-NCIT:C129739,Type 1 Diabetes Mellitus,NCIT,Thesaurus
-NCIT:C26747,Type 2 Diabetes Mellitus,NCIT,Thesaurus
-NCIT:C212171,Chronic Hepatitis B,NCIT,Thesaurus
-NCIT:C144153,Grade 1 Hepatitis Viral, CTCAE,NCIT,Thesaurus
-NCIT:C35124,Viral Hepatitis,NCIT,Thesaurus
-NCIT:C3096,Hepatitis A Infection,NCIT,Thesaurus
-NCIT:C194020,Unspecified Viral Hepatitis without Hepatic Coma,NCIT,Thesaurus
+COVID-19-VIR,COVID-19 identified virus,NCIT,Local
+COVID-19-UNK,COVID-19 with unknown virus variant,NCIT,Local
+COVID-19-DISEASE,Disease caused by COVID-19 virus,NCIT,Local
+CYSTIC-FIBROSIS,Cystic fibrosis,NCIT,Local
+SPM-ARTR,Spinal muscolar artrophy,NCIT,Local
+DM-DIST,Duchenne muscular dystrophy,NCIT,Local
+XL-SPI,X-linked spinal muscular atrophy type 2 (SMAX2),NCIT,Local
+PRX-SPI,Proximal spinal muscular atrophy type 2 (SMA II),NCIT,Local

@@ -35,7 +35,7 @@ services:
       - MOLGENIS_POSTGRES_USER=molgenis
       - MOLGENIS_POSTGRES_PASS=molgenis
     ports:
-      - "8080:8080"
+      - "8077:8080"
     depends_on:
       postgres:
         condition: service_healthy

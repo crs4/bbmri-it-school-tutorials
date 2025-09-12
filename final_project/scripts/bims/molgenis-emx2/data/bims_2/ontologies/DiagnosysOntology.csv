@@ -1,9 +1,10 @@
 code,description,ontology_code,ontology_name
-COVID-19-VIR,COVID-19 identified virus,NCIT,Local
-COVID-19-UNK,COVID-19 with unknown virus variant,NCIT,Local
-COVID-19-DISEASE,Disease caused by COVID-19 virus,NCIT,Local
-CYSTIC-FIBROSIS,Cystic fibrosis,NCIT,Local
-SPM-ARTR,Spinal muscolar artrophy,NCIT,Local
-DM-DIST,Duchenne muscular dystrophy,NCIT,Local
-XL-SPI,X-linked spinal muscular atrophy type 2 (SMAX2),NCIT,Local
-PRX-SPI,Proximal spinal muscular atrophy type 2 (SMA II),NCIT,Local
+NCIT:C7772,Stage I Gastric Cancer AJCC v6,NCIT,Thesaurus
+NCIT:C7773,Stage II Gastric Cancer AJCC v6,NCIT,Thesaurus
+NCIT:C7774,Stage III Gastric Cancer AJCC v6,NCIT,
+NCIT:C9036,Stage IV Gastric Cancer AJCC v6,NCIT,
+NCIT:C4910,Colon Carcinoma,NCIT,Thesaurus
+NCIT:C2955,Colorectal Carcinoma,NCIT,Thesaurus
+NCIT:C4349,Colon Adenocarcinoma,NCIT,Thesaurus
+NCIT:C43590,Invasive Colorectal Adenocarcinoma,NCIT,Thesaurus
+NCIT:C120083,Lynch Syndrome (Hereditary Colorectal Cancer Syndrome),NCIT,Thesaurus
