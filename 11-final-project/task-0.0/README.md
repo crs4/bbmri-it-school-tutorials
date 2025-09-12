@@ -21,7 +21,7 @@ VM to your liking.
 #### Additional information
 
 You might find the tutorial on [SSH and Data
-Trasfer](https://github.com/crs4/bbmri-it-school-tutorials/blob/main/09-remote-services/ssh-and-data-transfer.md)
+Transfer](https://github.com/crs4/bbmri-it-school-tutorials/blob/main/09-remote-services/ssh-and-data-transfer.md)
 useful.
 
 * The VM that has been provisioned for you is an installation of Ubuntu 24.04 (Noble).
