@@ -45,17 +45,14 @@ and they are different on in the age of their populations.
 will be different, but since the data type/schemas are the same you will be able
 to collaborate and share on  all code.
 
-1. Navigate to the [BIMS data folder](https://space.crs4.it/apps/files/files/3876464?dir=/Shared/Scuola_BBMRI.it/Material%20Final%20Project/BIMS).
+4. Navigate to the [BIMS data folder](https://space.crs4.it/apps/files/files/3876464?dir=/Shared/Scuola_BBMRI.it/Material%20Final%20Project/BIMS).
     * Download the `molgenis.csv` file from root directory.
     * Go into the directory for your assigned biobank.
-2. From the Molgenis interface, create a schema for your BIMS, give it the name you prefer, and do not select any template.
-3. Once the schema is created, click on it to open the schema configuration page
+5. From the Molgenis interface, create a schema for your BIMS, give it the name you prefer, and do not select any template.
+6. Once the schema is created, click on it to open the schema configuration page
    and go to the Up/Download button. Upload the `molgenis.csv` file, to create the tables schema.
-4. Now Upload all the `.csv` data files in the directory dedicated to your BB, starting from those in
+7. Now Upload all the `.csv` data files in the directory dedicated to your BB, starting from those in
    the Ontology folder, then Donors and Samples at the end. This will populate
    all the tables with test data.
-5. From the Tables tab, you can now explore the data you have just loaded.
-
-### Relevant lab setup
-
-Use the VM which you have been assigned.  Create your deployment on it.
+8. From the Tables tab, now explore the data you have just loaded to ensure the
+   operation completed successfully.
