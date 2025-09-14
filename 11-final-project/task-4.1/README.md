@@ -21,8 +21,11 @@ to build your image.
 * Use COPY to copy your source code into the image.  Alternatively (better) you
   can install `git` and `git clone` your repository into the image (remember to
   clone without history).
+    + **📝 Tip**: it's good practice to fix the commit ID you use to select the
+      software version -- e.g., as a default value to an `ARG` called `revision`.
 * If your container has a complex start up, implement an entrypoint script.
   Else, you can specify your script as the `CMD`.
+* Ensure your image by default runs as a regular user, not as root.
 * Test your image locally with `docker run`.  Don't forget to mount local file
 directories as required to give your script access to data.
 

@@ -106,7 +106,7 @@ Open [this dedicated page](./task-3.6/README.md) for complete instructions.
 
 ## Task 3.7: dealing with updates
 
-Extend your ETL to deal with updates to your collections.
+Make your ETL process idempotent and extend it to deal with updates to your collections.
 
 Open [this dedicated page](./task-3.7/README.md) for complete instructions.
 
