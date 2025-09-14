@@ -19,7 +19,7 @@ These are some steps you could follow:
 4. Prepare some of the additional metadata that are needed  for biobanks and collections in the Directory (some of them are mandatory), as for example:
 
     - Diagnosis available 
-    - Samplea materials types 
+    - Samples materials types 
     - Dimension of the population and of the samples 
     - Age range 
    
