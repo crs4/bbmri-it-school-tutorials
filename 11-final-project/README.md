@@ -121,3 +121,9 @@ Implement a solution to orchestrate and automatically execute the various steps
 of your ETL.
 
 Open [this dedicated page](./task-4.2/README.md) for complete instructions.
+
+
+# Appendix
+
+[Link to
+slides](https://docs.google.com/presentation/d/140Ijod9uOZ2uUqe6I6Vpr1sX4ufgk8eOsEcF3IJtbn8/)
