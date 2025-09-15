@@ -20,7 +20,8 @@ The BIMS schema that you're going to load on your Molgenis instance is composed 
 
 ## Instructions
 
-1. Deploy an instance of Molgenis, using Docker, on your biobank's dedicated VM.
+1. Deploy an instance of Molgenis, using Docker, on your biobank's dedicated VM using the docker-compose.bims.yml file at Navigate to the [BIMS data folder](https://space.crs4.it/s/CA2ZXRbJmHStm95).
+    * Your instance should be accessible at port 8080 of your VM. You'll need to create an SSH bridge to access it via localhost since the port is not exposed outside. To do that add the option `-L 8080:127.0.0.1:8080` to your ssh command
     * Your instance should be accessible at port 8080 of your VM
     * ⚠️ **Warning**. Change the default admin account password immediately!! Your VM is accessible from the internet.
 2. Enter your biobank's organizational information into Molgenis, so that it will be available when querying or extracting metadata.
