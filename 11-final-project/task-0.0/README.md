@@ -58,10 +58,10 @@ you're going to be conducting over next next couple of days. Test your
 connection and ensure you can access them.
 
 1. Visit the Directory:
-    * Open your browser and visit the web site <https://directory.bbmri-school.cloud-ip.cc>.
+    * Open your browser and visit the web site <https://directory.bschn.ikmx.cloud>.
     * Browse and/or query the catalogue to see what's in it.
 2. Visit the Sample Locator:
-    * Open your browser and visit the web site <https://locator.bbmri-school.cloud-ip.cc>.
+    * Open your browser and visit the web site <https://locator..bschn.ikmx.cloud>.
     * Browse and/or query it to see what's in it.
 
 In both cases, you should see that the mock Federated Platform is empty.
