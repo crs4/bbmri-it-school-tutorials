@@ -1,6 +1,6 @@
-# BBMRI IT School Tutorials
+# BBMRI.it Training Tutorials
 
-This is repository contains a collection of tutorials for the BBMRI IT Data Team School of the CRS4
+This is repository contains a collection of tutorials for the BBMRI.it Data Team Training of the CRS4
 
 Here is a list of tutorials
 
