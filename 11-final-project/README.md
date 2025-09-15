@@ -125,5 +125,6 @@ Open [this dedicated page](./task-4.2/README.md) for complete instructions.
 
 # Appendix
 
-[Link to
+* [Link to
 slides](https://docs.google.com/presentation/d/140Ijod9uOZ2uUqe6I6Vpr1sX4ufgk8eOsEcF3IJtbn8/)
+* [Link to list of biobanks](https://bbmri-it-school.crs4.it/mod/page/view.php?id=60)
