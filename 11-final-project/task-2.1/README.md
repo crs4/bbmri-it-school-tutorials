@@ -3,7 +3,7 @@
 ## Your task objective
 
 1. Register your Biobank and your Collections into the [mock
-   Directory](https://directory.bbmri-school.cloud-ip.cc) deployed
+   Directory](https://directory.bschn.ikmx.cloud) deployed
    for this final project
 
 At the end of this task you should see your biobank and its
