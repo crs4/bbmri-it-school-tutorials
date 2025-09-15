@@ -61,7 +61,7 @@ connection and ensure you can access them.
     * Open your browser and visit the web site <https://directory.bschn.ikmx.cloud>.
     * Browse and/or query the catalogue to see what's in it.
 2. Visit the Sample Locator:
-    * Open your browser and visit the web site <https://locator..bschn.ikmx.cloud>.
+    * Open your browser and visit the web site <https://locator.bschn.ikmx.cloud>.
     * Browse and/or query it to see what's in it.
 
 In both cases, you should see that the mock Federated Platform is empty.
