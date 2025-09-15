@@ -25,7 +25,7 @@ The BIMS schema that you're going to load on your Molgenis instance is composed 
 ```
    ssh -i ~/.ssh/your-key -L 8080:127.0.0.1:8080 ubuntu@ec2-54-220-181-93.eu-west-1.compute.amazonaws.com
 ```
-    * ⚠️ **Warning**. Change the default admin account password immediately!! Your VM is accessible from the internet.
+    * You should change default the admin account password immediately!!
 2. Enter your biobank's organizational information into Molgenis, so that it will be available when querying or extracting metadata.
 3. The datasets provided for the test BIMS used in this final project (yours is one of these) are described in the following table:
 
