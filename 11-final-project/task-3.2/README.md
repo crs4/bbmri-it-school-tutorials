@@ -1,4 +1,4 @@
-# Task 3.2
+# Task 3.2: Generate FHIR resources for the Bridgehead
 
 ## Your task objective
 
