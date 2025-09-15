@@ -1,4 +1,4 @@
-# Task 1.2
+# Task 2.2: create the Fact Table
 
 ## Your task objective
 

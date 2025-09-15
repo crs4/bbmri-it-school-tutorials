@@ -1,4 +1,4 @@
-# Task 1.1
+# Task 1.1: create your biobank
 
 ## Your task objective
 
@@ -51,8 +51,8 @@ to collaborate and share on  all code.
 5. From the Molgenis interface, create a schema for your BIMS, give it the name you prefer, and do not select any template.
 6. Once the schema is created, click on it to open the schema configuration page
    and go to the Up/Download button. Upload the `molgenis.csv` file, to create the tables schema.
-7. Now Upload all the `.csv` data files in the directory dedicated to your BB, starting from those in
+7. Now Upload all the `.csv` data files in the data directory dedicated to your BB, starting from those in
    the Ontology folder, then Donors and Samples at the end. This will populate
    all the tables with test data.
-8. From the Tables tab, now explore the data you have just loaded to ensure the
+8. From the Tables tab, now explore the data you have just loaded in Molgenis to ensure the
    operation completed successfully.

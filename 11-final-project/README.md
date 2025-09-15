@@ -40,17 +40,10 @@ Open [this dedicated page](./task-2.1/README.md) for complete instructions.
 ## Task 2.2: create the Fact Table
 
 Create the Fact Table for your collections and have them imported into the
-Directory.
-
-Open [this dedicated page](./task-2.2/README.md) for complete instructions.
-
-## Task 2.3: execute test query
-
-Now your biobank and its collections should be fully integrated in the
-Directory.  It's time to query the catalogue to see if you can find your
+Directory. Then, query the catalogue to see if you can find your
 metadata.
 
-Open [this dedicated page](./task-2.3/README.md) for complete instructions.
+Open [this dedicated page](./task-2.2/README.md) for complete instructions.
 
 
 # Register with Sample Locator

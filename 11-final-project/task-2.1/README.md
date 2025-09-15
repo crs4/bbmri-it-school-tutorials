@@ -1,4 +1,4 @@
-# Task 1.2
+# Task 2.1: register BB and Collections with Directory
 
 ## Your task objective
 
