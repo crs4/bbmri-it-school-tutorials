@@ -4,8 +4,8 @@
 
 1. Pair-up with someone
 2. Get a *mock biobank* assigned from the instructors
-3. Get your computer connected to the VM dedicated to your biobank.  Customize the VM to your liking.
-4. Connect to the mock services that have been created for these exercises.
+4. Get your computer connected to the VM dedicated to your biobank.  Customize the VM to your liking.
+5. Connect to the mock services that have been created for these exercises.
 
 
 
@@ -16,6 +16,8 @@ The instructors will assign to each pair of participants a "mock biobank".  A VM
 will be associated with the biobank.
 
 Pair-up with someone and get your biobank assignment from the instructors.
+You will find the address of the VM assigned to your biobank on this page in
+Moodle: <https://bbmri-it-school.crs4.it/mod/page/view.php?id=60>.
 
 
 ### Part 2
