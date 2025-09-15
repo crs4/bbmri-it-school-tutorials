@@ -45,7 +45,7 @@ and they are different on in the age of their populations.
 will be different, but since the data type/schemas are the same you will be able
 to collaborate and share on  all code.
 
-4. Navigate to the [BIMS data folder](https://space.crs4.it/apps/files/files/3876464?dir=/Shared/Scuola_BBMRI.it/Material%20Final%20Project/BIMS).
+4. Navigate to the [BIMS data folder](https://space.crs4.it/s/CA2ZXRbJmHStm95).
     * Download the `molgenis.csv` file from root directory.
     * Go into the directory for your assigned biobank.
 5. From the Molgenis interface, create a schema for your BIMS, give it the name you prefer, and do not select any template.
