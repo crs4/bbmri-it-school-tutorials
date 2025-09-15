@@ -1,4 +1,4 @@
-# Task 3.7
+# Task 3.7: add support for updates
 
 ## Your task objectives
 
