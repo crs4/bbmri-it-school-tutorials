@@ -25,7 +25,7 @@ Moodle: <https://bbmri-it-school.crs4.it/mod/page/view.php?id=60>.
 2. Generate an SSH key.  Pass the public key to the instructors.
 3. Get the public IP address and hostname of your dedicated VM from the
    instructors.
-4. Log into your VM via SSH.  Customize it to your liking.
+4. Log into your VM via SSH.  **The username is `ubuntu`**. Customize it to your liking.
 5. Create an SSH config entry for your VM, so you can reconnect to it more easily.
 
 
