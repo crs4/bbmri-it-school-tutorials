@@ -38,7 +38,8 @@ Fot a group of samples, you can choose one or more CCEs (also all of them) and f
 the related decision(PERMIT/DENY), and create a CSV file names SampleConsents.csv to load the data,
 with this header:
 
-```sample_id,cce_id,decision_id
+```
+sample_id,cce_id,decision_id
 ``` 
 Once you have created the CSV file, load it in your BIMS with the "Up/Download " functionality in 
 Molgenis. 
