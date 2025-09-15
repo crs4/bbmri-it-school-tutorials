@@ -19,6 +19,8 @@ Use what you learned in the [FAIR workflows tutorial](https://github.com/crs4/bb
 
 
 #### Additional information
-* Airflow is installed on your BB's VM.  Activate by doing into the `~/airflow`
-  directory and running `docker compose up -d`
-    + You'll be able to access the dashboard at `http://localhost:8080`
+* Airflow is installed on your BB's VM.  Activate by following these steps.
+    1. Go into the `~/airflow` directory.
+    2. Edit the docker compose to expose its web interface on port 8888: `sed -i -e 's/\<8080\>/8888/g' docker-compose.yaml`.
+    3. Run `docker compose up -d`.
+    4. You'll be able to access the dashboard at `http://localhost:8888`.
