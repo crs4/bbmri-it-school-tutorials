@@ -122,6 +122,18 @@ of your ETL.
 
 Open [this dedicated page](./task-4.2/README.md) for complete instructions.
 
+## Task 4.3: sophisticated automated execution
+
+Replicate in Airflow the automation from the previous task.
+
+Open [this dedicated page](./task-4.3/README.md) for complete instructions.
+
+## Task 4.4: create a Workflow RO-Crate for your ETL workflow
+
+Create and validate a Workflow RO-Crate for your ETL workflow.
+
+Open [this dedicated page](./task-4.4/README.md) for complete instructions.
+
 
 # Appendix
 
