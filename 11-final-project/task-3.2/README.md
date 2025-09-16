@@ -51,7 +51,8 @@ input data. Below you can find an example of the class structure:
 
 ```python
    from bbmri_fp_etl.sources import AbstractSource
-   from bbmri_fp_etl.models import Biobank, Collection, Donor, Sample, Case
+   from bbmri_fp_etl.models import Biobank, Collection, Donor, Sample, Case, SamplingEvent, Dia
+
    class YourBIMSSource(AbstractSource):
          def __init__(self, ...):
               # your code here
@@ -72,15 +73,23 @@ input data. Below you can find an example of the class structure:
                   donor = Donor( ... ) # create the donor object
                   samples = []
                   for s in your_samples_data:
+                     sampling_event = SamplingEvent( ... )
+                     diseease = Disease()
+                     diagnosis_event = DiagnosisEvent( ... )
                      sample = Sample( ... ) # create the sample object
                      samples.append(sample)
-                     case = Case(donor=donor, samples=samples)
-                     cases.append(case)
+                     
+              case = Case(donor=donor, samples=samples)
+              cases.append(case)
               return cases
 
 ```
-Then, in yout main module, instantiate your data source class and use the
+
+To create the objects, use the [models](https://github.com/crs4/bbmri-fp-etl/blob/main/bbmri_fp_etl/models.py) as a reference.
+
+Then, in your main module, instantiate your data source class and use the
 `Converter` class of the framework to generate the FHIR resources and save them into JSON files:
+
 ```python
    from bbmri_fp_etl.converter import Converter
    from bbmri_fp_etl.destinations import FHIRDest
@@ -96,5 +105,5 @@ Then, in yout main module, instantiate your data source class and use the
          converter_cases.run()
 ```
 
-Run the main module and the framework will generate all the JSON files related
+Run the main module, and the framework will generate all the JSON files related
 to the resources, in the two output directories you specified.
