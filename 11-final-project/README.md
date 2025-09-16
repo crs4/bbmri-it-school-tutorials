@@ -51,7 +51,7 @@ Open [this dedicated page](./task-2.2/README.md) for complete instructions.
 Now that your biobank is integrated with Directory, it's time to connect it to
 the Sample Locator.
 
-## Task 3.1: deploy Bridgehead
+## Task 3.1: set up Bridgehead
 
 First thing to do is to deploy and configure the Bridgehead on your biobank's
 infrastructure.
@@ -59,49 +59,25 @@ infrastructure.
 Open [this dedicated page](./task-3.1/README.md) for complete instructions.
 
 
-## Task 3.2: verify connection between Locator and Bridgehead
-
-At this point, verify that the Sample Locator and your Bridgehead are
-communicating.
+## Task 3.2: Generate FHIR resources for the Bridgehead
 
 Open [this dedicated page](./task-3.2/README.md) for complete instructions.
 
 
-## Task 3.3: extract organization data from Directory
-
-Now you need to implement a script to extract organization data from Directory.
+## Task 3.3: Load FHIR resources into the Bridgehead
 
 Open [this dedicated page](./task-3.3/README.md) for complete instructions.
 
 
-## Task 3.4: extract data from your BIMS and transform it to FHIR
-
-Implement a script to extract data from your BIMS and transform it to FHIR,
-serialized as JSON.
+## Task 3.4: Query the Locator
 
 Open [this dedicated page](./task-3.4/README.md) for complete instructions.
 
-## Task 3.5: import JSON FHIR into BlazeStore
-
-At this stage, import your FHIR data into the BlazeStore, where the Bridgehead
-can access it and query it.
-
-Open [this dedicated page](./task-3.5/README.md) for complete instructions.
-
-## Task 3.6: execute test query
-
-Your integration should be complete and operational now, with the full ETL
-process loading sample metadata into the BlazeStore and making it accessible to
-the Bridgehead and thus the Sample Locator.  Let's run some queries
-to see how it works.
-
-Open [this dedicated page](./task-3.6/README.md) for complete instructions.
-
-## Task 3.7: dealing with updates
+## Task 3.5: add support for updates
 
 Make your ETL process idempotent and extend it to deal with updates to your collections.
 
-Open [this dedicated page](./task-3.7/README.md) for complete instructions.
+Open [this dedicated page](./task-3.5/README.md) for complete instructions.
 
 
 # Automation
