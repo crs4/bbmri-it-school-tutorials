@@ -77,7 +77,7 @@ Open [this dedicated page](./task-3.4/README.md) for complete instructions.
 
 Make your ETL process idempotent and extend it to deal with updates to your collections.
 
-Open [this dedicated page](./task-3.5/README.md) for complete instructions.
+Open [this dedicated page](task-3.6/README.md) for complete instructions.
 
 
 # Automation
