@@ -73,7 +73,12 @@ Open [this dedicated page](./task-3.3/README.md) for complete instructions.
 
 Open [this dedicated page](./task-3.4/README.md) for complete instructions.
 
-## Task 3.5: add support for updates
+## Task 3.5: Enrich your bridgehead with consent information
+
+Open [this dedicated page](task-3.5/README.md) for complete instructions.
+
+
+## Task 3.6: add support for updates
 
 Make your ETL process idempotent and extend it to deal with updates to your collections.
 
