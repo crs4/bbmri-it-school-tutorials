@@ -50,8 +50,7 @@ Workflows in Airflow are called DAGs -- i.e., Directed Acyclic Graphs.
 Define your own DAG to run your ETL script.  Start from the example DAG provided in the [this example](https://airflow.apache.org/docs/apache-airflow/stable/tutorial/fundamentals.html#example-pipeline-definition).  Define the DAG to call your ETL script as a Bash command, through the BashOperator (Airflow includes a [wide variety of Operators](https://airflow.apache.org/docs/apache-airflow/stable/core-concepts/operators.html), including many provided by the wider community).  Take inspiration from the code below.
 
 ```python
-import textwrap
-from datetime import datetime, timedelta
+from datetime import timedelta
 
 # Operators; we need this to operate!
 from airflow.providers.standard.operators.bash import BashOperator
@@ -83,8 +82,17 @@ with DAG(
 
 ### Write your file to the dags directory
 
-Write your DAG file to `~/airflow/dags/etl.py`.  Airflow should detected
-automatically after a few minutes.
+Write your DAG file to `~/airflow/dags/etl.py`.  Validate the code by having
+Python load it:
+```bash
+python ~/airflow/dags/etl.py
+```
+
+If there are no errors, your workflow is syntactically correct.  Airflow should
+detect it automatically after a few minutes.
+
+
+### Trigger your workflow
 
 * Open the Airflow web interface with your browser.
 * On the left, select `Dags`
