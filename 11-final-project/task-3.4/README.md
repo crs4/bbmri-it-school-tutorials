@@ -7,6 +7,6 @@ your sample data is being considered.
 
 ## Instructions
 
-* Go to [Sample Locator](https://locator.bschn.ikmx.cloud/search) search page
-* Run an empty directory and check that it returns data for your site: the number of patients and samples should be correct
-* Try adding some filters (e.g., by gender, by diagnosis) and verify that the results are coherent
+* Go to [Sample Locator](https://locator.bschn.ikmx.cloud/search) search page.
+* Run an empty search and check that it returns data for your site: the number of patients and samples should be correct.
+* Try adding some filters (e.g., by gender, by diagnosis) and verify that the results are coherent.
