@@ -31,6 +31,12 @@ tips on getting the task done with the [`bbmri-fp-etl`](https://github.com/crs4/
 Python framework, which supports the conversion of data about biomedical samples
 into formats compatible with the Federated Platform (in this case FHIR resources).
 
+To install the package run 
+
+```bash
+pip install git+https://github.com/crs4/bbmri-fp-etl
+```
+
 In order to use the `bbmri-fp-etl` framework to generate FHIR respurces, you will have to define
 a new source class that extends the `AbstractSource` class and implements the
 methods to get the data and create a series of Pydantic objects that will be
