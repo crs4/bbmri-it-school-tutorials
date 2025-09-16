@@ -26,6 +26,8 @@ On the VM, run:
 
 Access the Airflow web interface with your browser at http://<your VM
 address>:8888
+* Username: `airflow`
+* Password: `airflow`
 
 ### Install the Airflow Python module
 
@@ -95,6 +97,9 @@ detect it automatically after a few minutes.
 ### Trigger your workflow
 
 * Open the Airflow web interface with your browser.
+    + http://<your VM address>:8888
+    + Username: `airflow`
+    + Password: `airflow`
 * On the left, select `Dags`
 * At the top of the page, where it says "Search Dags", enter `etl`.  Your
 workflow should show up.
