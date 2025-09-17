@@ -1,20 +1,19 @@
-# Task 3.6: add support for updates
+# Task 3.6: test support for updates
 
 ## Your task objectives
 
-1. Extend your ETL process to deal with updates to your collections. It should
-support the addition of new samples as well as the modification and deletion
-of existing samples.
-2. Ensure your ETL process is idempotent -- i.e., the execution should result
-in the correct representation of your BB metadata through the Bridgehead regardless
-of the initial state.
-  * E.g., re-running the ETL twice in quick succession should not result in two
-    copies of the metadata being loaded.
+1. Take your original CSV file with the synthetic data and change the Sex of one
+   of the participants.
+2. Re-run your ETL process.
+3. Verify that the change has been propagated to the Sample Locator.
 
 
 ## Instructions
 
-The most appropriate strategy for achieving your goals may vary depending on how
-you implememnted your ETL.
-* A simple and robust strategy may be to delete the contents of the FHIR store and reload
-  them from scratch.
+* Re-run the ETL process on the modified dataset, including the import stage
+with `blazectl`.
+* When it is re-run, the ETL process should generate new JSON files with FHIR resources.
+* Importing these into the Bridgehead/BlazeStore should correctly deal with
+modifications to resources with a known ID
+    * It should also deal with the addition of new resources; deletions would
+    need to be dealt in other ways.
