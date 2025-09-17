@@ -11,7 +11,7 @@ The Consent Resource we will create follows the specifications provided by the
 Pilot project of BBMRI.it we talked about in the lectures. This is the reference
 of the profiled consent resorce:
 
-https://guide.bschn.ikmx.cloud/
+https://guide.bschn.ikmx.cloud/StructureDefinition-Consent.html
 
 The consent resource has some metadata, a head provision of class_Specimen,
 indicating that by default all is denied for the specimen, and a series of
