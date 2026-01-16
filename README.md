@@ -12,3 +12,8 @@ Here is a list of tutorials
 - [OpenEHR](./06-tutorial-openehr/openEHR_Tutorial.md)
 - [FAIR workflows and RO-Crate](./07-tutorial-fair-workflows/README.md)
 - [Remote services](./09-remote-services/README.md)
+
+
+## License
+
+This work is licensed under the Creative Commons BY-SA 4.0 License ([CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/)). To view a copy of the license, visit <https://creativecommons.org/licenses/by-sa/4.0/>.
